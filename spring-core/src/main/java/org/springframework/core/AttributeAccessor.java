@@ -21,7 +21,7 @@ import java.util.function.Function;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/**
+/** 属性访问器
  * Interface defining a generic contract for attaching and accessing metadata
  * to/from arbitrary objects.
  *

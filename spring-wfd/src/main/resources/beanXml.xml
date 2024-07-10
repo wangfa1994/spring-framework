@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="person" class="com.wf.model.xml.Person">
+        <property name="name" value="personName"/>
+        <property name="cat" ref="cat"/>
+    </bean>
+
+    <bean id="cat" class="com.wf.model.xml.Cat">
+        <constructor-arg name="category" value="catCategory"/>
+    </bean>
+
+<!--	beanFactoryPostProcessor  -->
+<!--    <bean id="myBeanDefinitionRegistryPostProcessor"
+          class="com.wf.postprocess.factory.MyBeanDefinitionRegistryPostProcessor"/>
+
+    <bean id="myBeanFactoryPostProcessor"
+          class="com.wf.postprocess.factory.MyBeanFactoryPostProcessor"/>-->
+
+
+
+
+	<bean id="myBeanPostProcessor"
+		  class="com.wf.postprocess.bean.MyBeanPostProcessor"/>
+
+	<bean id="myInstantiationAwareBeanPostProcessor"
+		  class="com.wf.postprocess.bean.MyInstantiationAwareBeanPostProcessor"/>
+
+	<bean id="myMergedBeanDefinitionPostProcessor"
+		  class="com.wf.postprocess.bean.MyMergedBeanDefinitionPostProcessor"/>
+
+	<!-- SmartInstantiationAwareBeanPostProcessor 内部专用接口 -->
+	<bean id="mySmartInstantiationAwareBeanPostProcessor"
+		  class="com.wf.postprocess.bean.MySmartInstantiationAwareBeanPostProcessor"/>
+
+</beans>
