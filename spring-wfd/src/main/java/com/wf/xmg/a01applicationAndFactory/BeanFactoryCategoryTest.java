@@ -8,11 +8,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
 
-// BeanFactory体系是什么?有哪些分类类别
+//02 BeanFactory体系是什么?有哪些分类类别
 public class BeanFactoryCategoryTest {
 
 	/**
+	 *
+	 *
 	 * BeanFactory接口 是我们的工厂类，是容器的根接口，里面定义了获取bean的一些方法
+	 *
 	 * 	HierarchicalBeanFactory接口扩展了BeanFactory,增加了父子关系的获取，可以存放层级相关的容器
 	 * 		ConfigurableBeanFactory接口又扩展了HierarchicalBeanFactory,增加了配置BeanFactory的功能
 	 * 	ListableBeanFactory接口扩展了BeanFactory,增加了列表上的一些操作，在容器中一个类型可以存在多个实例，可以通过此接口进行获取
@@ -83,6 +86,13 @@ public class BeanFactoryCategoryTest {
 		System.out.println("从子容器中获取父容器的信息：" + beanFactory.getBean("user"));
 		System.out.println("从父容器中获取对应的信信息：" + beanFactoryParent.getBean("user"));
 
+
+		/**
+		 * 移除spring-bean.gradle中的 //options.compilerArgs += "-Werror"
+		 * 移除 CompilerConventionsPlugin中的 "-Werror" 重新编译也是可以的，但是不建议
+		 *
+		 *
+		 */
 
 	}
 

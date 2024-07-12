@@ -8,7 +8,7 @@ import org.springframework.core.env.Environment;
 
 import java.io.UnsupportedEncodingException;
 
-// 容器中的bean来自哪里
+//03 容器中的bean来自哪里。依赖注入的bean有哪些
 @ComponentScan(basePackages = {"com.wf.xmg.a01applicationAndFactory"})
 public class WhereBeanFromTest {
 

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-//
+// 01 beanDefinition的创建是怎么的一个流程
 public class BeanDefinitionCreateTest {
 
 	/**

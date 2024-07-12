@@ -1,13 +1,15 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.BeanNameAware;
 
-@Component
-public class Teacher {
+
+public class Teacher implements BeanNameAware {
 
 	private String name;
 
 	private String job;
+
+	private String beanName;
 
 	public String getName() {
 		return name;
@@ -23,5 +25,20 @@ public class Teacher {
 
 	public void setJob(String job) {
 		this.job = job;
+	}
+
+	@Override
+	public void setBeanName(String name) {
+		beanName  = name;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Teacher{" +
+				"name='" + name + '\'' +
+				", job='" + job + '\'' +
+				", beanName='" + beanName + '\'' +
+				'}';
 	}
 }

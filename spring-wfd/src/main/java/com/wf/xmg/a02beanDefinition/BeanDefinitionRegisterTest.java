@@ -8,7 +8,9 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.support.GenericApplicationContext;
 
-// 注册 beanDefinition
+import java.util.Arrays;
+
+//03 获取到了BeanDefinition我们怎么添加到我们的容器中或者上下文当中去?注册beanDefinition
 public class BeanDefinitionRegisterTest {
 	/**
 	 * BeanDefinitionRegistry 体系，注册beanDefinition，通过此体系结构可以将我们创建的beanDefinition进行注册到不同的环境中去
@@ -42,15 +44,11 @@ public class BeanDefinitionRegisterTest {
 
 		BeanDefinition student1 = applicationContext.getBeanDefinition("student");
 		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-		StringBuilder beanDefinitionName =new StringBuilder();
-		for (String item : beanDefinitionNames) {
-			beanDefinitionName.append(item).append(",");
-		}
 
-		System.out.println("beanDefinitionNames:"+beanDefinitionNames);
+		System.out.println("beanDefinitionNames:"+ Arrays.toString(beanDefinitionNames));
 		int beanDefinitionCount = applicationContext.getBeanDefinitionCount();
 		System.out.println("一共加载了【"+beanDefinitionCount+"】个beanDefinition");
-		System.out.println("一共加载了【"+beanDefinitionName.toString()+"】个beanDefinitionName");
+		System.out.println("一共加载了【"+Arrays.toString(beanDefinitionNames)+"】个beanDefinitionName");
 		System.out.println("beanDefinition:student1:"+student1);
 
 		/*// 刷新容器 将我们的BeanDefinition变成实例对象
