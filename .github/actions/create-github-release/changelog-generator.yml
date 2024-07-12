@@ -19,7 +19,6 @@ changelog:
     exclude:
       names:
         - "bclozel"
-        - "github-actions[bot]"
         - "jhoeller"
         - "poutsma"
         - "rstoyanchev"
