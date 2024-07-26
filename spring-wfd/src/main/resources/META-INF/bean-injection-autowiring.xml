@@ -19,7 +19,7 @@
 		<property name="student" ref="student"/>
 	</bean>
 
-	<bean id="teacher1" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byType" depends-on="name">
+	<bean id="teacher1" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byType" >
 		<property name="name" ref="name"/>
 	</bean>
 

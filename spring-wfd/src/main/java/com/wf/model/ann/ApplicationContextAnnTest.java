@@ -15,7 +15,6 @@ public class ApplicationContextAnnTest {
     public static void main(String[] args) throws UnsupportedEncodingException {
 
 		// ApplicationContext等高级容器中存放了一个DefaultListableBeanFactory对象
-		System.out.println("hell");
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AnnConfiguration.class);
 		Cat cat = (Cat) annotationConfigApplicationContext.getBean("cat");
 		System.out.println(cat);
@@ -26,14 +25,6 @@ public class ApplicationContextAnnTest {
 
 
     }
-
-	/**
-	 * 关键的一些后置处理器
-	 *
-	 * ConfigurationClassPostProcessor 用于解析配置类的BeanFactory后置处理器，解析配置文件中的相关beanDefinition
-	 * AutowiredAnnotationBeanPostProcessor 解析自动注册的BeanPost后置处理器，
-	 * CommonAnnotationBeanPostProcessor 通用的
-	 */
 
 /**创建AnnotationConfigApplicationContext对象，
  * 1.this()

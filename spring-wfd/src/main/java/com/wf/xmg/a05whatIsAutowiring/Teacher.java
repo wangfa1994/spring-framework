@@ -12,6 +12,7 @@ public class Teacher {
 	}
 
 	public void setName(String name) {
+		System.out.println("进入Teacher的setName方法");
 		this.name = name;
 	}
 
@@ -20,7 +21,10 @@ public class Teacher {
 	}
 
 	public void setStudent(Student student) {
+		// 方法名必须是可写的，和java的beanInfo体系一致，不能是其他的方法名
+		System.out.println("进入Teacher的setStudent方法");
 		this.student = student;
+
 	}
 
 
