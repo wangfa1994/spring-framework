@@ -1,11 +1,7 @@
 package com.wf.model.xmlann;
 
-import com.wf.config.BaseConfigurations;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.Map;
 
 /**
  * @Desc :

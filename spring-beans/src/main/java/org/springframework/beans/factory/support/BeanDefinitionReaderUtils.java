@@ -70,7 +70,7 @@ public abstract class BeanDefinitionReaderUtils {
 		return bd;
 	}
 
-	/**
+	/** 为给定的顶级bean定义生成一个bean名称，在给定的bean工厂中是唯一的。
 	 * Generate a bean name for the given top-level bean definition,
 	 * unique within the given bean factory.
 	 * @param beanDefinition the bean definition to generate a bean name for
@@ -161,13 +161,13 @@ public abstract class BeanDefinitionReaderUtils {
 
 		// Register bean definition under primary name.
 		String beanName = definitionHolder.getBeanName();
-		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
+		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition()); // BeanDefinitionRegistry体系中，BeanFactory是实现了次体系的，这个方法的实现会走到不同的体系中去
 
 		// Register aliases for bean name, if any.
 		String[] aliases = definitionHolder.getAliases();
 		if (aliases != null) {
 			for (String alias : aliases) {
-				registry.registerAlias(beanName, alias);
+				registry.registerAlias(beanName, alias); // 存在别名的话，进行注册别名 AliasRegistry体系 ，注意的是BeanDefinitionRegistry继承了AliasRegistry体系
 			}
 		}
 	}

@@ -19,7 +19,7 @@ package org.springframework.beans.factory.config;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
-/**
+/** 策略接口，用于通过将值作为表达式求值(如果适用)来解析值。
  * Strategy interface for resolving a value by evaluating it as an expression,
  * if applicable.
  *

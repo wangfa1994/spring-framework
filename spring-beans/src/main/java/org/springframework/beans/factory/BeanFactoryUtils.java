@@ -237,7 +237,7 @@ public abstract class BeanFactoryUtils {
 		return result;
 	}
 
-	/**
+	/** 获取给定类型的所有bean名称，包括在祖先工厂中定义的名称。
 	 * Get all bean names for the given type, including those defined in ancestor
 	 * factories. Will return unique names in case of overridden bean definitions.
 	 * <p>Does consider objects created by FactoryBeans if the "allowEagerInit"
@@ -266,7 +266,7 @@ public abstract class BeanFactoryUtils {
 		if (lbf instanceof HierarchicalBeanFactory) {
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {
-				String[] parentResult = beanNamesForTypeIncludingAncestors(
+				String[] parentResult = beanNamesForTypeIncludingAncestors( // 递归处理所有的容器匹配对应的值。
 						(ListableBeanFactory) hbf.getParentBeanFactory(), type, includeNonSingletons, allowEagerInit);
 				result = mergeNamesWithParent(result, parentResult, hbf);
 			}

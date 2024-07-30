@@ -1,7 +1,5 @@
 package com.wf.model.lookup;
 
-import com.wf.config.BaseConfigurations;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

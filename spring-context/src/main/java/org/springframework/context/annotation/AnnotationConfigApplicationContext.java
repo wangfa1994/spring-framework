@@ -64,9 +64,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
-	public AnnotationConfigApplicationContext() {
+	public AnnotationConfigApplicationContext() { // 进行构造器的调用的时候，会先调用父类的构造器
 		StartupStep createAnnotatedBeanDefReader = getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		this.reader = new AnnotatedBeanDefinitionReader(this);
+		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，和从资源中读取不是一套体(BeanDefinitionReader)
 		createAnnotatedBeanDefReader.end();
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
@@ -88,9 +88,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
-		this();
-		register(componentClasses);
-		refresh();
+		this(); // 创建了底层的容器对象，并且设置了BeanDefinition的读取器以及类扫描器
+		register(componentClasses); // 注册我们的配置类，这里只是注册,把我们的类变成对应的BeanDefinition(在beanDefinition中，需要注意beanClass属性，在基于资源的时候，存的是字符串，在注解的时候直接存储的是class)
+		refresh(); // 刷新我们的应用上下文，注意这个其实就是针对我们的BeanFactory容器进行的扩展功能，是应用上下文中的相关扩展逻辑
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		Assert.notEmpty(componentClasses, "At least one component class must be specified");
 		StartupStep registerComponentClass = getApplicationStartup().start("spring.context.component-classes.register")
 				.tag("classes", () -> Arrays.toString(componentClasses));
-		this.reader.register(componentClasses);
+		this.reader.register(componentClasses); // 利用AnnotatedBeanDefinitionReader进行注册我们的类，变成BeanDefinition,设置到容器中
 		registerComponentClass.end();
 	}
 

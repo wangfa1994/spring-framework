@@ -15,9 +15,4 @@ public class Cat {
 		System.out.println("cat的构造器......");
 	}
 
-
-	public static void main(String[] args) {
-		System.out.println("这是中国");
-		System.out.println("构造器这几个字能打印吗");
-	}
 }

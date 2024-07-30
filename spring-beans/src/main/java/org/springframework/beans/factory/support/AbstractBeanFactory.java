@@ -135,7 +135,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** Whether to cache bean metadata or rather reobtain it for every access. */
 	private boolean cacheBeanMetadata = true;
 
-	/** Resolution strategy for expressions in bean definition values. */
+	/** Resolution strategy for expressions in bean definition values. bean定义值中表达式的解析策略。*/
 	@Nullable
 	private BeanExpressionResolver beanExpressionResolver;
 
@@ -689,7 +689,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	public Class<?> getType(String name, boolean allowFactoryBeanInit) throws NoSuchBeanDefinitionException {
 		String beanName = transformedBeanName(name);
 
-		// Check manually registered singletons.
+		// Check manually registered singletons. 检查手动注册的单例
 		Object beanInstance = getSingleton(beanName, false);
 		if (beanInstance != null && beanInstance.getClass() != NullBean.class) {
 			if (beanInstance instanceof FactoryBean && !BeanFactoryUtils.isFactoryDereference(name)) {
@@ -700,7 +700,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
-		// No singleton instance found -> check bean definition.
+		// No singleton instance found -> check bean definition. 未找到单例实例->检查bean Definition。
 		BeanFactory parentBeanFactory = getParentBeanFactory();
 		if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 			// No bean definition found in this factory -> delegate to parent.

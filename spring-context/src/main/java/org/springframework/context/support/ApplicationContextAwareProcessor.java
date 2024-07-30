@@ -82,7 +82,7 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 		if (!(bean instanceof EnvironmentAware || bean instanceof EmbeddedValueResolverAware ||
 				bean instanceof ResourceLoaderAware || bean instanceof ApplicationEventPublisherAware ||
 				bean instanceof MessageSourceAware || bean instanceof ApplicationContextAware ||
-				bean instanceof ApplicationStartupAware)) {
+				bean instanceof ApplicationStartupAware)) { // 扩展的大部分都是和应用上下文相关的一些环境资源变量(这些在容器中是不存在的，容器中有BeanNameAware等)
 			return bean;
 		}
 

@@ -47,9 +47,9 @@ import org.springframework.util.Assert;
  * @see AnnotationConfigApplicationContext#register
  */
 public class AnnotatedBeanDefinitionReader {
-
+	// beanDefinition注册中心器，注册到哪里去
 	private final BeanDefinitionRegistry registry;
-
+	// beanName生成器 BeanNameGenerator体系，我们可以实现此接口进行自定义的BeanName生成
 	private BeanNameGenerator beanNameGenerator = AnnotationBeanNameGenerator.INSTANCE;
 
 	private ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
@@ -249,7 +249,7 @@ public class AnnotatedBeanDefinitionReader {
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-
+		// 根据beanClass创建AnnotatedGenericBeanDefinition，设置相关的属性
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
@@ -260,7 +260,7 @@ public class AnnotatedBeanDefinitionReader {
 		abd.setScope(scopeMetadata.getScopeName());
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
-		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
+		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd); //通用定义注释的处理
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
@@ -270,7 +270,7 @@ public class AnnotatedBeanDefinitionReader {
 					abd.setLazyInit(true);
 				}
 				else {
-					abd.addQualifier(new AutowireCandidateQualifier(qualifier));
+					abd.addQualifier(new AutowireCandidateQualifier(qualifier)); // 注意Qualifier , Qualifier有一层作用是逻辑分组
 				}
 			}
 		}
@@ -281,8 +281,8 @@ public class AnnotatedBeanDefinitionReader {
 		}
 
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
-		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
-		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
+		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry); // TODO wf 作用域范围处理是什么
+		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry); // 把我们的class 变成BeanDefinition之后进行注册到BeanDefinition注册中心去
 	}
 
 

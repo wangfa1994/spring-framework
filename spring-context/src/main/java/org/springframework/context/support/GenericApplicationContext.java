@@ -95,7 +95,7 @@ import org.springframework.util.Assert;
  * @see org.springframework.beans.factory.support.PropertiesBeanDefinitionReader
  */
 public class GenericApplicationContext extends AbstractApplicationContext implements BeanDefinitionRegistry {
-
+	// 应用上下文中真正的bean容器 DefaultListableBeanFactory
 	private final DefaultListableBeanFactory beanFactory;
 
 	@Nullable
@@ -106,13 +106,13 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	private final AtomicBoolean refreshed = new AtomicBoolean();
 
 
-	/**
+	/** 创建了一个新的通用上下文，其中底层的容器就是DefaultListableBeanFactory
 	 * Create a new GenericApplicationContext.
 	 * @see #registerBeanDefinition
 	 * @see #refresh
 	 */
 	public GenericApplicationContext() {
-		this.beanFactory = new DefaultListableBeanFactory();
+		this.beanFactory = new DefaultListableBeanFactory(); // DefaultListableBeanFactory是属于BeanFactory的体系结构
 	}
 
 	/**

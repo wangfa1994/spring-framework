@@ -692,7 +692,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			else {
 				value = resolveFieldValue(field, bean, beanName);
 			}
-			if (value != null) {
+			if (value != null) { // 当获取到依赖注入的值不为空的话，进行反射注入到对象中去
 				ReflectionUtils.makeAccessible(field);
 				field.set(bean, value);
 			}
@@ -706,7 +706,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			Assert.state(beanFactory != null, "No BeanFactory available");
 			TypeConverter typeConverter = beanFactory.getTypeConverter();
 			Object value;
-			try {
+			try {//开始解决对应的对象之间的依赖关系
 				value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 			}
 			catch (BeansException ex) {
