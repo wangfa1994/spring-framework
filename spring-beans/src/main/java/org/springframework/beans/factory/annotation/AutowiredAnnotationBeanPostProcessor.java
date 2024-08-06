@@ -267,7 +267,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, final String beanName)
 			throws BeanCreationException {
 
-		// Let's check for lookup methods here...
+		// Let's check for lookup methods here... 让我们检查一下这里的查找方法…
 		if (!this.lookupMethodsChecked.contains(beanName)) {
 			if (AnnotationUtils.isCandidateClass(beanClass, Lookup.class)) {
 				try {

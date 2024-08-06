@@ -200,7 +200,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ConfigurableEnvironment environment;
 
-	/** BeanFactoryPostProcessors to apply on refresh. */
+	/** BeanFactoryPostProcessors to apply on refresh. 在刷新时应用BeanFactoryPostProcessors。 */
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
 
 	/** System time in milliseconds when this context started. */
@@ -559,7 +559,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory. 告诉子类刷新内部bean工厂。
-			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory(); // 从上下文中得到我们的底层容器，开始对我们的底层容器进行扩展
+			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory(); // 从上下文中得到我们的底层容器，开始对我们的底层容器进行扩展 ,xml 和anno属于不同的分支，xml的BD加载在这里完成的
 
 			// 应用上下文中得到底层的容器，然后开始进行一些功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
 			// Prepare the bean factory for use in this context.
@@ -677,7 +677,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
-		refreshBeanFactory();
+		refreshBeanFactory(); // 注解类GenericApplicationContext和资源类AbstractRefreshableApplicationContext的会走到不同的分支中去
 		return getBeanFactory();
 	}
 

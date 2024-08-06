@@ -45,7 +45,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-/**
+/** 用于bean工厂实现的Helper类，将bean定义对象中包含的值解析为应用于目标bean实例的实际值
  * Helper class for use in bean factory implementations,
  * resolving values contained in bean definition objects
  * into the actual values applied to the target bean instance.
@@ -327,7 +327,7 @@ class BeanDefinitionValueResolver {
 				}
 				else {
 					resolvedName = String.valueOf(doEvaluate(ref.getBeanName()));
-					bean = this.beanFactory.getBean(resolvedName);
+					bean = this.beanFactory.getBean(resolvedName); // 还是调用getBean去处理我们的属性值依赖对象
 				}
 				this.beanFactory.registerDependentBean(resolvedName, this.beanName);
 			}

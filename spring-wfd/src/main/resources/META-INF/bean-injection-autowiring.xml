@@ -5,22 +5,30 @@
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="name" class="java.lang.String">
-		<constructor-arg index="0" value="xmgTeacher"/>
+		<constructor-arg index="0" value="xmgTeacherA"/>
 	</bean>
-	<bean id="integer15" class="java.lang.Integer">
-		<constructor-arg index="0" value="15"/>
-	</bean>
+
+	<!--<bean id="nameB" class="java.lang.String">
+		<constructor-arg index="0" value="xmgTeacherB"/>
+	</bean>-->
+
+
 	<bean id="student" class="com.wf.xmg.a05whatIsAutowiring.Student">
 		<property name="name" value="xmg"/>
-		<property name="age" ref="integer15"/>
+		<property name="age" value="17"/>
 	</bean>
 	<bean id="teacher" class="com.wf.xmg.a05whatIsAutowiring.Teacher">
-		<property name="name" ref="name"/>
+		<property name="name" value="xmg"/>
 		<property name="student" ref="student"/>
 	</bean>
 
+	<!-- 为什么没有依赖到name呢-->
 	<bean id="teacher1" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byType" >
-		<property name="name" ref="name"/>
 	</bean>
-
+	<!-- 为什么没有依赖到name呢-->
+	<bean id="teacher2" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byName" >
+	</bean>
+	<!-- 为什么依赖到name了呢-->
+	<bean id="teacher3" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="constructor" >
+	</bean>
 </beans>

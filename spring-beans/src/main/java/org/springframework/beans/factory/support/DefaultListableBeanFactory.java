@@ -928,7 +928,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
-		// Trigger initialization of all non-lazy singleton beans...
+		// Trigger initialization of all non-lazy singleton beans... 触发所有非惰性单例bean的初始化…
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
@@ -1289,7 +1289,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 	@Override
-	@Nullable
+	@Nullable //属于 AutowireCapableBeanFactory 的规范，AutowireCapable工厂添加了对应的自动注入相关功能，DefaultListableBeanFactory实现此方法用来解决相关依赖
 	public Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
 			@Nullable Set<String> autowiredBeanNames, @Nullable TypeConverter typeConverter) throws BeansException {
 		// 依赖描述符
@@ -1306,7 +1306,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else {
 			Object result = getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary(
-					descriptor, requestingBeanName);
+					descriptor, requestingBeanName); //处理标记了@Lazy注解的依赖，为什么要出去一个代理对象呢？
 			if (result == null) { //开始真正处理解决依赖
 				result = doResolveDependency(descriptor, requestingBeanName, autowiredBeanNames, typeConverter);
 			}

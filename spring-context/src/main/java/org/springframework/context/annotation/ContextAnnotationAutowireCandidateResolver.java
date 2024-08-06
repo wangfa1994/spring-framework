@@ -92,7 +92,7 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 			@Override
 			public Object getTarget() {
 				Set<String> autowiredBeanNames = (beanName != null ? new LinkedHashSet<>(1) : null);
-				Object target = dlbf.doResolveDependency(descriptor, beanName, autowiredBeanNames, null);
+				Object target = dlbf.doResolveDependency(descriptor, beanName, autowiredBeanNames, null); // 在代理调用的时候会进行这里进行执行
 				if (target == null) {
 					Class<?> type = getTargetClass();
 					if (Map.class == type) {

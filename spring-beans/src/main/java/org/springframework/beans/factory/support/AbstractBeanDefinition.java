@@ -178,15 +178,15 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
 
-	@Nullable
+	@Nullable // 依赖之间的属性值
 	private MutablePropertyValues propertyValues;
-
+	//
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
-	@Nullable
+	@Nullable // 存放init-method的方法名称
 	private String initMethodName;
 
-	@Nullable
+	@Nullable // 存放destroy-method的方法名称
 	private String destroyMethodName;
 
 	private boolean enforceInitMethod = true;
@@ -462,12 +462,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Nullable
 	public Class<?> resolveBeanClass(@Nullable ClassLoader classLoader) throws ClassNotFoundException {
-		String className = getBeanClassName();
+		String className = getBeanClassName(); // getBeanClassName就是get对应的beanClass字段
 		if (className == null) {
 			return null;
 		}
-		Class<?> resolvedClass = ClassUtils.forName(className, classLoader);
-		this.beanClass = resolvedClass;
+		Class<?> resolvedClass = ClassUtils.forName(className, classLoader); // 使用ClassLoader将，我们的className变成Class
+		this.beanClass = resolvedClass; // 并且存放到一样的字段属性中 beanClass
 		return resolvedClass;
 	}
 
@@ -918,7 +918,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		return this.methodOverrides;
 	}
 
-	/**
+	/** 如果为该bean定义了方法重写，则返回。
 	 * Return if there are method overrides defined for this bean.
 	 * @since 5.0.2
 	 */

@@ -1,4 +1,4 @@
-package com.wf.xmg.a06injection.customerAnn;
+package com.wf.xmg.a06injection.customerInjectionAnn;
 
 import java.lang.annotation.*;
 

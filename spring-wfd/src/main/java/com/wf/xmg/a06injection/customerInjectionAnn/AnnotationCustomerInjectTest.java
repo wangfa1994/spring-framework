@@ -1,4 +1,4 @@
-package com.wf.xmg.a06injection.customerAnn;
+package com.wf.xmg.a06injection.customerInjectionAnn;
 
 import com.wf.xmg.a06injection.User;
 import com.wf.xmg.a06injection.UserHolder;
@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-// 08 自定义注解
+// 08 自定义依赖注入注解
 public class AnnotationCustomerInjectTest {
 
 

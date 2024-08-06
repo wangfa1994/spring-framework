@@ -20,9 +20,13 @@ public class AutoWiringTest {
 
 		Teacher teacher = context.getBean("teacher", Teacher.class);
 		Teacher teacher1 = context.getBean("teacher1", Teacher.class);
+		Teacher teacher2 = context.getBean("teacher2", Teacher.class);
+		Teacher teacher3 = context.getBean("teacher3", Teacher.class);
 
-		System.out.println(teacher);
-		System.out.println(teacher1);
+		System.out.println("teacher: "+teacher);
+		System.out.println("teacher1: "+teacher1);
+		System.out.println("teacher2: "+teacher2);
+		System.out.println("teacher3: "+teacher3);
 
 
 	}

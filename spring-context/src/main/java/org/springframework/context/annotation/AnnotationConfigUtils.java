@@ -129,7 +129,7 @@ public abstract class AnnotationConfigUtils {
 	}
 
 
-	/**
+	/** AnnotationApplication触发注册注解所需要的相关处理器
 	 * Register all relevant annotation post processors in the given registry.
 	 * @param registry the registry to operate on
 	 */
@@ -137,13 +137,13 @@ public abstract class AnnotationConfigUtils {
 		registerAnnotationConfigProcessors(registry, null);
 	}
 
-	/** xml中通过<annotation-config/>可以激活此代码执行
+	/** xml中通过<annotation-config/>可以激活此代码执行 在对于糊涂表格的NameSpaceHanlerSupport中进行设置
 	 * Register all relevant annotation post processors in the given registry.
 	 * @param registry the registry to operate on
 	 * @param source the configuration source element (already extracted)
 	 * that this registration was triggered from. May be {@code null}.
 	 * @return a Set of BeanDefinitionHolders, containing all bean definitions
-	 * that have actually been registered by this call
+	 * that have actually been registered by this call 注册注解所需要的相关处理器
 	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {

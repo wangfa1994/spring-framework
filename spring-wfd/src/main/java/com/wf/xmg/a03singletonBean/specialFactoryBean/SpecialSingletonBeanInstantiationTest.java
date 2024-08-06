@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
-
+@SuppressWarnings({"deprecation", "unchecked"})
 public class SpecialSingletonBeanInstantiationTest {
 
 	public static void main(String[] args) {

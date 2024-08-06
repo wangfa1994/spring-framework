@@ -62,7 +62,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	private AnnotatedElement qualifiedElement;
 
-	/** Determines if the definition needs to be re-merged. */
+	/** Determines if the definition needs to be re-merged. 确定是否需要重新合并定义 */
 	volatile boolean stale;
 
 	boolean allowCaching = true;
@@ -92,7 +92,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile String resolvedDestroyMethodName;
 
-	/** Common lock for the four constructor fields below. */
+	/** Common lock for the four constructor fields below. 下面四个构造函数字段的公共锁。 */
 	final Object constructorArgumentLock = new Object();
 
 	/** Package-visible field for caching the resolved constructor or factory method. */
@@ -123,7 +123,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	private Set<Member> externallyManagedConfigMembers;
 
-	@Nullable
+	@Nullable // 外部管理的实例化方法
 	private Set<String> externallyManagedInitMethods;
 
 	@Nullable
@@ -329,7 +329,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	/**
 	 * Return the target type of this bean definition, if known
-	 * (either specified in advance or resolved on first instantiation).
+	 * (either specified in advance or resolved on first instantiation). 提前指定或在第一次实例化时解析
 	 * @since 3.2.2
 	 */
 	@Nullable

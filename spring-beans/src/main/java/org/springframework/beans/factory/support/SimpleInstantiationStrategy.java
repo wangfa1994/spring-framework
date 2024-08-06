@@ -59,8 +59,8 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 	@Override
 	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
-		// Don't override the class with CGLIB if no overrides.
-		if (!bd.hasMethodOverrides()) {
+		// Don't override the class with CGLIB if no overrides. 如果没有覆盖，不要用CGLIB覆盖类。 为什么在创建对象的时候进行判断呢？
+		if (!bd.hasMethodOverrides()) { // 如果没有覆盖则进行正常的创建，否则进行CGLIB的创建
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
 				constructorToUse = (Constructor<?>) bd.resolvedConstructorOrFactoryMethod;
@@ -87,7 +87,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
 		else {
-			// Must generate CGLIB subclass.
+			// Must generate CGLIB subclass. 必须生成CGLIB子类。
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}
 	}

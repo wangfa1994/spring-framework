@@ -19,7 +19,7 @@ package org.springframework.beans.factory.config;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/**
+/** 不可变占位符类，用于作为对工厂中另一个bean的引用的属性值对象，在运行时解析。
  * Immutable placeholder class used for a property value object when it's
  * a reference to another bean in the factory, to be resolved at runtime.
  *

@@ -128,7 +128,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			beanFactory.setSerializationId(getId());
 			beanFactory.setApplicationStartup(getApplicationStartup());
 			customizeBeanFactory(beanFactory);
-			loadBeanDefinitions(beanFactory);
+			loadBeanDefinitions(beanFactory);// 创建XmlBeanDefinitionReader进行解析加载对应的beanDefinition
 			this.beanFactory = beanFactory;
 		}
 		catch (IOException ex) {

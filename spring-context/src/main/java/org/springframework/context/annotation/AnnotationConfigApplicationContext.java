@@ -66,7 +66,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() { // 进行构造器的调用的时候，会先调用父类的构造器
 		StartupStep createAnnotatedBeanDefReader = getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，和从资源中读取不是一套体(BeanDefinitionReader)
+		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，和从资源中读取不是一套体(BeanDefinitionReader) ，在这里会初始化一些注解所需要的后置处理器
 		createAnnotatedBeanDefReader.end();
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}

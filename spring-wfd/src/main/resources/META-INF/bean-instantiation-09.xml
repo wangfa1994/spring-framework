@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="user" class="com.wf.xmg.a09lifecycle.User">
+		<property name="name" value="xmg"/>
+		<property name="age" value="18"/>
+	</bean>
+
+	<bean id="superUser" class="com.wf.xmg.a09lifecycle.SuperUser" parent="user" primary="true">
+		<property name="mobile" value="13113111131"/>
+	</bean>
+
+	<!--构造器依赖注入，选择的是那个user呢-->
+	<bean id="userHolderByConstructor" class="com.wf.xmg.a09lifecycle.a03instantiation.UserHolder" autowire="constructor" />
+</beans>

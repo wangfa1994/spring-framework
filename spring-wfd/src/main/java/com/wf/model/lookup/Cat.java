@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2022/7/19 9:44
  */
 @Component
+@Scope("prototype")
 public class Cat {
 
     private String category;
@@ -28,8 +29,6 @@ public class Cat {
 
     public Cat() {
 		System.out.println("cat 构造器");
-
-
     }
 
 

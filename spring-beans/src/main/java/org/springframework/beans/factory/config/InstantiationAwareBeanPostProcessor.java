@@ -73,7 +73,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 		return null;
 	}
 
-	/**
+	/** 在bean通过构造函数或工厂方法实例化之后 ，但在Spring属性填充(来自显式属性或自动装配)发生之前执行操作。  这是在Spring自动装配开始之前对给定bean实例执行自定义字段注入的理想回调
 	 * Perform operations after the bean has been instantiated, via a constructor or factory method,
 	 * but before Spring property population (from explicit properties or autowiring) occurs.
 	 * <p>This is the ideal callback for performing custom field injection on the given bean
@@ -81,12 +81,18 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * <p>The default implementation returns {@code true}.
 	 * @param bean the bean instance created, with properties not having been set yet
 	 * @param beanName the name of the bean
-	 * @return {@code true} if properties should be set on the bean; {@code false}
-	 * if property population should be skipped. Normal implementations should return {@code true}.
-	 * Returning {@code false} will also prevent any subsequent InstantiationAwareBeanPostProcessor
+	 * @return {@code true} if properties should be set on the bean; {@code false} 返回true 表示应该设置我们的对应的属性之，即会进行属性填充操作，如果返回了false，则会跳过后续的属性赋值操作
+	 * if property population should be skipped. Normal implementations should return {@code true}.  正常情况下应该是返回true，
+	 * Returning {@code false} will also prevent any subsequent InstantiationAwareBeanPostProcessor 返回false 还将阻止在此bean实例上调用任何后续的InstantiationAwareBeanPostProcessor
 	 * instances being invoked on this bean instance.
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see #postProcessBeforeInstantiation
+	 *
+	 *  在bean通过构造函数或工厂方法实例化之后 ，但在Spring属性填充(来自显式属性或自动装配)发生之前执行操作。  这是在Spring自动装配开始之前对给定bean实例执行自定义字段注入的理想回调
+	 *  返回true 表示应该设置我们的对应的属性之，即会进行属性填充操作，如果返回了false，则会跳过后续的属性赋值操作 (即此方法下面的方法postProcessProperties 和 postProcessPropertyValues)
+	 *  返回false 还将阻止在此bean实例上调用任何后续的InstantiationAwareBeanPostProcessor
+	 *  正常情况下应该是返回true，
+	 *
 	 */
 	default boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
 		return true;
