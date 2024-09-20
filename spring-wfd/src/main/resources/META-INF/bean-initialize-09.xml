@@ -12,5 +12,5 @@
 	<!--激活我们的注解。因为我们要使用我们的@PostConstruct注解，所以需要激活我们的注解配置-->
 	<context:annotation-config/>
 	<!---->
-	<bean id="userHolder" class="com.wf.xmg.a09lifecycle.a05initialize.UserHolder" init-method="initMethod"/>
+	<bean id="userHolder" class="com.wf.xmg.a09beanLifecycle.a05initialize.UserHolder" init-method="initMethod"/>
 </beans>

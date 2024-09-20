@@ -107,7 +107,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	private boolean namespaceAware = false;
 
 	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
-			DefaultBeanDefinitionDocumentReader.class;
+			DefaultBeanDefinitionDocumentReader.class; // 在xml处理中，使用哪个类进行处理我们的xml文件的Document文档
 
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
@@ -118,7 +118,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	@Nullable
 	private NamespaceHandlerResolver namespaceHandlerResolver;
 
-	private DocumentLoader documentLoader = new DefaultDocumentLoader();
+	private DocumentLoader documentLoader = new DefaultDocumentLoader(); // xml中解析对应的BeanDefinition的时候，委托给了对应的DocumentLoader进行处理
 
 	@Nullable
 	private EntityResolver entityResolver;
@@ -374,7 +374,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 
-	/**
+	/** 实际上是从指定的XML文件加载bean定义。
 	 * Actually load bean definitions from the specified XML file.
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
@@ -387,8 +387,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throws BeanDefinitionStoreException {
 
 		try {
-			Document doc = doLoadDocument(inputSource, resource);
-			int count = registerBeanDefinitions(doc, resource);
+			Document doc = doLoadDocument(inputSource, resource); //通过DocumentLoad 将我们的xml资源变成对应的document
+			int count = registerBeanDefinitions(doc, resource); // 将我们资源中的信息，封装成beanDefinition，注册到beanFactory中
 			if (logger.isDebugEnabled()) {
 				logger.debug("Loaded " + count + " bean definitions from " + resource);
 			}
@@ -506,9 +506,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
-		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader(); // document需要对应的BeanDefinitionDocumentReader进行处理,可以进行指定我们自己的文档解析器
 		int countBefore = getRegistry().getBeanDefinitionCount();
-		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));//使用BeanDefinitionDocumentReader
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 

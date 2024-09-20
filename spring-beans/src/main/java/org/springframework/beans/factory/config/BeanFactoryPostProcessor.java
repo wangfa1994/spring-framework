@@ -18,7 +18,7 @@ package org.springframework.beans.factory.config;
 
 import org.springframework.beans.BeansException;
 
-/**
+/** 工厂挂钩，允许自定义修改应用程序上下文的bean定义，调整上下文的底层bean工厂的bean属性值。
  * Factory hook that allows for custom modification of an application context's
  * bean definitions, adapting the bean property values of the context's underlying
  * bean factory.
@@ -62,12 +62,12 @@ import org.springframework.beans.BeansException;
 @FunctionalInterface
 public interface BeanFactoryPostProcessor {
 
-	/**
+	/** 在对应的Bean实例化之前，我们的对象会被解析成对应的BeanDefinition,而通过这个，我们可以修改对应的BeanDefinition
 	 * Modify the application context's internal bean factory after its standard
 	 * initialization. All bean definitions will have been loaded, but no beans
 	 * will have been instantiated yet. This allows for overriding or adding
-	 * properties even to eager-initializing beans.
-	 * @param beanFactory the bean factory used by the application context
+	 * properties even to eager-initializing beans. //在我们的应用上下文中，我们的beanFactory初始化之后，可以通过此进行自定义我们的bean工厂
+	 * @param beanFactory the bean factory used by the application context	// 所有的beanDefinition都已经加载进入我们的工厂中了，但是还没有实例化成对象，可以在这里进行我们的实例对象属性的修改
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 */
 	void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;

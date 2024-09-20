@@ -236,7 +236,7 @@ public final class BeanDefinitionBuilder {
 		return this;
 	}
 
-	/**
+	/** 在给定的属性名称下添加提供的属性值。这个针对基本类型的，下面的方法是可以处理引用相关的
 	 * Add the supplied property value under the given property name.
 	 */
 	public BeanDefinitionBuilder addPropertyValue(String name, @Nullable Object value) {
@@ -244,13 +244,13 @@ public final class BeanDefinitionBuilder {
 		return this;
 	}
 
-	/**
+	/** 添加一个bean工厂中引用的bean用作依赖对象，上面的方法是可以处理基本类型的
 	 * Add a reference to the specified bean name under the property specified.
 	 * @param name the name of the property to add the reference to
 	 * @param beanName the name of the bean being referenced
 	 */
 	public BeanDefinitionBuilder addPropertyReference(String name, String beanName) {
-		this.beanDefinition.getPropertyValues().add(name, new RuntimeBeanReference(beanName));
+		this.beanDefinition.getPropertyValues().add(name, new RuntimeBeanReference(beanName)); // 针对与依赖的处理 引用的话会被封装成RuntimeReference
 		return this;
 	}
 

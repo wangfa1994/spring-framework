@@ -51,9 +51,9 @@ import org.springframework.stereotype.Component;
  */
 abstract class ConfigurationClassUtils {
 
-	public static final String CONFIGURATION_CLASS_FULL = "full";
+	public static final String CONFIGURATION_CLASS_FULL = "full"; // 这个是标记了Configuration注解的完全体配置
 
-	public static final String CONFIGURATION_CLASS_LITE = "lite";
+	public static final String CONFIGURATION_CLASS_LITE = "lite"; // 是否是配置类的声明类型，这个是通过一些特殊的注解以及bean注解解析出来的精简配置
 
 	public static final String CONFIGURATION_CLASS_ATTRIBUTE =
 			Conventions.getQualifiedAttributeName(ConfigurationClassPostProcessor.class, "configurationClass");
@@ -91,12 +91,12 @@ abstract class ConfigurationClassUtils {
 		}
 
 		AnnotationMetadata metadata;
-		if (beanDef instanceof AnnotatedBeanDefinition &&
+		if (beanDef instanceof AnnotatedBeanDefinition && // 当前beanDefinition属于AnnotatedBeanDefinition来自于注解
 				className.equals(((AnnotatedBeanDefinition) beanDef).getMetadata().getClassName())) {
-			// Can reuse the pre-parsed metadata from the given BeanDefinition...
+			// Can reuse the pre-parsed metadata from the given BeanDefinition... 可以重用来自给定BeanDefinition的预解析元数据…
 			metadata = ((AnnotatedBeanDefinition) beanDef).getMetadata();
 		}
-		else if (beanDef instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) beanDef).hasBeanClass()) {
+		else if (beanDef instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) beanDef).hasBeanClass()) { // 当前beanDefinition属于AbstractBeanDefinition 来自xml
 			// Check already loaded Class if present...
 			// since we possibly can't even load the class file for this Class.
 			Class<?> beanClass = ((AbstractBeanDefinition) beanDef).getBeanClass();
@@ -122,18 +122,18 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
-		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
-		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
+		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());//判断是否标记了configuration注解
+		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) { // 完全配置类 用的是&&
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
-		else if (config != null || isConfigurationCandidate(metadata)) {
-			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
+		else if (config != null || isConfigurationCandidate(metadata)) { // 根据元信息判断是否是候选配置 精简配置类
+			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE); // 添加配置标志位精简配置
 		}
 		else {
 			return false;
 		}
 
-		// It's a full or lite configuration candidate... Let's determine the order value, if any.
+		// It's a full or lite configuration candidate... Let's determine the order value, if any. 它是一个完整或精简的候选配置…如果有的话，我们来确定阶值。
 		Integer order = getOrder(metadata);
 		if (order != null) {
 			beanDef.setAttribute(ORDER_ATTRIBUTE, order);
@@ -155,14 +155,14 @@ abstract class ConfigurationClassUtils {
 			return false;
 		}
 
-		// Any of the typical annotations found?
-		for (String indicator : candidateIndicators) {
+		// Any of the typical annotations found? 如果一个类上标记了candidateIndicators，则也会当做是配置类
+		for (String indicator : candidateIndicators) { // 这四个是 Component  ComponentScan  Import  ImportResource
 			if (metadata.isAnnotated(indicator)) {
 				return true;
 			}
 		}
 
-		// Finally, let's look for @Bean methods...
+		// Finally, let's look for @Bean methods... 最后没有办法，我们查找带bean注释的方法吧
 		return hasBeanMethods(metadata);
 	}
 

@@ -138,7 +138,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public static final String INFER_METHOD = "(inferred)";
 
 
-	@Nullable
+	@Nullable //  beanClass 在真正实例化之前，beanClass会被处理成真正的类，在xml模式下，会由String->Class
 	private volatile Object beanClass;
 
 	@Nullable
@@ -162,17 +162,17 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
-	@Nullable
+	@Nullable // 创建对象过程中的判断
 	private Supplier<?> instanceSupplier;
 
 	private boolean nonPublicAccessAllowed = true;
 
 	private boolean lenientConstructorResolution = true;
 
-	@Nullable
+	@Nullable // 确定此BeanDefinition是来自哪个实例Bean的bean名称
 	private String factoryBeanName;
 
-	@Nullable
+	@Nullable // 确定此beanDefinition是来自哪个方法
 	private String factoryMethodName;
 
 	@Nullable

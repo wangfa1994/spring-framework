@@ -21,10 +21,10 @@ import java.util.function.Function;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/** 属性访问器
+/** 属性访问器 可以用于访问附加一些属性值
  * Interface defining a generic contract for attaching and accessing metadata
  * to/from arbitrary objects.
- *
+ * 接口定义了用于从任意对象附加和访问元数据的通用契约。
  * @author Rob Harrop
  * @author Sam Brannen
  * @since 2.0

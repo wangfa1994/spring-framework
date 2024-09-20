@@ -56,7 +56,7 @@ final class ConfigurationClass {
 	private String beanName;
 
 	private final Set<ConfigurationClass> importedBy = new LinkedHashSet<>(1);
-
+	// 存放我们配置类中带有@Bean的方法，
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
 
 	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =

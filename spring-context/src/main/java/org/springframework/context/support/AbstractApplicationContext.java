@@ -562,7 +562,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory(); // 从上下文中得到我们的底层容器，开始对我们的底层容器进行扩展 ,xml 和anno属于不同的分支，xml的BD加载在这里完成的
 
 			// 应用上下文中得到底层的容器，然后开始进行一些功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
-			// Prepare the bean factory for use in this context.
+			// Prepare the bean factory for use in this context. 准备在此上下文中使用的bean工厂。
 			prepareBeanFactory(beanFactory);
 			// 需要记住的是，beanFactory才是我们真正的容器
 			try {
@@ -573,7 +573,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器的一些处理器的处理，
 				// Register bean processors that intercept bean creation.
-				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理
+				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理 先实例化beanPostprocess吧，毕竟下面开始实力化我们的对象了
 				beanPostProcess.end();
 				// 后置处理器包括两种，一种是对容器的处理，一种是对容器中的bean的处理
 				// Initialize message source for this context.
@@ -588,7 +588,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Check for listener beans and register them.
 				registerListeners();
 
-				// Instantiate all remaining (non-lazy-init) singletons.
+				// Instantiate all remaining (non-lazy-init) singletons. 实例化所有剩余的(非lazy-init)单例。
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
@@ -721,7 +721,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 
-		// Register default environment beans. 注册我们关于环境的内建bean对象，这些是直接注册成bean对象，可以进行依赖注入，也可以进行依赖查找
+		// Register default environment beans. 注册我们关于环境的内建bean对象，这些是直接注册成bean对象，可以进行依赖注入，也可以进行依赖查找,但是没有bean的声明周期
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
 			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 		}
@@ -929,7 +929,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Allow for caching all bean definition metadata, not expecting further changes.
 		beanFactory.freezeConfiguration();
 
-		// Instantiate all remaining (non-lazy-init) singletons.
+		// Instantiate all remaining (non-lazy-init) singletons. 实例化所有剩余的(非lazy-init)单例。
 		beanFactory.preInstantiateSingletons();
 	}
 

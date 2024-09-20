@@ -66,7 +66,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() { // 进行构造器的调用的时候，会先调用父类的构造器
 		StartupStep createAnnotatedBeanDefReader = getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，和从资源中读取不是一套体(BeanDefinitionReader) ，在这里会初始化一些注解所需要的后置处理器
+		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，注解和从资源中读取不是一套体(BeanDefinitionReader) ，在这里会初始化一些注解所需要的后置处理器的beanDefinition,是beanDefinition不是实例 很重要的四个
 		createAnnotatedBeanDefReader.end();
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
@@ -88,7 +88,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
-		this(); // 创建了底层的容器对象，并且设置了BeanDefinition的读取器以及类扫描器
+		this(); // 创建了底层的容器对象，并且设置了BeanDefinition的读取器以及类扫描器,设置注解所需要的后置处理器的BeanDefinition?
 		register(componentClasses); // 注册我们的配置类，这里只是注册,把我们的类变成对应的BeanDefinition(在beanDefinition中，需要注意beanClass属性，在基于资源的时候，存的是字符串，在注解的时候直接存储的是class)
 		refresh(); // 刷新我们的应用上下文，注意这个其实就是针对我们的BeanFactory容器进行的扩展功能，是应用上下文中的相关扩展逻辑
 	}

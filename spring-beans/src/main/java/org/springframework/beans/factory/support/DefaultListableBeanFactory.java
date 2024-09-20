@@ -115,10 +115,10 @@ import org.springframework.util.StringUtils;
  * @see #registerBeanDefinition
  * @see #addBeanPostProcessor
  * @see #getBean
- * @see #resolveDependency
+ * @see #resolveDependency  具备beanfactory的功能，获取bean相关，具备BeanDefinitionRegistry的功能，进行bd注册， 具备singletonBeanRegistry的功能，注册bean实例，
  */
-@SuppressWarnings("serial")
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
+@SuppressWarnings("serial") // 继承了AbstractAutowireCapableBeanFactory就有了一些通用的不需要重复实现的功能,注册中心功能被融合到了AbstractBeanFactory中，实现了ConfigurableListableBeanFactory相当于三个类型的BeanFactory的功能都存在了,
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory // 实现了 BeanDefinitionRegistry具备了注册beanDefinition的功能
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry, Serializable {
 
 	@Nullable
@@ -547,17 +547,17 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (resolvedBeanNames != null) {
 			return resolvedBeanNames;
 		}
-		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true);
+		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true); //从容器中查找是否存在匹配的beanName
 		if (ClassUtils.isCacheSafe(type, getBeanClassLoader())) {
 			cache.put(type, resolvedBeanNames);
 		}
-		return resolvedBeanNames;
+		return resolvedBeanNames; //返回匹配的beanName
 	}
 
 	private String[] doGetBeanNamesForType(ResolvableType type, boolean includeNonSingletons, boolean allowEagerInit) {
 		List<String> result = new ArrayList<>();
 
-		// Check all bean definitions.
+		// Check all bean definitions. 检查所有bean定义。
 		for (String beanName : this.beanDefinitionNames) {
 			// Only consider bean as eligible if the bean name is not defined as alias for some other bean.
 			if (!isAlias(beanName)) {
@@ -613,7 +613,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
-		// Check manually registered singletons too.
+		// Check manually registered singletons too. 也检查手动注册的单例。
 		for (String beanName : this.manualSingletonNames) {
 			try {
 				// In case of FactoryBean, match object created by FactoryBean.
@@ -956,8 +956,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 		}
-
-		// Trigger post-initialization callback for all applicable beans...
+		// 这个是干啥的呢？
+		// Trigger post-initialization callback for all applicable beans... 为所有适用的bean触发初始化后回调…
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {
@@ -980,7 +980,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	//---------------------------------------------------------------------
-	// Implementation of BeanDefinitionRegistry interface
+	// Implementation of BeanDefinitionRegistry interface    BeanDefinitionRegistry接口的实现 beanDefinition注册的逻辑实现
 	//---------------------------------------------------------------------
 
 	@Override
@@ -1000,7 +1000,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
-		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
+		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName); // 把我们的BenaDefinition放置到我们的BeanDefinitionMap中
 		if (existingDefinition != null) { // 如果已经存在的情况下，确定是否允许被覆盖呢
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
@@ -1351,7 +1351,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return multipleBeans;
 			}
 			//解析处理正常的bean，匹配到对应的beanClass
-			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor);
+			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor); // 在解决依赖的时候会用到一些后置处理器
 			if (matchingBeans.isEmpty()) {
 				if (isRequired(descriptor)) {
 					raiseNoMatchingBeanFound(type, descriptor.getResolvableType(), descriptor);
@@ -1387,7 +1387,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (autowiredBeanNames != null) {
 				autowiredBeanNames.add(autowiredBeanName);
 			}
-			if (instanceCandidate instanceof Class) {
+			if (instanceCandidate instanceof Class) { // 利用我们的BeanFactory的getBean方法获取实例对象
 				instanceCandidate = descriptor.resolveCandidate(autowiredBeanName, type, this); // 如果得到的是Class，我们就直接获取getBean,得到实例对象
 			}
 			Object result = instanceCandidate;
@@ -1553,7 +1553,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 */
 	protected Map<String, Object> findAutowireCandidates(
 			@Nullable String beanName, Class<?> requiredType, DependencyDescriptor descriptor) {
-
+		// beanNamesForTypeIncludingAncestors 很复杂的一个方法，从beanDefinition和SingletonObject中进行查找
 		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 				this, requiredType, true, descriptor.isEager());// 查找所有符合的候选名称，如果是层次性的，也需要进行处理
 		Map<String, Object> result = CollectionUtils.newLinkedHashMap(candidateNames.length);

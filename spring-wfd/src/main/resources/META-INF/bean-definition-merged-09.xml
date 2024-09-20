@@ -8,12 +8,12 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="user" class="com.wf.xmg.a09lifecycle.User">
+	<bean id="user" class="com.wf.xmg.a09beanLifecycle.User">
 		<property name="name" value="xmg"/>
 		<property name="age" value="18"/>
 	</bean>
 
-	<bean id="superUser" class="com.wf.xmg.a09lifecycle.SuperUser" parent="user">
+	<bean id="superUser" class="com.wf.xmg.a09beanLifecycle.SuperUser" parent="user">
 		<property name="mobile" value="13113111131"/>
 	</bean>
 </beans>

@@ -495,7 +495,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	protected Resource[] findPathMatchingResources(String locationPattern) throws IOException {
 		String rootDirPath = determineRootDir(locationPattern);
 		String subPattern = locationPattern.substring(rootDirPath.length());
-		Resource[] rootDirResources = getResources(rootDirPath);
+		Resource[] rootDirResources = getResources(rootDirPath); // 解析出来我们的资源路径
 		Set<Resource> result = new LinkedHashSet<>(64);
 		for (Resource rootDirResource : rootDirResources) {
 			rootDirResource = resolveRootDirResource(rootDirResource);

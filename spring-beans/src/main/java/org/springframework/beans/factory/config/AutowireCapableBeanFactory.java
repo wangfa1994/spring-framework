@@ -173,6 +173,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	//-------------------------------------------------------------------------
 	// Specialized methods for fine-grained control over the bean lifecycle
 	//-------------------------------------------------------------------------
+	// 用于对bean生命周期进行细粒度控制的专用方法
 
 	/**
 	 * Fully create a new bean instance of the given class with the specified

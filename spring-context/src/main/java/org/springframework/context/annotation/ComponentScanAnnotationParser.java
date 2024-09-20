@@ -64,11 +64,11 @@ class ComponentScanAnnotationParser {
 		this.registry = registry;
 	}
 
-
+	// 创建我们的ClassPathBeanDefinitionScanner实例对象，用来处理我们classpath下的类，哈哈哈
 	public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, String declaringClass) {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(this.registry,
 				componentScan.getBoolean("useDefaultFilters"), this.environment, this.resourceLoader);
-
+		// 解析一下我们的component相关属性配置
 		Class<? extends BeanNameGenerator> generatorClass = componentScan.getClass("nameGenerator");
 		boolean useInheritedGenerator = (BeanNameGenerator.class == generatorClass);
 		scanner.setBeanNameGenerator(useInheritedGenerator ? this.beanNameGenerator :
@@ -116,7 +116,7 @@ class ComponentScanAnnotationParser {
 			basePackages.add(ClassUtils.getPackageName(clazz));
 		}
 		if (basePackages.isEmpty()) {
-			basePackages.add(ClassUtils.getPackageName(declaringClass));
+			basePackages.add(ClassUtils.getPackageName(declaringClass)); // 获取到配置类所在的包名
 		}
 
 		scanner.addExcludeFilter(new AbstractTypeHierarchyTraversingFilter(false, false) {

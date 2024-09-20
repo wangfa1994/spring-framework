@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
 
 /**
  * Convenient adapter for programmatic registration of bean classes.
- *
+ * 这是替代 ClassPathBeanDefinitionScanner 类的方案，用于显式注册的类
  * <p>This is an alternative to {@link ClassPathBeanDefinitionScanner}, applying
  * the same resolution of annotations but for explicitly registered classes only.
  *
@@ -86,7 +86,7 @@ public class AnnotatedBeanDefinitionReader {
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry); // 注册所需要的后置处理器
-	}
+	}  // ConfigurationClassPostProcessor/AutowiredAnnotationBeanPostProcessor/CommonAnnotationBeanPostProcessor/EventListenerMethodProcessor/DefaultEventListenerFactory
 
 
 	/**
@@ -244,7 +244,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * (may be {@code null})
 	 * @param customizers one or more callbacks for customizing the factory's
 	 * {@link BeanDefinition}, e.g. setting a lazy-init or primary flag
-	 * @since 5.0
+	 * @since 5.0 解析给定的BeanClass，获取器元数据，并生成对应的BeanDefinition
 	 */
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
@@ -256,9 +256,9 @@ public class AnnotatedBeanDefinitionReader {
 		}
 
 		abd.setInstanceSupplier(supplier);
-		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
+		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd); //利用范围元信息解析器解决范围元数据
 		abd.setScope(scopeMetadata.getScopeName());
-		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
+		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));//在注册bean的时候如果没有给定name,则利用Name生成器生成beanName
 
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd); //通用定义注释的处理
 		if (qualifiers != null) {

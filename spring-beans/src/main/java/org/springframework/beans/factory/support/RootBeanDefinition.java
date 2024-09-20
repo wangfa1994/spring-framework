@@ -76,7 +76,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile Class<?> resolvedTargetType;
 
-	/** Package-visible field for caching if the bean is a factory bean. */
+	/** Package-visible field for caching if the bean is a factory bean. 如果bean是工厂bean，则用于缓存的包可见字段 */
 	@Nullable
 	volatile Boolean isFactoryBean;
 
@@ -95,7 +95,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Common lock for the four constructor fields below. 下面四个构造函数字段的公共锁。 */
 	final Object constructorArgumentLock = new Object();
 
-	/** Package-visible field for caching the resolved constructor or factory method. */
+	/** Package-visible field for caching the resolved constructor or factory method.  用于缓存解析的构造函数或工厂方法的包可见字段 */
 	@Nullable
 	Executable resolvedConstructorOrFactoryMethod;
 
@@ -120,7 +120,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 
-	@Nullable
+	@Nullable //存放@autowire依赖注入的数据元素
 	private Set<Member> externallyManagedConfigMembers;
 
 	@Nullable // 外部管理的实例化方法

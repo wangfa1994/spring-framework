@@ -21,7 +21,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 
-/**
+/** 用于bean定义读取器的简单接口，它指定带有Resource和String位置参数的加载方法。 主要用于资源方面的
  * Simple interface for bean definition readers that specifies load methods with
  * {@link Resource} and {@link String} location parameters.
  *

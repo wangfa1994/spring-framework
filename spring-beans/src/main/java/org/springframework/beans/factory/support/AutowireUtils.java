@@ -79,10 +79,10 @@ abstract class AutowireUtils {
 		Arrays.sort(factoryMethods, EXECUTABLE_COMPARATOR);
 	}
 
-	/**
+	/** 确定是否将给定的bean属性排除在依赖项检查之外。
 	 * Determine whether the given bean property is excluded from dependency checks.
-	 * <p>This implementation excludes properties defined by CGLIB.
-	 * @param pd the PropertyDescriptor of the bean property
+	 * <p>This implementation excludes properties defined by CGLIB. 这个实现排除了CGLIB定义的属性。
+	 * @param pd the PropertyDescriptor of the bean property  bean属性的PropertyDescriptor
 	 * @return whether the bean property is excluded
 	 */
 	public static boolean isExcludedFromDependencyCheck(PropertyDescriptor pd) {
@@ -100,7 +100,7 @@ abstract class AutowireUtils {
 		return !ClassUtils.hasMethod(superclass, wm);
 	}
 
-	/**
+	/** 返回给定bean属性的setter方法是否在任何给定接口中定义。
 	 * Return whether the setter method of the given bean property is defined
 	 * in any of the given interfaces.
 	 * @param pd the PropertyDescriptor of the bean property
@@ -111,9 +111,9 @@ abstract class AutowireUtils {
 		Method setter = pd.getWriteMethod();
 		if (setter != null) {
 			Class<?> targetClass = setter.getDeclaringClass();
-			for (Class<?> ifc : interfaces) {
+			for (Class<?> ifc : interfaces) { //类是来自ifc的子类，并且存在对应的setter方法
 				if (ifc.isAssignableFrom(targetClass) && ClassUtils.hasMethod(ifc, setter)) {
-					return true;
+					return true; // isAssignableFrom方法，确定给定的类是否是来自类外一个类，或者是否可以被替换
 				}
 			}
 		}

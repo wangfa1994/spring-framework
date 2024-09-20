@@ -117,9 +117,9 @@ import org.springframework.util.StringValueResolver;
  * @see #createBean
  * @see AbstractAutowireCapableBeanFactory#createBean
  * @see DefaultListableBeanFactory#getBeanDefinition
- */
+ */ // AbstractBeanFactory 没有ListableBeanFactory的相关特性，他只实现了ConfigurableBeanFactory接口 和HierarchicalBeanFactory接口
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
-
+	// AbstractBeanFactory 竟然还是一个SingletonBeanRegistry,单例Bean的注册中心，所以他的子类都具有注册Bean实例的能力
 	/** Parent bean factory, for bean inheritance support. */
 	@Nullable
 	private BeanFactory parentBeanFactory;
@@ -156,7 +156,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** String resolvers to apply e.g. to annotation attribute values. */
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
-	/** BeanPostProcessors to apply. */
+	/** BeanPostProcessors to apply. 要使用的一些后置处理器 */
 	private final List<BeanPostProcessor> beanPostProcessors = new BeanPostProcessorCacheAwareList();
 
 	/** Cache of pre-filtered post-processors. */
@@ -250,12 +250,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
 			throws BeansException {
 
-		String beanName = transformedBeanName(name);
+		String beanName = transformedBeanName(name); //进行转换bean的名称，主要确定是不是FactoryBean,使用了&符号进行了标记。
 		Object beanInstance;
 
 		// Eagerly check singleton cache for manually registered singletons. 先从我们的单例池中获取对应的实例，看看是否是已经生成了
-		Object sharedInstance = getSingleton(beanName); //  getSingleton 属于SingletonBeanRegistry体系中的方法
-		if (sharedInstance != null && args == null) {
+		Object sharedInstance = getSingleton(beanName); // 从单例Bean的注册中心中看看是否可以获得bean， getSingleton 属于SingletonBeanRegistry体系中的方法，如果是循环依赖，这里会进行三级缓存进二级缓存
+		if (sharedInstance != null && args == null) { // 如果从依赖的缓存中拿出来对象了，在循环依赖的时候会进入到这里处理
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
 					logger.trace("Returning eagerly cached instance of singleton bean '" + beanName +
@@ -265,17 +265,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
-			beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, null);
+			beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, null); // sharedInstance此时是在属性赋值阶段的实例，还没有完全体对象
 		}
 
 		else {
-			// Fail if we're already creating this bean instance:
-			// We're assumably within a circular reference.
+			// Fail if we're already creating this bean instance: 如果我们已经创建了这个bean实例，则失败:
+			// We're assumably within a circular reference. 假设我们在一个循环引用中。
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
-			// Check if bean definition exists in this factory.
+			// Check if bean definition exists in this factory. 检查此父类工厂中是否存在bean定义。
 			BeanFactory parentBeanFactory = getParentBeanFactory();
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
@@ -298,7 +298,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			if (!typeCheckOnly) {
-				markBeanAsCreated(beanName);
+				markBeanAsCreated(beanName); // 将指定的bean标记为已经创建(或即将创建)。并且标志beanDefinition需要进行合并
 			}
 			// Instantiate bean. 开始啦
 			StartupStep beanCreation = this.applicationStartup.start("spring.beans.instantiate")
@@ -306,7 +306,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			try {
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
-				} // 首选进行父子类的BeanDefinition的合并，获取合并后的RootBeanDefinition
+				} // 首选进行父子类的BeanDefinition的合并，获取合并后的RootBeanDefinition，将不同模式下的beanDefinition进行合并
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);//获取合并的beanDefinition 主要是父子关系的合并
 				checkMergedBeanDefinition(mbd, beanName, args);
 
@@ -329,8 +329,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					}
 				}
 
-				// Create bean instance.
-				if (mbd.isSingleton()) {
+				// Create bean instance. 创建一个bean实例，在这里讲bean放入到创建中的集合中
+				if (mbd.isSingleton()) { // getSingleton是注册中心的方法，createBean是BeanFactory的方法，如果我在注册中心没有得到，那就去注册,利用ObjectFactory接口来回调产生实例
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);
@@ -396,7 +396,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
-		return adaptBeanInstance(name, beanInstance, requiredType);
+		return adaptBeanInstance(name, beanInstance, requiredType); //适配未完全实例化的对象
 	}
 
 	@SuppressWarnings("unchecked")
@@ -424,7 +424,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Override
 	public boolean containsBean(String name) {
 		String beanName = transformedBeanName(name);
-		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
+		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) { //确定是否存在Singleton或者对应的beanDefinition
 			return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
 		}
 		// Not found -> check parent.
@@ -720,7 +720,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
-		Class<?> beanClass = predictBeanType(beanName, mbd);
+		Class<?> beanClass = predictBeanType(beanName, mbd); // 在解决依赖的时候进行了我们的beanClass预测，利用了我们的后置处理器
 
 		// Check bean class whether we're dealing with a FactoryBean.
 		if (beanClass != null && FactoryBean.class.isAssignableFrom(beanClass)) {
@@ -1398,16 +1398,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 			if (mbd == null || mbd.stale) {
 				previous = mbd;
-				if (bd.getParentName() == null) {
+				if (bd.getParentName() == null) { // 在不存在父类的情况下，直接进行转换为对应的RootBeanDefinition
 					// Use copy of given root bean definition.
-					if (bd instanceof RootBeanDefinition) {
+					if (bd instanceof RootBeanDefinition) { // 如果已经是RootBeanDefinition了，则进行clone
 						mbd = ((RootBeanDefinition) bd).cloneBeanDefinition();
 					}
 					else {
 						mbd = new RootBeanDefinition(bd);
 					}
 				}
-				else {
+				else { //如果存在了父子关系，我们需要进行合并形成新的beanDefinition
 					// Child bean definition: needs to be merged with parent. 子bean定义:需要与父bean合并。
 					BeanDefinition pbd;
 					try {
@@ -1537,8 +1537,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected Class<?> resolveBeanClass(RootBeanDefinition mbd, String beanName, Class<?>... typesToMatch)
 			throws CannotLoadBeanClassException {
 
-		try {
-			if (mbd.hasBeanClass()) { // 如果我们的BeanClass还没有被解析，则进行解析，并使用类加载器进行加载
+		try { // BeanDefinition中的beanClass属性是一个Object的，这样的话就可以兼容注解模式和xml模式了
+			if (mbd.hasBeanClass()) { // 如果我们的BeanClass还没有被解析，则进行解析，并使用类加载器进行加载，在注解模式下，我们会传入的是类名
 				return mbd.getBeanClass();
 			}
 			if (System.getSecurityManager() != null) {
@@ -1546,7 +1546,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						() -> doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
 			}
 			else {
-				return doResolveBeanClass(mbd, typesToMatch); // 解析我们的BeanDefinition中的beanClass,使用类加载器将String变成Class
+				return doResolveBeanClass(mbd, typesToMatch); // 解析我们的BeanDefinition中的beanClass,使用类加载器将String变成Class，在xml中我们传入的是字符串
 			}
 		}
 		catch (PrivilegedActionException pae) {
@@ -1794,7 +1794,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (!this.alreadyCreated.contains(beanName)) {
 					// Let the bean definition get re-merged now that we're actually creating
 					// the bean... just in case some of its metadata changed in the meantime.
-					clearMergedBeanDefinition(beanName);
+					clearMergedBeanDefinition(beanName); // 在标记创建的时候，会将beanDefinition的合并标注设置为true，用来合并BeanDefinition。
 					this.alreadyCreated.add(beanName);
 				}
 			}

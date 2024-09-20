@@ -19,8 +19,8 @@ public class ApplicationAutowireOneTest {
 		Cat cat = (Cat) annotationConfigApplicationContext.getBean("cat");
 		System.out.println("容器中的cat"+cat);
 
-		Person person1 = (Person) annotationConfigApplicationContext.getBean("person");
-		System.out.println("容器中的person"+person1);
+		/*Person person1 = (Person) annotationConfigApplicationContext.getBean("person");
+		System.out.println("容器中的person"+person1);*/
     }
 
 /**

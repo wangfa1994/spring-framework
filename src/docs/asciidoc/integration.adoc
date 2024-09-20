@@ -1319,10 +1319,10 @@ controller. The following example shows how to do so:
 
 [source,java,indent=0,subs="verbatim,quotes"]
 ----
-	private MyComponent myComponent;
+	private MyComponent service;
 
-	public void setMyComponent(MyComponent myComponent) {
-		this.myComponent = myComponent;
+	public void setMyComponent(MyComponent service) {
+		this.service = service;
 	}
 ----
 
@@ -1330,29 +1330,29 @@ We can subsequently use this instance variable in any business method in the con
 Now, assuming we obtain our controller object out of a Spring container, we can
 (in the same context) configure a `LocalStatelessSessionProxyFactoryBean` instance,
 which is the EJB proxy object. We configure the proxy and set the
-`myComponent` property of the controller with the following configuration entry:
+`service` property of the controller with the following configuration entry:
 
 [source,xml,indent=0,subs="verbatim,quotes"]
 ----
-	<bean id="myComponent"
+	<bean id="service"
 			class="org.springframework.ejb.access.LocalStatelessSessionProxyFactoryBean">
 		<property name="jndiName" value="ejb/myBean"/>
 		<property name="businessInterface" value="com.mycom.MyComponent"/>
 	</bean>
 
 	<bean id="myController" class="com.mycom.myController">
-		<property name="myComponent" ref="myComponent"/>
+		<property name="service" ref="service"/>
 	</bean>
 ----
 
 A lot of work happens behind the scenes, courtesy of the Spring AOP framework,
 although you are not forced to work with AOP concepts to enjoy the results. The
-`myComponent` bean definition creates a proxy for the EJB, which implements the business
+`service` bean definition creates a proxy for the EJB, which implements the business
 method interface. The EJB local home is cached on startup, so there is only a single JNDI
 lookup. Each time the EJB is invoked, the proxy invokes the `classname` method on the
 local EJB and invokes the	corresponding business method on the EJB.
 
-The `myController` bean definition sets the `myComponent` property of the controller
+The `myController` bean definition sets the `service` property of the controller
 class to the EJB proxy.
 
 Alternatively (and preferably in case of many such proxy definitions), consider using
@@ -1361,18 +1361,18 @@ The following example shows how to do so:
 
 [source,xml,indent=0,subs="verbatim,quotes"]
 ----
-	<jee:local-slsb id="myComponent" jndi-name="ejb/myBean"
+	<jee:local-slsb id="service" jndi-name="ejb/myBean"
 			business-interface="com.mycom.MyComponent"/>
 
 	<bean id="myController" class="com.mycom.myController">
-		<property name="myComponent" ref="myComponent"/>
+		<property name="service" ref="service"/>
 	</bean>
 ----
 
 This EJB access mechanism delivers huge simplification of application code. The web tier
 code (or other EJB client code) has no dependence on the use of EJB. To
 replace this EJB reference with a POJO or a mock object or other test stub, we could
-change the `myComponent` bean definition without changing a line of Java code.
+change the `service` bean definition without changing a line of Java code.
 Additionally, we have not had to write a single line of JNDI lookup or other EJB plumbing
 code as part of our application.
 

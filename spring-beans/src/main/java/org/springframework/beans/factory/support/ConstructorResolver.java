@@ -392,21 +392,21 @@ class ConstructorResolver {
 		Class<?> factoryClass;
 		boolean isStatic;
 
-		String factoryBeanName = mbd.getFactoryBeanName();
-		if (factoryBeanName != null) {
+		String factoryBeanName = mbd.getFactoryBeanName(); // 获取到依赖对象的beanName
+		if (factoryBeanName != null) { //
 			if (factoryBeanName.equals(beanName)) {
 				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
 						"factory-bean reference points back to the same bean definition");
 			}
-			factoryBean = this.beanFactory.getBean(factoryBeanName);
-			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) {
+			factoryBean = this.beanFactory.getBean(factoryBeanName);//从容器中获取到对应的factoryBean实例对象，我的这个Bean在那个实例中放着
+			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) { // 如果我的beanDefinition是单例的，并且已经创建了对象则进行报错
 				throw new ImplicitlyAppearedSingletonException();
 			}
-			this.beanFactory.registerDependentBean(factoryBeanName, beanName);
+			this.beanFactory.registerDependentBean(factoryBeanName, beanName); //注册依赖与被依赖的关系，两层关系的维护
 			factoryClass = factoryBean.getClass();
 			isStatic = false;
 		}
-		else {
+		else { //它是bean类上的静态工厂方法。 当他为空的时候怎么就是静态工厂方法了
 			// It's a static factory method on the bean class.
 			if (!mbd.hasBeanClass()) {
 				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,

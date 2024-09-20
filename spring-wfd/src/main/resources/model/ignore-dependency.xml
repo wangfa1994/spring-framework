@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--	<bean id="teacherByName" class="com.wf.model.ingoredependency.Teacher" autowire="byName"/>
+	<bean id="teacherByType" class="com.wf.model.ingoredependency.Teacher" autowire="byType"/>
+	<bean id="teacherByConstructor" class="com.wf.model.ingoredependency.Teacher"  autowire="constructor"/>-->
+
+
+	<!--<bean id="teacherSingleByName" class="com.wf.model.ingoredependency.TeacherSingle" autowire="byName"/>
+
+	<bean id="teacherSingleByType" class="com.wf.model.ingoredependency.TeacherSingle" autowire="byType"/>-->
+
+	<bean id="teacherSingleByConstructor" class="com.wf.model.ingoredependency.TeacherSingle"  autowire="constructor"/>
+
+</beans>

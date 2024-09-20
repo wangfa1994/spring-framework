@@ -25,7 +25,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.lang.Nullable;
 
-/**
+/** 包含一个或多个{@link PropertyValue}对象的Holder，通常包含针对特定目标bean 的一次更新。
  * Holder containing one or more {@link PropertyValue} objects,
  * typically comprising one update for a specific target bean.
  *

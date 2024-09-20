@@ -37,6 +37,18 @@ public class ApplicationContextXmlTest {
     }
 
 	/**
+	 * BeanDefinitionReader体系：
+	 * 		XmlBeanDefinitionReader
+	 *
+	 *
+	 * 	DocumentLoader
+	 * 	DefaultDocumentLoader
+	 * BeanDefinitionDocumentReader
+	 *
+	 *
+	 *
+	 *
+	 *
 	 * 系统默认添加的Processor
 	 * ApplicationContextAwareProcessor
 	 * ApplicationListenerDetector

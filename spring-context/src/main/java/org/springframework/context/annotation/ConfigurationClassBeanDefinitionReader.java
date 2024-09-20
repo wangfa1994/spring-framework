@@ -146,15 +146,15 @@ class ConfigurationClassBeanDefinitionReader {
 			return;
 		}
 
-		if (configClass.isImported()) {
+		if (configClass.isImported()) { // 配置类是否是被导入的
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
-		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
+		for (BeanMethod beanMethod : configClass.getBeanMethods()) { // 将我们配置类中的@Bean方法注册为BeanDefinition
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
-		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
-		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
+		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());// 解析我们导入的资源
+		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars()); // 解析我们
 	}
 
 	/**
@@ -189,7 +189,7 @@ class ConfigurationClassBeanDefinitionReader {
 		MethodMetadata metadata = beanMethod.getMetadata();
 		String methodName = metadata.getMethodName();
 
-		// Do we need to mark the bean as skipped by its condition?
+		// Do we need to mark the bean as skipped by its condition?  我们是否需要根据它的条件将bean标记为跳过?
 		if (this.conditionEvaluator.shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN)) {
 			configClass.skippedBeanMethods.add(methodName);
 			return;
@@ -198,7 +198,7 @@ class ConfigurationClassBeanDefinitionReader {
 			return;
 		}
 
-		AnnotationAttributes bean = AnnotationConfigUtils.attributesFor(metadata, Bean.class);
+		AnnotationAttributes bean = AnnotationConfigUtils.attributesFor(metadata, Bean.class); // 解析我们的bean注解的元信息
 		Assert.state(bean != null, "No @Bean annotation attributes");
 
 		// Consider name and any aliases
@@ -220,23 +220,23 @@ class ConfigurationClassBeanDefinitionReader {
 			return;
 		}
 
-		ConfigurationClassBeanDefinition beanDef = new ConfigurationClassBeanDefinition(configClass, metadata, beanName);
+		ConfigurationClassBeanDefinition beanDef = new ConfigurationClassBeanDefinition(configClass, metadata, beanName); // 创建我们的BeanDefinition，是来自ConfigurationClassBeanDefinition
 		beanDef.setSource(this.sourceExtractor.extractSource(metadata, configClass.getResource()));
 
-		if (metadata.isStatic()) {
-			// static @Bean method
+		if (metadata.isStatic()) { // 判断是否是静态的方法
+			// static @Bean method 如果是静态方法的话，只
 			if (configClass.getMetadata() instanceof StandardAnnotationMetadata) {
 				beanDef.setBeanClass(((StandardAnnotationMetadata) configClass.getMetadata()).getIntrospectedClass());
 			}
 			else {
-				beanDef.setBeanClassName(configClass.getMetadata().getClassName());
-			}
-			beanDef.setUniqueFactoryMethodName(methodName);
+				beanDef.setBeanClassName(configClass.getMetadata().getClassName()); // 进行设置来自哪个BeanClass ，
+			} // 这里为啥可以复用当前配置类的名称，这样的话，就会存在两个不同的bean，但是具有相同的className, 这里设置的是String类型的。但是两个beanDefiniton的类型不一样
+			beanDef.setUniqueFactoryMethodName(methodName); //进行设置是来自那个方法
 		}
 		else {
-			// instance @Bean method
-			beanDef.setFactoryBeanName(configClass.getBeanName());
-			beanDef.setUniqueFactoryMethodName(methodName);
+			// instance @Bean method 说明是实例类的@bean方法
+			beanDef.setFactoryBeanName(configClass.getBeanName()); // 设置来自于那个实例Bean
+			beanDef.setUniqueFactoryMethodName(methodName); // 设置创建bean的方法
 		}
 
 		if (metadata instanceof StandardMethodMetadata) {
@@ -279,7 +279,7 @@ class ConfigurationClassBeanDefinitionReader {
 		}
 
 		// Replace the original bean definition with the target one, if necessary
-		BeanDefinition beanDefToRegister = beanDef;
+		BeanDefinition beanDefToRegister = beanDef; // 将我们的ConfigurationClassBeanDefinition赋值给BeanDefinition，并且进行注册
 		if (proxyMode != ScopedProxyMode.NO) {
 			BeanDefinitionHolder proxyDef = ScopedProxyCreator.createScopedProxy(
 					new BeanDefinitionHolder(beanDef, beanName), this.registry,

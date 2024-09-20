@@ -103,7 +103,7 @@ class BeanDefinitionValueResolver {
 	 * @param argName the name of the argument that the value is defined for
 	 * @param value the value object to resolve
 	 * @return the resolved object
-	 */
+	 */ // 在解决依赖值的时候分为了RuntimeBeanReference,RuntimeBeanNameReference,BeanDefinitionHolder,BeanDefinition,DependencyDescriptor,
 	@Nullable
 	public Object resolveValueIfNecessary(Object argName, @Nullable Object value) {
 		// We must check each value to see whether it requires a runtime reference
@@ -121,22 +121,22 @@ class BeanDefinitionValueResolver {
 			}
 			return refName;
 		}
-		else if (value instanceof BeanDefinitionHolder) {
+		else if (value instanceof BeanDefinitionHolder) { // 依赖的是BeanDefinitionHolder
 			// Resolve BeanDefinitionHolder: contains BeanDefinition with name and aliases.
 			BeanDefinitionHolder bdHolder = (BeanDefinitionHolder) value;
 			return resolveInnerBean(argName, bdHolder.getBeanName(), bdHolder.getBeanDefinition());
 		}
-		else if (value instanceof BeanDefinition) {
+		else if (value instanceof BeanDefinition) {	// 依赖的是BeanDefinition
 			// Resolve plain BeanDefinition, without contained name: use dummy name.
 			BeanDefinition bd = (BeanDefinition) value;
 			String innerBeanName = "(inner bean)" + BeanFactoryUtils.GENERATED_BEAN_NAME_SEPARATOR +
 					ObjectUtils.getIdentityHexString(bd);
 			return resolveInnerBean(argName, innerBeanName, bd);
 		}
-		else if (value instanceof DependencyDescriptor) {
+		else if (value instanceof DependencyDescriptor) { // 如果是依赖的描述符的话，说明是autowire进来的
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(2);
 			Object result = this.beanFactory.resolveDependency(
-					(DependencyDescriptor) value, this.beanName, autowiredBeanNames, this.typeConverter);
+					(DependencyDescriptor) value, this.beanName, autowiredBeanNames, this.typeConverter); // 又转到了beanFactory中处理注解的依赖
 			for (String autowiredBeanName : autowiredBeanNames) {
 				if (this.beanFactory.containsBean(autowiredBeanName)) {
 					this.beanFactory.registerDependentBean(autowiredBeanName, this.beanName);
@@ -223,7 +223,7 @@ class BeanDefinitionValueResolver {
 			return null;
 		}
 		else {
-			return evaluate(value);
+			return evaluate(value); //String类型
 		}
 	}
 

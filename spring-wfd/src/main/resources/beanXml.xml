@@ -5,7 +5,7 @@
    http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="person" class="com.wf.model.xml.Person">
+    <bean class="com.wf.model.xml.Person">
         <property name="name" value="personName"/>
         <property name="cat" ref="cat"/>
     </bean>

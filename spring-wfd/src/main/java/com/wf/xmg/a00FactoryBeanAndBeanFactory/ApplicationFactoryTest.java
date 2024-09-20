@@ -1,7 +1,10 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.stereotype.Component;
 // 01 BeanFactory  FactoryBean 与   ObjectFactory 有什么区别
 public class ApplicationFactoryTest {
@@ -15,25 +18,29 @@ public class ApplicationFactoryTest {
 	**/
 	public static void main(String[] args) {
 
+		DefaultListableBeanFactory  beanFactory = new DefaultListableBeanFactory();
 
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Configuration.class);
+		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(beanFactory);
+		scanner.scan("com.wf.xmg.a00FactoryBeanAndBeanFactory");
 
-		Student student = applicationContext.getBean("student",Student.class);
+
+
+		Student student = beanFactory.getBean("student",Student.class);
 		System.out.println("sutdent: "+student);
 		System.out.println("student中的teacher会有值吗？"+student.getTeacher());
 
 
 
 		// 注意这里获取的name 为什么是teacherFactoryBean ,而且我们的Teacher进行了实现Aware接口进行注入对应的beanName用于查看是否存在bean名称
-		Teacher teacher = applicationContext.getBean("teacherFactoryBean",Teacher.class);
+		Teacher teacher = beanFactory.getBean("teacherFactoryBean",Teacher.class);
 		System.out.println("teacher: "+teacher);
-		Teacher teacher2 = applicationContext.getBean("teacherFactoryBean",Teacher.class); // 之后进行一次
+		Teacher teacher2 = beanFactory.getBean("teacherFactoryBean",Teacher.class); // 之后进行一次
 		System.out.println("teacher: "+teacher2);
-		Teacher teacherOrg = applicationContext.getBean(Teacher.class);
+		Teacher teacherOrg = beanFactory.getBean(Teacher.class);
 		System.out.println("teacher可以直接通过类型获取吗?: "+teacher);
 		/*Teacher teacherByName = applicationContext.getBean("null",Teacher.class); 上面打印了beanName.为什么还不能获取到呢？
 		System.out.println("teacher可以直接通过名称类型获取吗?: "+teacherByName);*/
-		TeacherFactoryBean teacherFactoryBean = applicationContext.getBean("&teacherFactoryBean",TeacherFactoryBean.class);
+		TeacherFactoryBean teacherFactoryBean = beanFactory.getBean("&teacherFactoryBean",TeacherFactoryBean.class);
 		System.out.println("teacherFactoryBean: "+teacherFactoryBean);
 
 
@@ -43,7 +50,7 @@ public class ApplicationFactoryTest {
 		/*School school = applicationContext.getBean(School.class);
 		System.out.println("school:"+school);*/
 		// 可以当做原型使用
-		SchoolObjectFactory schoolObjectFactory = applicationContext.getBean("schoolObjectFactory",SchoolObjectFactory.class);
+		SchoolObjectFactory schoolObjectFactory = beanFactory.getBean("schoolObjectFactory",SchoolObjectFactory.class);
 		School object = schoolObjectFactory.getObject();
 
 		System.out.println("school: "+object);

@@ -8,23 +8,23 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="user" class="com.wf.xmg.a09lifecycle.User">
+	<bean id="user" class="com.wf.xmg.a09beanLifecycle.User">
 		<property name="name" value="xmg"/>
 		<property name="age" value="18"/>
 	</bean>
 
-	<bean id="superUser" class="com.wf.xmg.a09lifecycle.SuperUser" parent="user" primary="true">
+	<bean id="superUser" class="com.wf.xmg.a09beanLifecycle.SuperUser" parent="user" primary="true">
 		<property name="mobile" value="13113111131"/>
 	</bean>
 
 
-	<bean id="userHolder" class="com.wf.xmg.a09lifecycle.a04populate.UserHolder">
+	<bean id="userHolder" class="com.wf.xmg.a09beanLifecycle.a04populate.UserHolder">
 		<property name="user" ref="user"/>
 		<property name="description" value="description from xml"/>
 	</bean>
 
-	<bean id="userHolderByName" class="com.wf.xmg.a09lifecycle.a04populate.UserHolder" autowire="byName" />
+	<bean id="userHolderByName" class="com.wf.xmg.a09beanLifecycle.a04populate.UserHolder" autowire="byName" />
 
-	<bean id="userHolderByType" class="com.wf.xmg.a09lifecycle.a04populate.UserHolder" autowire="byType" />
+	<bean id="userHolderByType" class="com.wf.xmg.a09beanLifecycle.a04populate.UserHolder" autowire="byType" />
 
 </beans>

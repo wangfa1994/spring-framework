@@ -131,7 +131,7 @@ public abstract class AnnotationConfigUtils {
 
 	/** AnnotationApplication触发注册注解所需要的相关处理器
 	 * Register all relevant annotation post processors in the given registry.
-	 * @param registry the registry to operate on
+	 * @param registry the registry to operate on 注册注解配置所需的后置处理器
 	 */
 	public static void registerAnnotationConfigProcessors(BeanDefinitionRegistry registry) {
 		registerAnnotationConfigProcessors(registry, null);
@@ -159,26 +159,27 @@ public abstract class AnnotationConfigUtils {
 		}
 
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
-
+		// 解析配置文件的@Configuration注解类 ConfigurationClassPostProcessor，为什么要先经过beanDefinition呢，而不是直接创建对应的实例
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		// 解析依赖注入相关的@Autowire,@Value注解类 JSR330 @Inject   AutowiredAnnotationBeanPostProcessor
 		if (!registry.containsBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(AutowiredAnnotationBeanPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
+		// 解析依赖注入相关的通用注解类@Resource CommonAnnotationBeanPostProcessor
 		// Check for JSR-250 support, and if present add the CommonAnnotationBeanPostProcessor.
 		if (jsr250Present && !registry.containsBeanDefinition(COMMON_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, COMMON_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
-
+		// JPA  PersistenceAnnotationBeanPostProcessor
 		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition();
@@ -235,7 +236,7 @@ public abstract class AnnotationConfigUtils {
 	}
 
 	static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd, AnnotatedTypeMetadata metadata) {
-		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class);
+		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class); // 处理我们的通用注解
 		if (lazy != null) {
 			abd.setLazyInit(lazy.getBoolean("value"));
 		}
@@ -272,7 +273,7 @@ public abstract class AnnotationConfigUtils {
 			return definition;
 		}
 		boolean proxyTargetClass = scopedProxyMode.equals(ScopedProxyMode.TARGET_CLASS);
-		return ScopedProxyCreator.createScopedProxy(definition, registry, proxyTargetClass);
+		return ScopedProxyCreator.createScopedProxy(definition, registry, proxyTargetClass); // 根据@scope的设置进行创建代理范围
 	}
 
 	@Nullable

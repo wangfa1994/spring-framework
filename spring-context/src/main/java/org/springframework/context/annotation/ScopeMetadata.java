@@ -19,7 +19,7 @@ package org.springframework.context.annotation;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.util.Assert;
 
-/**
+/** 描述spring管理bean的作用域特征，包括作用域名称和作用域代理行为。
  * Describes scope characteristics for a Spring-managed bean including the scope
  * name and the scoped-proxy behavior.
  *

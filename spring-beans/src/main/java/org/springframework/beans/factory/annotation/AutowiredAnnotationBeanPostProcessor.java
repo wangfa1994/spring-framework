@@ -253,7 +253,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, null);
-		metadata.checkConfigMembers(beanDefinition);
+		metadata.checkConfigMembers(beanDefinition); //将依赖解析的属性放置到rootBeanDefinition扩展字段中去
 	}
 
 	@Override
@@ -405,7 +405,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
 		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);
 		try {
-			metadata.inject(bean, beanName, pvs);
+			metadata.inject(bean, beanName, pvs); // 转入到 InjectionMetadata 进行反射设值
 		}
 		catch (BeanCreationException ex) {
 			throw ex;
@@ -690,7 +690,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				}
 			}
 			else {
-				value = resolveFieldValue(field, bean, beanName);
+				value = resolveFieldValue(field, bean, beanName); // 开始处理我们的依赖对象  bean实例对象要处理的字段field
 			}
 			if (value != null) { // 当获取到依赖注入的值不为空的话，进行反射注入到对象中去
 				ReflectionUtils.makeAccessible(field);
@@ -700,7 +700,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 		@Nullable
 		private Object resolveFieldValue(Field field, Object bean, @Nullable String beanName) {
-			DependencyDescriptor desc = new DependencyDescriptor(field, this.required);
+			DependencyDescriptor desc = new DependencyDescriptor(field, this.required); // 封装成我们的依赖描述符
 			desc.setContainingClass(bean.getClass());
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(2);
 			Assert.state(beanFactory != null, "No BeanFactory available");

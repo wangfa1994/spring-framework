@@ -264,7 +264,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	@Override
 	public void setResourceLoader(@Nullable ResourceLoader resourceLoader) {
-		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader); //资源模式解析器
 		this.metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
 		this.componentsIndex = CandidateComponentsIndexLoader.loadIndex(this.resourcePatternResolver.getClassLoader());
 	}
@@ -417,10 +417,10 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 
 	private Set<BeanDefinition> scanCandidateComponents(String basePackage) {
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
-		try {
+		try {	// 开始处理我们的类路径
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
 					resolveBasePackage(basePackage) + '/' + this.resourcePattern;
-			Resource[] resources = getResourcePatternResolver().getResources(packageSearchPath);
+			Resource[] resources = getResourcePatternResolver().getResources(packageSearchPath); // 将我们类路径下的class变成资源
 			boolean traceEnabled = logger.isTraceEnabled();
 			boolean debugEnabled = logger.isDebugEnabled();
 			for (Resource resource : resources) {
