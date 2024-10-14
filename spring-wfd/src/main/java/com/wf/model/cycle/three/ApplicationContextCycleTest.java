@@ -42,9 +42,9 @@ public class ApplicationContextCycleTest {
  *
  *
  ** 循环依赖 三级缓存
- * singletonObjects： 用于存储完全初始化的Bean实例，即已经实例化、属性赋值完成的Bean对象
- * earlySingletonObjects：用于存储早期暴露的Bean实例，即Bean正在创建过程中，但尚未完成实例化的对象，singletonsCurrentlyInCreation用于控制状态，是否从二级缓存中获取
- * singletonFactories：用于存储Bean的工厂对象，即用于创建Bean实例的工厂方法。
+ * singletonObjects：一级对象  用于存储完全初始化的Bean实例，即已经实例化、属性赋值完成的Bean对象
+ * earlySingletonObjects：二级对象  用于存储早期暴露的Bean实例，即Bean正在创建过程中，但尚未完成实例化的对象，singletonsCurrentlyInCreation用于控制状态，是否从二级缓存中获取
+ * singletonFactories：三级对象   用于存储Bean的工厂对象，即用于创建Bean实例的工厂方法。
  *
  *
  *

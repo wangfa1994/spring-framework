@@ -10,13 +10,13 @@ import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
 
-//03 获取到了BeanDefinition我们怎么添加到我们的容器中或者上下文当中去?注册beanDefinition
+//03 我们创建了或者资源中读取到beanDefinition，我们怎么添加到我们的容器中或者上下文当中去?注册beanDefinition
 public class BeanDefinitionRegisterTest {
 	/**
 	 * BeanDefinitionRegistry 体系，注册beanDefinition，通过此体系结构可以将我们创建的beanDefinition进行注册到不同的环境中去
 	 *  1.SimpleBeanDefinitionRegistry:仅提供注册中心功能，没有内置工厂功能。
 	 *  2.DefaultListableBeanFactory:  在工厂中进行注册
-	 *  3.GenericApplicationContext:  在应用上下文中进行注册
+	 *  3.GenericApplicationContext:  在应用上下文中进行注册,上下文中内置了工厂容器，还是代理给了工厂进行处理
 	 *
 	 *
 	 * BeanDefinition的注册主要通过两种方式:首先我们需要明白的是,我们的BeanDefinition注册到哪里? 不同的实现有不同的注册地方
@@ -29,7 +29,7 @@ public class BeanDefinitionRegisterTest {
 		// 创建一个应用上下文
 		GenericApplicationContext applicationContext = new GenericApplicationContext();
 
-		//手动注入beanDefinition 通过Application上下文注册
+		//手动注入beanDefinition 通过Application上下文注册 在Application中还是代理给了beanFactory进行处理
 		applicationContext.registerBeanDefinition("student",createBeanDefinition().getBeanDefinition());
 		applicationContext.registerBeanDefinition("student01",createBeanDefinitionR());
 

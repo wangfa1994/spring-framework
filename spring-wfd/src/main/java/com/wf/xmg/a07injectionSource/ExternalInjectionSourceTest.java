@@ -11,7 +11,7 @@ import java.util.Properties;
 
 //外部化配置作为依赖来源示例
 @Configuration
-@PropertySource(value = "META-INF/externalInjectionSource.properties",encoding="utf-8")
+@PropertySource(value = "META-INF/a07/externalInjectionSource.properties",encoding="utf-8")
 public class ExternalInjectionSourceTest {
 
 	@Value("${user.id:-1}")
@@ -51,5 +51,20 @@ public class ExternalInjectionSourceTest {
 		// 显示地关闭 Spring 应用上下文
 		applicationContext.close();
 	}
+
+	/**
+	 *
+	 * spring容器中的bean的来源有系统帮我们添加的系统bean，我们自己业务bean
+	 *
+	 * 系统添加的bean有： environment  systemProperties  systemEnvironment  applicationStartup 等
+	 *
+	 * 上下文在处理依赖关系的时候会从两个位置进行确定依赖来源：
+	 * 1. spring容器中，包括我们业务bean 和 系统内建bean
+	 * 2.非bean，游离在容器之外的bean，主要存放在 DefaultListableBeanFactory.resolvableDependencies 中的bean
+	 *
+	 *
+	 *
+	 *
+	 */
 
 }

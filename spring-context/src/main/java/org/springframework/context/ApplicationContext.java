@@ -30,13 +30,13 @@ import org.springframework.lang.Nullable;
  *
  * <p>An ApplicationContext provides:
  * <ul>
- * <li>Bean factory methods for accessing application components.
+ * <li>Bean factory methods for accessing application components. 访问应用程序组件的Bean工厂方法。通过继承ListableBeanFactory接口
  * Inherited from {@link org.springframework.beans.factory.ListableBeanFactory}.
- * <li>The ability to load file resources in a generic fashion.
+ * <li>The ability to load file resources in a generic fashion.  以通用方式加载文件资源的能力 通过继承ResourceLoader接口
  * Inherited from the {@link org.springframework.core.io.ResourceLoader} interface.
- * <li>The ability to publish events to registered listeners.
+ * <li>The ability to publish events to registered listeners. 向已注册的侦听器发布事件的能力，通过继承ApplicationEventPublisher接口
  * Inherited from the {@link ApplicationEventPublisher} interface.
- * <li>The ability to resolve messages, supporting internationalization.
+ * <li>The ability to resolve messages, supporting internationalization. 具有解析消息的能力，支持国际化。 通过继承了MessageSource接口
  * Inherited from the {@link MessageSource} interface.
  * <li>Inheritance from a parent context. Definitions in a descendant context
  * will always take priority. This means, for example, that a single parent
@@ -44,7 +44,7 @@ import org.springframework.lang.Nullable;
  * its own child context that is independent of that of any other servlet.
  * </ul>
  *
- * <p>In addition to standard {@link org.springframework.beans.factory.BeanFactory}
+ * <p>In addition to standard {@link org.springframework.beans.factory.BeanFactory} 它具备标准的BeanFactory的声明周期之外，还添加一些Aware接口
  * lifecycle capabilities, ApplicationContext implementations detect and invoke
  * {@link ApplicationContextAware} beans as well as {@link ResourceLoaderAware},
  * {@link ApplicationEventPublisherAware} and {@link MessageSourceAware} beans.

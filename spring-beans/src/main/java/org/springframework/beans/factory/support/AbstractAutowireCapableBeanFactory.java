@@ -591,7 +591,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {// 默认的bean工厂都不存在对应的处理器，在默认的beanFactory中，只能自己通过api进行管理设置我们的依赖关系
-					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName); // 进行合并对应的BeanDefinition操作，用来处理对应的相关类与类之间的依赖关系
+					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName); // 进行合并对应的BeanDefinition操作，用来处理对应的相关类与类之间的依赖关系,解析出来的关系被缓存在对应的injectionMetadataCache中
 				}
 				catch (Throwable ex) {
 					throw new BeanCreationException(mbd.getResourceDescription(), beanName,
@@ -908,7 +908,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					getNonSingletonFactoryBeanForTypeCheck(beanName, mbd));
 			if (factoryBean != null) {
 				// Try to obtain the FactoryBean's object type from this early stage of the instance.
-				Class<?> type = getTypeForFactoryBean(factoryBean);
+				Class<?> type = getTypeForFactoryBean(factoryBean); // 从FactoryBean中获取到此FactoryBean对应的返回的真正对象
 				if (type != null) {
 					return ResolvableType.forClass(type);
 				}
@@ -1325,7 +1325,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			else { //根据实例化策略进行实例化我们的对象，实例化策略有SimpleInstantiationStrategy 和 CglibSubclassingInstantiationStrategy 两种
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, this);
 			}
-			BeanWrapper bw = new BeanWrapperImpl(beanInstance);
+			BeanWrapper bw = new BeanWrapperImpl(beanInstance); // 创建完对象之后，进行包装成BeanWrapperImpl对象，这个对象是干啥用的呢？
 			initBeanWrapper(bw);
 			return bw;
 		}
@@ -1449,7 +1449,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
-			applyPropertyValues(beanName, mbd, bw, pvs); // 开始填充属性，针对autowire的处理再上面的处理器中已经处理了，为什么在设置属性的时候还进行了相关逻辑的判断呢？
+			applyPropertyValues(beanName, mbd, bw, pvs); // 开始填充属性,必须具备对应的可写的方法，针对autowire的处理再上面的处理器中已经处理了，为什么在设置属性的时候还进行了相关逻辑的判断呢？
 		}
 	}
 
@@ -1737,7 +1737,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Set our (possibly massaged) deep copy.
 		try {
-			bw.setPropertyValues(new MutablePropertyValues(deepCopy));
+			bw.setPropertyValues(new MutablePropertyValues(deepCopy)); //设置我们的深层拷贝。
 		}
 		catch (BeansException ex) {
 			throw new BeanCreationException(
@@ -1793,7 +1793,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName); //2.再执行对应的初始化之前的接口回调
+			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName); //2.再执行对应的初始化之前的接口回调@PostConstruct
 		} //上下文的Aware接口的回调是利用ApplicationContextAwareProcessor在此处进行回调的
 
 		try {

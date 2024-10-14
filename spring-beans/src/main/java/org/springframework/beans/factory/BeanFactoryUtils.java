@@ -85,7 +85,7 @@ public abstract class BeanFactoryUtils {
 		}
 		return transformedBeanNameCache.computeIfAbsent(name, beanName -> {
 			do {
-				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
+				beanName = beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length()); // 如果是带有&符号则一直进行分割，直至分割出完整的beanName
 			}
 			while (beanName.startsWith(BeanFactory.FACTORY_BEAN_PREFIX));
 			return beanName;
@@ -262,7 +262,7 @@ public abstract class BeanFactoryUtils {
 			ListableBeanFactory lbf, Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
 
 		Assert.notNull(lbf, "ListableBeanFactory must not be null");
-		String[] result = lbf.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
+		String[] result = lbf.getBeanNamesForType(type, includeNonSingletons, allowEagerInit); // type为Class类型进行找到beanName，如果是FactoryBean管理的类型，会返回对应的工厂bean的名称
 		if (lbf instanceof HierarchicalBeanFactory) {
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {

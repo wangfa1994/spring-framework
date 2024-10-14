@@ -12,8 +12,14 @@ public class ApplicationContextTest {
 	 * 而且还需要注意的是，ApplicationContext的抽象子类AbstractRefreshableApplicationContext中，内置了一个BeanFactory的实现DefaultListableBeanFactory
 	 * 是否存在一种代理感觉呢？
 	 *
+	 * 最常用的两个上下文：ClassPathXmlApplicationContext 与 AnnotationConfigApplicationContext 类
+	 *
 	 *
 	 * ConfigurableApplicationContext接口
+	 * 		AbstractApplicationContext
+	 * 				AbstractRefreshableApplicationContext
+	 * 				GenericApplicationContext
+	 *
 	 * WebApplicationContext接口
 	 *
 	 */
@@ -27,10 +33,10 @@ public class ApplicationContextTest {
 		 * 相对比较简单。它使用懒加载的机制，只有在请求的时候getBean才会进行实例化我们的Bean。
 		 *
 		 * ApplicationContext接口是BeanFactory接口的子接口，它扩展了BeanFactory，添加了一些企业级应用需要的功能。
-		 * 	- 继承了BeanFactory的所有功能
-		 * 	- 提供国际化的支持
-		 * 	- 支持事件发布
-		 * 	- 更方便的资源访问，如加载文件资源
+		 * 	- 继承了ListableBeanFactory的所有功能
+		 * 	- 提供国际化的支持  通过MessageSource
+		 * 	- 支持事件发布    通过ApplicationEventPublisher
+		 * 	- 更方便的资源访问，如加载文件资源  通过ResourceLoader
 		 * 	- 支持应用层特定的上下文，如WebApplicationContext
 		 * 	- 自动注册BeanPostProcessor和BeanFactoryPostProcessor
 		 * 	- 支持更多的注解

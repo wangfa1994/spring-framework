@@ -43,7 +43,7 @@ public class O1BeanMetadataTest {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		// 实例化基于 Properties 资源 BeanDefinitionReader
 		PropertiesBeanDefinitionReader beanDefinitionReader = new PropertiesBeanDefinitionReader(beanFactory);
-		String location = "META-INF/bean-metadata-09.properties";
+		String location = "META-INF/a09/bean-metadata-09.properties";
 		// 基于 ClassPath 加载 properties 资源
 		Resource resource = new ClassPathResource(location);
 		// 指定字符编码 UTF-8 properties 使用的是iso-8859-1 进行获取的 需要指定字符编码

@@ -18,7 +18,7 @@ public class APIConstructorTest {
 
 
 		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(applicationContext);
-		xmlBeanDefinitionReader.loadBeanDefinitions("META-INF/dependency-api-injection.xml");
+		xmlBeanDefinitionReader.loadBeanDefinitions("META-INF/a06/dependency-api-injection.xml");
 
 
 		applicationContext.refresh();

@@ -19,7 +19,7 @@
         <property name="id" value="1"/>
         <property name="name" value="小马哥"/>
         <property name="city" value="HANGZHOU"/>
-        <property name="configFileLocation" value="classpath:/META-INF/dependency-look-up.properties"/>
+        <property name="configFileLocation" value="classpath:/META-INF/a01/dependency-look-up.properties"/>
     </bean>
 
     <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">

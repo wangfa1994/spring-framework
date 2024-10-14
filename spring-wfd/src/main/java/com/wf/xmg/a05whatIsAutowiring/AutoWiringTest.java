@@ -14,9 +14,9 @@ public class AutoWiringTest {
 		 *
 		 *  在进行xml使用autowiring时，spring会调用对应类属性的setter方法(可写方法)，一定是setter属性的方法，方法名也是唯一的.不能使用其他的方法名称
 		 *
-		 *
+		 * autowiring 属于历史问题，根据xml进行自动装配
 		 */
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:META-INF/bean-injection-autowiring.xml");
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:META-INF/a05/bean-injection-autowiring.xml");
 
 		Teacher teacher = context.getBean("teacher", Teacher.class);
 		Teacher teacher1 = context.getBean("teacher1", Teacher.class);

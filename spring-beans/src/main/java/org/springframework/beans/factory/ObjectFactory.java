@@ -18,10 +18,10 @@ package org.springframework.beans.factory;
 
 import org.springframework.beans.BeansException;
 
-/**
+/** 定义一个工厂，该工厂在调用时可以返回Object实例(可能是共享的或独立的)。
  * Defines a factory which can return an Object instance
  * (possibly shared or independent) when invoked.
- *
+ * 此接口通常用于封装泛型工厂，该工厂在每次调用时返回某个目标对象的新实例(原型)。
  * <p>This interface is typically used to encapsulate a generic factory which
  * returns a new instance (prototype) of some target object on each invocation.
  *
@@ -39,7 +39,7 @@ import org.springframework.beans.BeansException;
 @FunctionalInterface
 public interface ObjectFactory<T> {
 
-	/**
+	/** 定义一个工厂，该工厂在调用时可以返回Object实例(可能是共享的或独立的)。
 	 * Return an instance (possibly shared or independent)
 	 * of the object managed by this factory.
 	 * @return the resulting instance

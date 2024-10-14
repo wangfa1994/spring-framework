@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @Desc :
+ * @Desc : 简单的上下文ApplicationContext的使用
  * @Author : Mr.WangF
  * @Date: 2022/7/20 10:41
  */
@@ -19,6 +19,8 @@ public class ApplicationContextAnnTest {
 
 		// ApplicationContext等上下文中存放了一个DefaultListableBeanFactory对象
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(ApplicationContextAnnTest.class);
+
+		// 在上下文中，上下文逻辑会帮我们预先创建出我们的bean,在获取的时候，直接进行得到即可
 		Cat cat = (Cat) annotationConfigApplicationContext.getBean("cat");
 		System.out.println(cat);
 		Person person = (Person) annotationConfigApplicationContext.getBean("person");

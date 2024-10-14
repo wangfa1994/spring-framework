@@ -95,7 +95,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private String resourcePattern = DEFAULT_RESOURCE_PATTERN;
-
+	// 包含我们要处理的类型
 	private final List<TypeFilter> includeFilters = new ArrayList<>();
 
 	private final List<TypeFilter> excludeFilters = new ArrayList<>();

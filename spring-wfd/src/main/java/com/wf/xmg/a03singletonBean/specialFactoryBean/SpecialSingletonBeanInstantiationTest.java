@@ -13,7 +13,7 @@ public class SpecialSingletonBeanInstantiationTest {
 	public static void main(String[] args) {
 
 		// 特殊的bean创建流程
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/META-INF/special-bean-instantiation-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/META-INF/a03/special-bean-instantiation-context.xml");
 		// 通过 ApplicationContext 获取 AutowireCapableBeanFactory
 		AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
 

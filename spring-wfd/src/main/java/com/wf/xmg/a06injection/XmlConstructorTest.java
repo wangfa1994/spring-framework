@@ -11,7 +11,7 @@ public class XmlConstructorTest {
 
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		String xmlResourcePath = "classpath:/META-INF/dependency-constructor-injection.xml";
+		String xmlResourcePath = "classpath:/META-INF/a06/dependency-constructor-injection.xml";
 		// 加载 XML 资源，解析并且生成 BeanDefinition
 		beanDefinitionReader.loadBeanDefinitions(xmlResourcePath);
 		// 依赖查找并且创建 Bean

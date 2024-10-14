@@ -18,6 +18,12 @@ public class SingletonBeanInitializationTest {
 	 * 然后执行spring的内置接口相关 DisposableBean
 	 * 最后执行我们自定义的方法 @Bean中指定的destroyMethod
 	 *
+	 *
+	 *
+	 * bean的初始化包括在beanFactory容器中的初始化流程 和 在applicationContext上下文中的初始化流程
+	 *
+	 *
+	 *
 	 */
 
 

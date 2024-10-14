@@ -20,4 +20,6 @@
 	<bean id="holder2" class="com.wf.xmg.a06injection.UserHolder" autowire="byType"/>
 
 
+
+
 </beans>

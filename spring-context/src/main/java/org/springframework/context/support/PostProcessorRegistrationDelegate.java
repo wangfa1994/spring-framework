@@ -43,7 +43,7 @@ import org.springframework.core.metrics.ApplicationStartup;
 import org.springframework.core.metrics.StartupStep;
 import org.springframework.lang.Nullable;
 
-/**
+/** AbstractApplicationContext后处理器处理的委托。
  * Delegate for AbstractApplicationContext's post-processor handling.
  *
  * @author Juergen Hoeller

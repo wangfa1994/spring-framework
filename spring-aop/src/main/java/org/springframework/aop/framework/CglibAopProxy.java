@@ -175,10 +175,10 @@ class CglibAopProxy implements AopProxy, Serializable {
 				}
 			}
 
-			// Validate the class, writing log messages as necessary.
+			// Validate the class, writing log messages as necessary. 验证类，必要时写入日志消息。
 			validateClassIfNecessary(proxySuperClass, classLoader);
 
-			// Configure CGLIB Enhancer...
+			// Configure CGLIB Enhancer... 配置CGLIB增强器…
 			Enhancer enhancer = createEnhancer();
 			if (classLoader != null) {
 				enhancer.setClassLoader(classLoader);
@@ -202,7 +202,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					this.advised.getConfigurationOnlyCopy(), this.fixedInterceptorMap, this.fixedInterceptorOffset));
 			enhancer.setCallbackTypes(types);
 
-			// Generate the proxy class and create a proxy instance.
+			// Generate the proxy class and create a proxy instance. 生成代理类并创建代理实例
 			return createProxyClassAndInstance(enhancer, callbacks);
 		}
 		catch (CodeGenerationException | IllegalArgumentException ex) {

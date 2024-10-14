@@ -16,62 +16,62 @@ public class MyCustomerPostProcessor  implements MergedBeanDefinitionPostProcess
 
 	@Override
 	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-		System.out.println("1.进入 postProcessBeforeInstantiation 方法 V0---->V1");
+		System.out.println("1.进入 InstantiationAwareBeanPostProcessor接口的 postProcessBeforeInstantiation 方法 V0---->V1");
 		return null;
 	}
 
 	@Override
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, String beanName) throws BeansException {
-		System.out.println("2.进入 determineCandidateConstructors 方法 V1---->V2");
+		System.out.println("2.进入 SmartInstantiationAwareBeanPostProcessor接口的 determineCandidateConstructors 方法 V1---->V2");
 		return null;
 	}
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		System.out.println("3.进入 postProcessMergedBeanDefinition 方法 V2---->V3");
+		System.out.println("3.进入 MergedBeanDefinitionPostProcessor接口的 postProcessMergedBeanDefinition 方法 V2---->V3");
 	}
 
 
 	@Override
 	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-		System.out.println("4.进入 postProcessAfterInstantiation 方法 V3---->V4");
+		System.out.println("4.进入 InstantiationAwareBeanPostProcessor接口的 postProcessAfterInstantiation 方法 V3---->V4");
 		return true;
 	}
 
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-		System.out.println("5.进入 postProcessProperties 方法 V4---->V5");
+		System.out.println("5.进入 InstantiationAwareBeanPostProcessor接口的 postProcessProperties 方法 V4---->V5");
 		return null;
 	}
 
 	@Override
 	public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
-		System.out.println("6.进入 postProcessPropertyValues 方法 V5---->V6");
+		System.out.println("6.进入 InstantiationAwareBeanPostProcessor接口的 postProcessPropertyValues 方法 V5---->V6");
 		return pvs;
 	}
 
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("9.进入 postProcessBeforeInitialization 方法 V8---->V9");
+		System.out.println("9.进入 BeanPostProcessor接口的 postProcessBeforeInitialization 方法 V8---->V9");
 		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("12.进入 postProcessAfterInitialization 方法 V11---->V12");
+		System.out.println("12.进入 BeanPostProcessor接口的 postProcessAfterInitialization 方法 V11---->V12");
 		return bean;
 	}
 	@Override
 	public boolean requiresDestruction(Object bean) {
-		System.out.println("13.进入 requiresDestruction 方法 V12---->V13");
+		System.out.println("13.进入 DestructionAwareBeanPostProcessor接口的 requiresDestruction 方法 V12---->V13");
 		return true;
 	}
 
 	@Override
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
 
-		System.out.println("15.进入 postProcessBeforeDestruction 方法 V14---->V15");
+		System.out.println("15.进入 DestructionAwareBeanPostProcessor接口的 postProcessBeforeDestruction 方法 V14---->V15");
 	}
 
 

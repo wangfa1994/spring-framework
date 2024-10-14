@@ -1,6 +1,5 @@
 package com.wf.xmg.a09beanLifecycle.a06destroy;
 
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
@@ -17,7 +16,7 @@ public class BeanDestroyTest {
 		beanFactory.addBeanPostProcessor(new MyDestructionAwareBeanPostProcessor());
 
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-		String location = "META-INF/bean-destroy-09.xml";
+		String location = "META-INF/a09/bean-destroy-09.xml";
 		reader.loadBeanDefinitions(location);
 
 

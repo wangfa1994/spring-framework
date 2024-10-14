@@ -24,7 +24,7 @@ public class BeanInstantiationTest {
 		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-		String location = "META-INF/bean-instantiation-09.xml";
+		String location = "META-INF/a09/bean-instantiation-09.xml";
 		reader.loadBeanDefinitions(location);
 
 		// 在是容器的情况下，在getBean的时候才会触发相关bean的创建，而在上下文中，则是通过refresh方法进行帮我们处理的

@@ -3,7 +3,7 @@ package com.wf.xmg.a03singletonBean;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
-// 01 我们的bean怎么注册到容器中
+// 01 我们的bean通过各种方式进行实例化之后，怎么注册到beanFactory容器中
 public class SingletonBeanRegisterTest {
 
 	/**
@@ -27,5 +27,6 @@ public class SingletonBeanRegisterTest {
 		Object student1 = beanFactory.getSingleton("student");
 		System.out.println(student+":"+(student==student1));
 		//beanFactory.registerBeanDefinition();
+
 	}
 }

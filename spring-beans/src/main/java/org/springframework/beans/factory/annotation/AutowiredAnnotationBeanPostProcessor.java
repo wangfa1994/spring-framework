@@ -451,7 +451,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		// Fall back to class name as cache key, for backwards compatibility with custom callers.
 		String cacheKey = (StringUtils.hasLength(beanName) ? beanName : clazz.getName());
 		// Quick check on the concurrent map first, with minimal locking.
-		InjectionMetadata metadata = this.injectionMetadataCache.get(cacheKey);
+		InjectionMetadata metadata = this.injectionMetadataCache.get(cacheKey); //所有的解析结果会被放到injectionMetadataCache等其他使用
 		if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 			synchronized (this.injectionMetadataCache) {
 				metadata = this.injectionMetadataCache.get(cacheKey);
@@ -459,8 +459,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 					if (metadata != null) {
 						metadata.clear(pvs);
 					}
-					metadata = buildAutowiringMetadata(clazz);
-					this.injectionMetadataCache.put(cacheKey, metadata);
+					metadata = buildAutowiringMetadata(clazz); // 开始构建我们的autowire的元信息
+					this.injectionMetadataCache.put(cacheKey, metadata); // 将我们的bean名称和解析出来的注解元信息InjectionMetadata进行保存
 				}
 			}
 		}
@@ -477,10 +477,10 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 		do {
 			final List<InjectionMetadata.InjectedElement> fieldElements = new ArrayList<>();
-			ReflectionUtils.doWithLocalFields(targetClass, field -> {
+			ReflectionUtils.doWithLocalFields(targetClass, field -> { // 利用反射工具类进行解析处理我们的字段
 				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
 				if (ann != null) {
-					if (Modifier.isStatic(field.getModifiers())) {
+					if (Modifier.isStatic(field.getModifiers())) { //解析出来的属性如果是金泰的，则直接返回，无法进行赋值
 						if (logger.isInfoEnabled()) {
 							logger.info("Autowired annotation is not supported on static fields: " + field);
 						}
@@ -492,7 +492,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			});
 
 			final List<InjectionMetadata.InjectedElement> methodElements = new ArrayList<>();
-			ReflectionUtils.doWithLocalMethods(targetClass, method -> {
+			ReflectionUtils.doWithLocalMethods(targetClass, method -> { // 利用反射工具类进行解析处理我们的方法
 				Method bridgedMethod = BridgeMethodResolver.findBridgedMethod(method);
 				if (!BridgeMethodResolver.isVisibilityBridgeMethodPair(method, bridgedMethod)) {
 					return;
@@ -674,7 +674,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			this.required = required;
 		}
 
-		@Override
+		@Override // 接口实现来自 InjectedElement，此类是用于 注入的
 		protected void inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 			Field field = (Field) this.member;
 			Object value;
@@ -716,7 +716,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				if (!this.cached) {
 					if (value != null || this.required) {
 						Object cachedFieldValue = desc;
-						registerDependentBeans(beanName, autowiredBeanNames);
+						registerDependentBeans(beanName, autowiredBeanNames); //解决完依赖注入的对象之后，进行注册
 						if (value != null && autowiredBeanNames.size() == 1) {
 							String autowiredBeanName = autowiredBeanNames.iterator().next();
 							if (beanFactory.containsBean(autowiredBeanName) &&

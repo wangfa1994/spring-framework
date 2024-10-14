@@ -3,6 +3,7 @@ package com.wf.xmg.a02beanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 //02 我们怎么从资源中进行获取我们的BeanDefinition
 public class BeanDefinitionReaderTest {
 	/**
-	 *  BeanDefinitionReade体系 用于获取对应的BeanDefinition信息
+	 *  BeanDefinitionReade体系 用于获取资源中对应的BeanDefinition信息
 	 *  具体的bean定义读取器当然可以为bean定义添加额外的加载和注册方法，具体到它们的bean定义格式
 	 *  AbstractBeanDefinitionReader 抽象类，实现了 BeanDefinitionReader接口， 并内置了一个BeanNameGenerator，用于生产bean名称
 	 *  三个实现类,用于从不同的资源中读取beanDefinition
@@ -18,6 +19,8 @@ public class BeanDefinitionReaderTest {
 	 *  	GroovyBeanDefinitionReader
 	 *  	XmlBeanDefinitionReader
 	 *  后来应该是BeanDefinitionReade顶层接口定义不完善，2.5新出的 AnnotatedBeanDefinitionReader 和 ClassPathBeanDefinitionScanner 并没有纳入BeanDefinitionReade体系
+	 *
+	 *  2.5新增的 AnnotatedBeanDefinitionReader 和  ClassPathBeanDefinitionScanner 主要处理针对注解和解析对应的class场景的
 	 *
 	 *
 	 *
@@ -31,13 +34,29 @@ public class BeanDefinitionReaderTest {
 	 **/
 	public static void main(String[] args) {
 
+		xmlLoadBeanDefinition();
+		annotatedBeanDefinitionReader();
 
+
+	}
+
+	private static void annotatedBeanDefinitionReader() {
+		DefaultListableBeanFactory beanFactory = xmlLoadBeanDefinition();
+		AnnotatedBeanDefinitionReader  annotatedBeanDefinitionReader = new AnnotatedBeanDefinitionReader(beanFactory);
+		annotatedBeanDefinitionReader.registerBean(Student.class);
+		String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames();
+		System.out.println("容器中一共存在beanDefinitionName："+ Arrays.toString(beanDefinitionNames));
+		Student student = beanFactory.getBean("student", Student.class);
+		System.out.println(student);
+	}
+
+	private static DefaultListableBeanFactory xmlLoadBeanDefinition() {
 		// 创建 BeanFactory 容器
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 		// XML 配置文件 ClassPath 路径
-		String location = "classpath:/META-INF/bean-definition-reader.xml";
+		String location = "classpath:/META-INF/a02/bean-definition-reader.xml";
 
 		// 加载配置
 		int beanDefinitionsCount = reader.loadBeanDefinitions(location);
@@ -53,6 +72,7 @@ public class BeanDefinitionReaderTest {
 		// 前面讲过 在容器中，我们的bean是懒加载模式，在get的时候才会进行实例化，针对与上下文中，则是会提前进行加载完成
 		Student student = beanFactory.getBean("student", Student.class);
 		System.out.println(student);
+		return beanFactory;
 	}
 
 }

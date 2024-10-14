@@ -1,10 +1,7 @@
 package com.wf.xmg.a06injection;
 
-import org.springframework.beans.factory.annotation.Autowire;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Map;
 
@@ -19,7 +16,7 @@ public class AutoWiringInjectTest {
 
 
 		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(applicationContext);
-		xmlBeanDefinitionReader.loadBeanDefinitions("META-INF/dependency-autowiring-injection.xml");
+		xmlBeanDefinitionReader.loadBeanDefinitions("META-INF/a06/dependency-autowiring-injection.xml");
 
 
 		applicationContext.refresh();

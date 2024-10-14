@@ -11,23 +11,10 @@ import org.springframework.stereotype.Component;
  * @Author : Mr.WangF
  * @Date: 2022/7/8 15:39
  */
-@Component
+
 public class Person {
 
     private String name;
-
-	// 非bean
-	@Autowired
-	private BeanFactory beanFactory;
-
-	// 非bean
-	@Autowired
-	private ApplicationContext applicationContext;
-
-	// 内建bean
-	@Autowired
-	private Environment environment;
-
 
 	public Person() {
 		System.out.println("person的无参构造器......");
@@ -42,27 +29,10 @@ public class Person {
 		this.name = name;
 	}
 
-	public BeanFactory getBeanFactory() {
-		return beanFactory;
-	}
-
-	public void setBeanFactory(BeanFactory beanFactory) {
-		this.beanFactory = beanFactory;
-	}
-
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
-
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
-
-	public Environment getEnvironment() {
-		return environment;
-	}
-
-	public void setEnvironment(Environment environment) {
-		this.environment = environment;
+	@Override
+	public String toString() {
+		return "Person{" +
+				"name='" + name + '\'' +
+				'}';
 	}
 }

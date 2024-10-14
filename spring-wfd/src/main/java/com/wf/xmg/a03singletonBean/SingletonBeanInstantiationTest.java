@@ -19,14 +19,20 @@ public class SingletonBeanInstantiationTest {
 	 * 2.静态方法实例化 Bean
 	 * 3.实例（Bean）方法实例化 Bean
 	 * 4.FactoryBean实例化 Bean
-	 * 5.通过@Bean注解实例化 Bean
+	 * 5.通过注解@Component，@Bean等注解实例化 Bean
+	 *
 	 *
 	 * 针对FactoryBean实例化 spring内置了一个特殊的ServiceLoaderFactoryBean,这个特殊的bean为了适配spi机制
+	 *
+	 *
+	 * 注意区分 bean的实例化方式 与 依赖注入的方式
+	 *
+	 *
 	 *
 	 */
 	public static void main(String[] args) {
 
-		BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/META-INF/bean-instantiation-context.xml");
+		BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:/META-INF/a03/bean-instantiation-context.xml");
 		User user = beanFactory.getBean("user-by-static-method", User.class);
 		User userByInstanceMethod = beanFactory.getBean("user-by-instance-method", User.class);
 		User userByFactoryBean = beanFactory.getBean("user-by-factory-bean", User.class);

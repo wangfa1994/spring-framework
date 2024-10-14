@@ -1,9 +1,6 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
-import org.springframework.beans.factory.BeanNameAware;
-
-
-public class Teacher implements BeanNameAware {
+public class Teacher {
 
 	private String name;
 
@@ -27,7 +24,6 @@ public class Teacher implements BeanNameAware {
 		this.job = job;
 	}
 
-	@Override
 	public void setBeanName(String name) {
 		beanName  = name;
 	}

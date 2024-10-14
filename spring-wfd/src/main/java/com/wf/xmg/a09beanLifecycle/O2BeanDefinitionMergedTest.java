@@ -17,7 +17,7 @@ public class O2BeanDefinitionMergedTest {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		// 基于 XML 资源 BeanDefinitionReader 实现
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
-		String location = "META-INF/bean-definition-merged-09.xml";
+		String location = "META-INF/a09/bean-definition-merged-09.xml";
 		// 基于 ClassPath 加载 XML 资源
 		Resource resource = new ClassPathResource(location);
 		// 指定字符编码 UTF-8

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * @Author : Mr.WangF
  * @Date: 2022/7/19 9:44
  */
-@Scope(value = "prototype" ,proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Component
 public class Cat {
 
@@ -34,7 +33,6 @@ public class Cat {
 
     public Cat() {
 		System.out.println("cat的无参构造器......");
-        System.out.println("无参构造器-----cat");
     }
 
 }

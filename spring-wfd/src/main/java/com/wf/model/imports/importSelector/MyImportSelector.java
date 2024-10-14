@@ -1,12 +1,8 @@
-package com.wf.model.imports;
+package com.wf.model.imports.importSelector;
 
-import com.wf.model.imports.importSelector.SelectImportsBean1;
-import com.wf.model.imports.importSelector.SelectImportsBean2;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.stereotype.Component;
 
 /**
  * @Desc :
@@ -17,7 +13,7 @@ public class MyImportSelector implements ImportSelector {
 
 
     public MyImportSelector() {
-        System.out.println("MyImportSelector...");
+        System.out.println("MyImportSelector构造器...");
     }
 
     @Override
@@ -27,6 +23,7 @@ public class MyImportSelector implements ImportSelector {
     }
 
 
+	// cat是无法注入进去的
 	@Bean
 	private String cat(){
 		return "cat";

@@ -157,7 +157,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Resolver to use for checking if a bean definition is an autowire candidate. 用于检查bean定义是否为自动候选的解析器?? */
 	private AutowireCandidateResolver autowireCandidateResolver = SimpleAutowireCandidateResolver.INSTANCE;
 
-	/** Map from dependency type to corresponding autowired value. */
+	/** Map from dependency type to corresponding autowired value. 从依赖类型映射到相应的自动连接值 */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
 	/** Map of bean definition objects, keyed by bean name. */
@@ -547,18 +547,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (resolvedBeanNames != null) {
 			return resolvedBeanNames;
 		}
-		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true); //从容器中查找是否存在匹配的beanName
+		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true); //从容器中根据类型查找是否存在匹配的beanName
 		if (ClassUtils.isCacheSafe(type, getBeanClassLoader())) {
 			cache.put(type, resolvedBeanNames);
 		}
 		return resolvedBeanNames; //返回匹配的beanName
 	}
-
+	// 根据要匹配的类型去匹配出对应的beanName名称，
 	private String[] doGetBeanNamesForType(ResolvableType type, boolean includeNonSingletons, boolean allowEagerInit) {
 		List<String> result = new ArrayList<>();
 
 		// Check all bean definitions. 检查所有bean定义。
-		for (String beanName : this.beanDefinitionNames) {
+		for (String beanName : this.beanDefinitionNames) { // 注意这里是循环遍历所有的BeanName去做逻辑，匹配对应的要给定的class
 			// Only consider bean as eligible if the bean name is not defined as alias for some other bean.
 			if (!isAlias(beanName)) {
 				try {
@@ -567,17 +567,17 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					if (!mbd.isAbstract() && (allowEagerInit ||
 							(mbd.hasBeanClass() || !mbd.isLazyInit() || isAllowEagerClassLoading()) &&
 									!requiresEagerInitForType(mbd.getFactoryBeanName()))) {
-						boolean isFactoryBean = isFactoryBean(beanName, mbd);
+						boolean isFactoryBean = isFactoryBean(beanName, mbd); // 判断当前进行的beanName是否是FactoryBean,如果是FactoryBean的哈，
 						BeanDefinitionHolder dbd = mbd.getDecoratedDefinition();
 						boolean matchFound = false;
 						boolean allowFactoryBeanInit = (allowEagerInit || containsSingleton(beanName));
 						boolean isNonLazyDecorated = (dbd != null && !mbd.isLazyInit());
-						if (!isFactoryBean) {
+						if (!isFactoryBean) { // 如果不是FactoryBean的话，进行再匹配
 							if (includeNonSingletons || isSingleton(beanName, mbd, dbd)) {
-								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
+								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit); // 此时是进行循环的beanName去匹配对应的type，
 							}
 						}
-						else {
+						else { // 如果是FactoryBean的情况下，进行匹配
 							if (includeNonSingletons || isNonLazyDecorated ||
 									(allowFactoryBeanInit && isSingleton(beanName, mbd, dbd))) {
 								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
@@ -590,7 +590,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 								}
 							}
 						}
-						if (matchFound) {
+						if (matchFound) { // 如果匹配出来的哈，则进行对应的值存储
 							result.add(beanName);
 						}
 					}
@@ -1292,19 +1292,19 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable //属于 AutowireCapableBeanFactory 的规范，AutowireCapable工厂添加了对应的自动注入相关功能，DefaultListableBeanFactory实现此方法用来解决相关依赖
 	public Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
 			@Nullable Set<String> autowiredBeanNames, @Nullable TypeConverter typeConverter) throws BeansException {
-		// 依赖描述符
+		// 依赖描述符 getParameterNameDiscoverer()得到我们的参数发现类
 		descriptor.initParameterNameDiscovery(getParameterNameDiscoverer());
 		if (Optional.class == descriptor.getDependencyType()) { // 针对Optional的处理
 			return createOptionalDependency(descriptor, requestingBeanName);
 		}
 		else if (ObjectFactory.class == descriptor.getDependencyType() ||
-				ObjectProvider.class == descriptor.getDependencyType()) {
+				ObjectProvider.class == descriptor.getDependencyType()) { // 判断依赖的对象 ObjectFactory 与 ObjectProvider
 			return new DependencyObjectProvider(descriptor, requestingBeanName);
 		}
 		else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
 			return new Jsr330Factory().createDependencyProvider(descriptor, requestingBeanName);
 		}
-		else {
+		else { // SimpleAutowireCandidateResolver 这个是干啥的
 			Object result = getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary(
 					descriptor, requestingBeanName); //处理标记了@Lazy注解的依赖，为什么要出去一个代理对象呢？
 			if (result == null) { //开始真正处理解决依赖
@@ -1350,7 +1350,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (multipleBeans != null) {
 				return multipleBeans;
 			}
-			//解析处理正常的bean，匹配到对应的beanClass
+			//解析处理正常的bean，匹配到对应的beanClass ，向beanName中依赖注入type类型的值，描述符为descriptor
 			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor); // 在解决依赖的时候会用到一些后置处理器
 			if (matchingBeans.isEmpty()) {
 				if (isRequired(descriptor)) {
@@ -1555,7 +1555,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			@Nullable String beanName, Class<?> requiredType, DependencyDescriptor descriptor) {
 		// beanNamesForTypeIncludingAncestors 很复杂的一个方法，从beanDefinition和SingletonObject中进行查找
 		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-				this, requiredType, true, descriptor.isEager());// 查找所有符合的候选名称，如果是层次性的，也需要进行处理
+				this, requiredType, true, descriptor.isEager());// 查找所有符合的候选名称，如果是层次性的，也需要进行处理，这个会好到我们对应类型所匹配的所有name
 		Map<String, Object> result = CollectionUtils.newLinkedHashMap(candidateNames.length);
 		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) { //1首先先进行我们内置的非bean的匹配， resolvableDependencies中的值来自我们的上下文的扩展设置。AbstractApplicationContext.prepareBeanFactory方法设置
 			Class<?> autowiringType = classObjectEntry.getKey();

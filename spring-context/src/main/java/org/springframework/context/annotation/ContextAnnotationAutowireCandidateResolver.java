@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
  * {@link org.springframework.beans.factory.support.AutowireCandidateResolver} strategy
  * interface, providing support for qualifier annotations as well as for lazy resolution
  * driven by the {@link Lazy} annotation in the {@code context.annotation} package.
- *
+ * 完全实现了 AutowireCandidateResolver 策略接口，用于提供支持 限定符注解lazy以及annotation包
  * @author Juergen Hoeller
  * @since 4.0
  */
@@ -121,13 +121,13 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 			}
 		};
 
-		ProxyFactory pf = new ProxyFactory();
+		ProxyFactory pf = new ProxyFactory(); // 使用代理工厂，创建被@Lazy标记的代理对象
 		pf.setTargetSource(ts);
 		Class<?> dependencyType = descriptor.getDependencyType();
 		if (dependencyType.isInterface()) {
 			pf.addInterface(dependencyType);
 		}
-		return pf.getProxy(dlbf.getBeanClassLoader());
+		return pf.getProxy(dlbf.getBeanClassLoader()); // 代理工厂中得到代理对象
 	}
 
 }

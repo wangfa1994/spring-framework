@@ -15,8 +15,6 @@ public class Person {
 
     private String name;
 
-
-
 	@Autowired
     private Cat cat;
 

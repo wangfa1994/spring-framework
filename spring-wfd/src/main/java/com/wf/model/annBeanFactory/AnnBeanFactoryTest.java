@@ -3,7 +3,10 @@ package com.wf.model.annBeanFactory;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
-
+/**
+* @Desc : 简单的容器BeanFactory的使用
+* @Author : Mr.WangF
+**/
 public class AnnBeanFactoryTest {
 
 
@@ -18,12 +21,10 @@ public class AnnBeanFactoryTest {
 		//beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
 		AutowiredAnnotationBeanPostProcessor bean = beanFactory.getBean(AutowiredAnnotationBeanPostProcessor.class);
 		beanFactory.addBeanPostProcessor(bean);
-
-
+		// 注册是注册为BeanDefinition
 		reader.register(Cat.class, Person.class);
 
-
-
+		// 在容器中，获得bean的时候才会进行创建bean
 		Cat cat = beanFactory.getBean(Cat.class);
 		Person person = beanFactory.getBean(Person.class);
 		System.out.println(cat);

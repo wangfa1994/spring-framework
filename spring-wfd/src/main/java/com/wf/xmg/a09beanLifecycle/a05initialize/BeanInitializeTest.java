@@ -50,12 +50,12 @@ public class BeanInitializeTest {
 
 	private static void applicationContextCreate() {
 
-		/*ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/bean-initialize-09.xml");
+		/*ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/a09/bean-initialize-09.xml");
 		context.getBeanFactory().addBeanPostProcessor(new MyInitializeAwareBeanPostProcessor()); context.refresh(); 这种方式为什么不行*/
 
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
 		context.addBeanFactoryPostProcessor(beanFactory-> beanFactory.addBeanPostProcessor( new MyInitializeAwareBeanPostProcessor()));
-		context.setConfigLocation("META-INF/bean-initialize-09.xml");
+		context.setConfigLocation("META-INF/a09/bean-initialize-09.xml");
 		context.refresh();
 
 		UserHolder userHolder = context.getBean("userHolder", UserHolder.class);
@@ -79,7 +79,7 @@ public class BeanInitializeTest {
 		beanFactory.addBeanPostProcessor(new MyInitializeAwareBeanPostProcessor());
 
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-		String location = "META-INF/bean-initialize-09.xml";
+		String location = "META-INF/a09/bean-initialize-09.xml";
 		reader.loadBeanDefinitions(location); // 在进行加载beanDefinition的时候，通过配置激活了注解相关的beanDefinition，但是为什么没有走到我们的@PostConstruct注解呢？利用上下文就可以呢
 
 

@@ -98,7 +98,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 		return true;
 	}
 
-	/**
+	/** 在工厂将给定的属性值应用到给定的bean之前，对它们进行后处理，不需要任何属性描述符。
 	 * Post-process the given property values before the factory applies them
 	 * to the given bean, without any need for property descriptors.
 	 * <p>Implementations should return {@code null} (the default) if they provide a custom

@@ -72,7 +72,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	private BeanNameGenerator beanNameGenerator = AnnotationBeanNameGenerator.INSTANCE;
 
 	private ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
-
+	// 在进行扫描的时候，是根据此属性判断是否需要进行注解后置处理器的使用
 	private boolean includeAnnotationConfig = true;
 
 
@@ -252,8 +252,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		int beanCountAtScanStart = this.registry.getBeanDefinitionCount();
 
 		doScan(basePackages);
-
-		// Register annotation config processors, if necessary.
+		// 在开始解析的时候，如果需要的话，会先进行我们的注解配置处理器的注册
+		// Register annotation config processors, if necessary. 如果需要，注册注释配置处理器。
 		if (this.includeAnnotationConfig) {
 			AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 		}

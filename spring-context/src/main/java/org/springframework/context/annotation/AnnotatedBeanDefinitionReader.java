@@ -33,9 +33,9 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/**
+/** 方便的适配器，用于编程注册bean类。
  * Convenient adapter for programmatic registration of bean classes.
- * 这是替代 ClassPathBeanDefinitionScanner 类的方案，用于显式注册的类
+ * 这是替代 ClassPathBeanDefinitionScanner 类的方案，应用相同的注释解析，但仅适用于显式注册的类。
  * <p>This is an alternative to {@link ClassPathBeanDefinitionScanner}, applying
  * the same resolution of annotations but for explicitly registered classes only.
  *
