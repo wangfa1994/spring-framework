@@ -38,14 +38,14 @@ import org.springframework.lang.Nullable;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 16.05.2003
+ * @since 16.05.2003 事务管理器标准接口，为不同的持久层框架提供标准
  * @see org.springframework.transaction.support.TransactionTemplate
  * @see org.springframework.transaction.interceptor.TransactionInterceptor
  * @see org.springframework.transaction.ReactiveTransactionManager
  */
 public interface PlatformTransactionManager extends TransactionManager {
 
-	/**
+	/** 根据指定的传播行为，返回当前活动事务或创建新事务。(得到事务状态)
 	 * Return a currently active transaction or create a new one, according to
 	 * the specified propagation behavior.
 	 * <p>Note that parameters like isolation level or timeout will only be applied
@@ -70,7 +70,7 @@ public interface PlatformTransactionManager extends TransactionManager {
 	 */
 	TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException;
 
-	/**
+	/** 根据事务的状态提交给定的事务(提交事务)
 	 * Commit the given transaction, with regard to its status. If the transaction
 	 * has been marked rollback-only programmatically, perform a rollback.
 	 * <p>If the transaction wasn't a new one, omit the commit for proper
@@ -96,7 +96,7 @@ public interface PlatformTransactionManager extends TransactionManager {
 	 */
 	void commit(TransactionStatus status) throws TransactionException;
 
-	/**
+	/** 执行给定事务的回滚。
 	 * Perform a rollback of the given transaction.
 	 * <p>If the transaction wasn't a new one, just set it rollback-only for proper
 	 * participation in the surrounding transaction. If a previous transaction

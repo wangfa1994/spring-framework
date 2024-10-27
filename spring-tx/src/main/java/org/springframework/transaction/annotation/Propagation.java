@@ -36,7 +36,7 @@ public enum Propagation {
 	 */
 	REQUIRED(TransactionDefinition.PROPAGATION_REQUIRED),
 
-	/**
+	/** 支持当前事务，如果不存在，则执行非事务。
 	 * Support a current transaction, execute non-transactionally if none exists.
 	 * Analogous to EJB transaction attribute of the same name.
 	 * <p>Note: For transaction managers with transaction synchronization,

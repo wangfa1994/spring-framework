@@ -18,7 +18,7 @@ package org.springframework.transaction;
 
 import org.springframework.lang.Nullable;
 
-/**
+/** 定义spring兼容事务属性的接口。
  * Interface that defines Spring-compliant transaction properties.
  * Based on the propagation behavior definitions analogous to EJB CMT attributes.
  *
@@ -132,14 +132,14 @@ public interface TransactionDefinition {
 	int PROPAGATION_NESTED = 6;
 
 
-	/**
+	/** 使用基础数据存储的默认隔离级别。
 	 * Use the default isolation level of the underlying datastore.
 	 * All other levels correspond to the JDBC isolation levels.
 	 * @see java.sql.Connection
 	 */
 	int ISOLATION_DEFAULT = -1;
 
-	/**
+	/** 最低的隔离级别
 	 * Indicates that dirty reads, non-repeatable reads and phantom reads
 	 * can occur.
 	 * <p>This level allows a row changed by one transaction to be read by another
@@ -150,7 +150,7 @@ public interface TransactionDefinition {
 	 */
 	int ISOLATION_READ_UNCOMMITTED = 1;  // same as java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
 
-	/**
+	/** 防止脏读，但是可能产生幻读或者不可重复读的问题
 	 * Indicates that dirty reads are prevented; non-repeatable reads and
 	 * phantom reads can occur.
 	 * <p>This level only prohibits a transaction from reading a row
@@ -184,14 +184,14 @@ public interface TransactionDefinition {
 	int ISOLATION_SERIALIZABLE = 8;  // same as java.sql.Connection.TRANSACTION_SERIALIZABLE;
 
 
-	/**
+	/** 使用默认的超时时间
 	 * Use the default timeout of the underlying transaction system,
 	 * or none if timeouts are not supported.
 	 */
 	int TIMEOUT_DEFAULT = -1;
 
 
-	/**
+	/** 获取传播行为
 	 * Return the propagation behavior.
 	 * <p>Must return one of the {@code PROPAGATION_XXX} constants
 	 * defined on {@link TransactionDefinition this interface}.
@@ -204,7 +204,7 @@ public interface TransactionDefinition {
 		return PROPAGATION_REQUIRED;
 	}
 
-	/**
+	/** 返回隔离级别
 	 * Return the isolation level.
 	 * <p>Must return one of the {@code ISOLATION_XXX} constants defined on
 	 * {@link TransactionDefinition this interface}. Those constants are designed
@@ -280,7 +280,7 @@ public interface TransactionDefinition {
 
 	// Static builder methods
 
-	/**
+	/** 返回一个不可修改的{@code TransactionDefinition}和默认值。
 	 * Return an unmodifiable {@code TransactionDefinition} with defaults.
 	 * <p>For customization purposes, use the modifiable
 	 * {@link org.springframework.transaction.support.DefaultTransactionDefinition}
