@@ -1,18 +1,14 @@
 package com.wf.xmgAop.a01.jdk;
 
-public class ProxyEchoService implements EchoService {
+public class ProxyExtendEchoService extends DefaultEchoService {
 
-	// 组合的方式进行实现
-	private final EchoService echoService;
-
-	public ProxyEchoService(EchoService echoService) {
-		this.echoService = echoService;
-	}
 
 	@Override
 	public String echo(String message) {
+
+
 		long startTime = System.currentTimeMillis();
-		String result = echoService.echo(message);
+		String result = super.echo(message); // 继承的方式进行实现
 		long costTime = System.currentTimeMillis() - startTime;
 		System.out.println("echo 方法执行的实现：" + costTime + " ms.");
 		return result;

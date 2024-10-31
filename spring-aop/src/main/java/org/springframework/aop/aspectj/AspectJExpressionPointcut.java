@@ -122,7 +122,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 	@Nullable
 	private transient ClassLoader pointcutClassLoader;
 
-	@Nullable
+	@Nullable // 切点表达式处理类
 	private transient PointcutExpression pointcutExpression;
 
 	private transient boolean pointcutParsingFailed = false;

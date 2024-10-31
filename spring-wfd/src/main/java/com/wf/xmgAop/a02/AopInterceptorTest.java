@@ -11,6 +11,13 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+/**
+ * 判断模式之后的拦截模式
+ *
+ * 三种拦截模式
+ */
+
+
 public class AopInterceptorTest {
 
 	public static void main(String[] args) {

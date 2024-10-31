@@ -228,9 +228,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		this.applicationStartup = applicationStartup;
 	}
 
-	/**
+	/** 从注册中心的配置类派生更多的bean定义。
 	 * Derive further bean definitions from the configuration classes in the registry.
-	 */
+	 */ // 开始解析处理我们配置类中的相关配置
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
 		int registryId = System.identityHashCode(registry);
@@ -265,7 +265,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			processConfigBeanDefinitions((BeanDefinitionRegistry) beanFactory);
 		}
 
-		enhanceConfigurationClasses(beanFactory);
+		enhanceConfigurationClasses(beanFactory); // 这里进行了相关的aop增强,好像什么也没做
 		beanFactory.addBeanPostProcessor(new ImportAwareBeanPostProcessor(beanFactory));
 	}
 
@@ -378,7 +378,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 	}
 
-	/**
+	/** 后处理一个BeanFactory查找配置类BeanDefinitions；
 	 * Post-processes a BeanFactory in search of Configuration class BeanDefinitions;
 	 * any candidates are then enhanced by a {@link ConfigurationClassEnhancer}.
 	 * Candidate status is determined by BeanDefinition attribute metadata.
@@ -389,17 +389,17 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Map<String, AbstractBeanDefinition> configBeanDefs = new LinkedHashMap<>();
 		for (String beanName : beanFactory.getBeanDefinitionNames()) {
 			BeanDefinition beanDef = beanFactory.getBeanDefinition(beanName);
-			Object configClassAttr = beanDef.getAttribute(ConfigurationClassUtils.CONFIGURATION_CLASS_ATTRIBUTE);
+			Object configClassAttr = beanDef.getAttribute(ConfigurationClassUtils.CONFIGURATION_CLASS_ATTRIBUTE); // 确定我们的beanDefinition的配置类的类型full,lite
 			AnnotationMetadata annotationMetadata = null;
 			MethodMetadata methodMetadata = null;
-			if (beanDef instanceof AnnotatedBeanDefinition) {
+			if (beanDef instanceof AnnotatedBeanDefinition) { // 如果beanDefinition是注解类型的
 				AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) beanDef;
 				annotationMetadata = annotatedBeanDefinition.getMetadata();
 				methodMetadata = annotatedBeanDefinition.getFactoryMethodMetadata();
 			}
 			if ((configClassAttr != null || methodMetadata != null) && beanDef instanceof AbstractBeanDefinition) {
-				// Configuration class (full or lite) or a configuration-derived @Bean method
-				// -> eagerly resolve bean class at this point, unless it's a 'lite' configuration
+				// Configuration class (full or lite) or a configuration-derived @Bean method 配置类（完整或精简）或配置派生的@Bean方法
+				// -> eagerly resolve bean class at this point, unless it's a 'lite' configuration 此时迫切地解析bean类，除非它是一个没有@Bean方法的“精简”配置或组件类。
 				// or component class without @Bean methods.
 				AbstractBeanDefinition abd = (AbstractBeanDefinition) beanDef;
 				if (!abd.hasBeanClass()) {

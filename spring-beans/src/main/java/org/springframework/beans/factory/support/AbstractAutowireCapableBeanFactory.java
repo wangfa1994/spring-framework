@@ -452,7 +452,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			Object current = processor.postProcessAfterInitialization(result, beanName);
+			Object current = processor.postProcessAfterInitialization(result, beanName);// AOP的代理会在这里处理
 			if (current == null) {
 				return result;
 			}
@@ -616,8 +616,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance. 初始化bean实例。主要包括两个步骤一个是进行属性的填充(populate)，一个是进行接口的回调(initialize)
 		Object exposedObject = bean;
 		try {
-			populateBean(beanName, mbd, instanceWrapper); // 实例化之后的操作进行属性赋值，这些属性相关是保存在BeanDefinition中的
-			exposedObject = initializeBean(beanName, exposedObject, mbd); //开始初始化操作 //属性填充完之后，此时相关字段都已经有值了,这个处理的是什么呢?是一些回调的方法，接口等相关业务逻辑
+			populateBean(beanName, mbd, instanceWrapper); // 实例化之后的操作进行属性赋值，这些属性相关是保存在BeanDefinition中的  auto是在这里
+			exposedObject = initializeBean(beanName, exposedObject, mbd); //开始初始化操作 //属性填充完之后，此时相关字段都已经有值了,这个处理的是什么呢?是一些回调的方法，接口等相关业务逻辑 AOP的替换在这里
 		}
 		catch (Throwable ex) {
 			if (ex instanceof BeanCreationException && beanName.equals(((BeanCreationException) ex).getBeanName())) {
