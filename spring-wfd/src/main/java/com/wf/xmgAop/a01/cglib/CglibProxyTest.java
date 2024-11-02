@@ -18,6 +18,22 @@ public class CglibProxyTest {
 	 * 切面 aspect
 	 *
 	 *
+	 * 字节码提升的三种类型
+	 *
+	 * 动态代理包括jdk动态代理 基于接口代理和cglib代理基于类代理(字节码提升)，aspectJ的使用
+	 *
+	 * aspectJ适配实现 又是什么？
+	 * aspectJ里面会有一些aspect，join points，pointcuts等注解，aspectj编译器会进行这些注解的处理，生成新的类的字节码
+	 *
+	 *
+	 * aspectJ原生语法太过复杂，所以spring针对aspectJ进行了包装
+	 *
+	 *
+	 * 共同目标：三者都旨在解决横切关注点（cross-cutting concerns）的问题，比如日志记录、事务管理等，这些关注点通常会跨越应用程序中的多个模块。
+	 * 实现方式：JDK动态代理和CGLIB都是基于代理的设计模式来实现AOP，而AspectJ则提供了更高级别的抽象，允许开发者直接操作程序结构，而不必关心底层是如何实现的。
+	 * 适用场景：如果目标对象实现了接口，优先考虑使用JDK动态代理；如果需要代理没有接口的类，则可以选择CGLIB；当涉及到复杂的AOP需求时，AspectJ可能是更好的选择，因为它提供了更强大的功能和灵活性。
+	 *
+	 *
 	 *
 	 */
 

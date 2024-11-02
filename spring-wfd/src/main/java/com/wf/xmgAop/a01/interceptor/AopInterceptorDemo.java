@@ -126,6 +126,18 @@ public class AopInterceptorDemo {
 	 * 关注我们的拦截器里面实现的接口，而不需要关心整个上下应用文的实现，那么这个时候给我们的AOP的实现带来灵活度。
 	 *
 	 * 事实上在spring Aop 或者其他AOp框架里面基本上实现方式也是类同的
+	 *
+	 *
+	 * aop的三种实现 jdk cglib aspectJ
+	 * JdkDynamicAopProxy
+	 * CglibAopProxy
+	 * 都是内部类
+	 *
+	 *
+	 *
+	 * AopProxy
+	 *
+	 *
 	 */
 
 

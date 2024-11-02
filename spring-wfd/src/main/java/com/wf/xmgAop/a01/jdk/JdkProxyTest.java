@@ -8,7 +8,7 @@ public class JdkProxyTest {
 
 	public static void main(String[] args) {
 		// jdk 静态代理存在 继承或者组合进行实现
-		staticProxy();
+		//staticProxy();
 		System.out.println("======================================");
 		dynamicProxy();
 	}
@@ -31,6 +31,7 @@ public class JdkProxyTest {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		// classLoader 新生成的字节码的类使用的是那个类加载器，要属于当前classLoad的
 
+		// $Proxy0
 		Object proxy = Proxy.newProxyInstance(classLoader, new Class[]{EchoService.class}, new InvocationHandler() {
 			@Override
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -46,7 +47,7 @@ public class JdkProxyTest {
 		EchoService echoService = (EchoService) proxy;
 		echoService.echo("Hello,World");
 
-		// $Proxy1
+		// $Proxy1 观察返回的对象是累增的
 		Object proxy2 = Proxy.newProxyInstance(classLoader,
 				new Class[]{Comparable.class},
 				(proxy1, method, args1) -> {

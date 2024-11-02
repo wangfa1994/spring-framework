@@ -101,10 +101,10 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Nullable
+	@Nullable // 拦截器名称列表
 	private String[] interceptorNames;
 
-	@Nullable
+	@Nullable // 被代理对象 目标对象
 	private String targetName;
 
 	private boolean autodetectInterfaces = true;
