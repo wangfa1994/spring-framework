@@ -29,4 +29,9 @@ public class DefaultEchoService implements EchoService {
     public String echo(String message) {
         return "[ECHO] " + message;
     }
+
+	@Override
+	public String echo2(String message) throws NullPointerException {
+		return "[ECHO2] " + message;
+	}
 }

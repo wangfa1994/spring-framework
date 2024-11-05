@@ -21,7 +21,7 @@ import java.lang.reflect.AccessibleObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
+/** 这个接口表示一个通用的运行时连接点（用AOP术语来说）。
  * This interface represents a generic runtime joinpoint (in the AOP
  * terminology).
  *
@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * method, a constructor, a field), i.e. the static part of the
  * joinpoint. It is passed to the interceptors that are installed on
  * the static joinpoint.
- *
+ * 这个接口表示一个通用的运行时连接点（用AOP术语来说）。
  * @author Rod Johnson
  * @see Interceptor
  */

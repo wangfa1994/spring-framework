@@ -18,7 +18,7 @@ package org.springframework.aop;
 
 import java.lang.reflect.Method;
 
-/**
+/**  Pointcut}的一部分：检查目标方法是否有资格获得通知
  * Part of a {@link Pointcut}: Checks whether the target method is eligible for advice.
  *
  * <p>A MethodMatcher may be evaluated <b>statically</b> or at <b>runtime</b> (dynamically).
@@ -48,7 +48,7 @@ import java.lang.reflect.Method;
  * @author Rod Johnson
  * @since 11.11.2003
  * @see Pointcut
- * @see ClassFilter
+ * @see ClassFilter          Pointcut的一部分：检查目标方法是否有资格获得通知
  */
 public interface MethodMatcher {
 

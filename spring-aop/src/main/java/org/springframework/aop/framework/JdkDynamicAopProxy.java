@@ -186,9 +186,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		Object oldProxy = null;
 		boolean setProxyContext = false;
 
-		TargetSource targetSource = this.advised.targetSource;
+		TargetSource targetSource = this.advised.targetSource; // 目标对象
 		Object target = null;
-
+		// jdk 标准的try catch finally
 		try {
 			if (!this.equalsDefined && AopUtils.isEqualsMethod(method)) {
 				// The target does not implement the equals(Object) method itself.
@@ -238,7 +238,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				MethodInvocation invocation =
 						new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);
 				// Proceed to the joinpoint through the interceptor chain.
-				retVal = invocation.proceed();
+				retVal = invocation.proceed(); // 执行征程的业务逻辑
 			}
 
 			// Massage return value if necessary.

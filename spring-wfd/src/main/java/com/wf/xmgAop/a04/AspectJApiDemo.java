@@ -10,7 +10,9 @@ import java.util.Map;
 
 /**
  * 脱离spring容器的AOP的创建
- * AspectJProxyFactory
+ * AspectJProxyFactory 代理工厂。从代理工厂中得到代理对象，
+ *
+ * 给我们的代理工厂设置一些通知横切逻辑advice，从代理工厂中得到的对象就可以执行横切逻辑
  */
 public class AspectJApiDemo {
 
@@ -23,9 +25,9 @@ public class AspectJApiDemo {
 		Map<String, Object> cache = new HashMap<>();
 		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
-		// 增加 Aspect 配置类
+		// 增加 Aspect 配置类 可以从这里解析出来对应的advice。
 		//proxyFactory.addAspect(AspectConfiguration.class);
-		// 设置暴露代理对象到 AopContext
+		// 设置暴露代理对象到 AopContext 一定要设置？
 		proxyFactory.setExposeProxy(true);
 		proxyFactory.addAdvice(new MethodBeforeAdvice() {
 			@Override
@@ -37,12 +39,10 @@ public class AspectJApiDemo {
 				}
 			}
 		});
-
-		// 存储数据
-		// cache.put("1", "A");
 		// 通过代理对象存储数据
-		Map<String, Object> proxy = proxyFactory.getProxy();
+		Map<String, Object> proxy = proxyFactory.getProxy(); // 这个proxyFactory 创建AOP代理，从AOP代理中得到代理对象，代理工厂获取代理对象
 		proxy.put("1", "A");
-		System.out.println(cache.get("1"));
+		System.out.println(proxy.get("1"));
+		// AopProxyFactory AOP代理工厂获取AOP的代理对象
 	}
 }

@@ -15,6 +15,8 @@ import java.lang.reflect.Proxy;
  * 判断模式之后的拦截模式
  *
  * 三种拦截模式
+ *  通过提取对应的抽象方法，可以定义出整体模板，然后通过不同的实现进行切换到不同的逻辑，
+ *  进行抽象实现
  */
 
 
@@ -69,24 +71,5 @@ public class AopInterceptorTest {
 
 		EchoService echoService = (EchoService) proxy;
 		echoService.echo("Hello,World");
-	}
-}
-
-class TimeFinallyInterceptor implements FinallyInterceptor {
-
-	private final Long startTime;
-
-	private final Long endTime;
-
-	TimeFinallyInterceptor(Long startTime, Long endTime) {
-		this.startTime = startTime;
-		this.endTime = endTime;
-	}
-
-	@Override
-	public Object finalize(Object proxy, Method method, Object[] args, Object returnResult) {
-		// 方法执行时间（毫秒）
-		Long costTime = endTime - startTime;
-		return costTime;
 	}
 }

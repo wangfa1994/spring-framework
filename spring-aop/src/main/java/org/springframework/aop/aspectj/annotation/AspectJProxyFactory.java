@@ -31,7 +31,7 @@ import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-/**
+/** 基于 AspectJ 的代理工厂
  * AspectJ-based proxy factory, allowing for programmatic building
  * of proxies which include AspectJ aspects (code style as well
  * annotation style).
@@ -178,7 +178,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 * @return the new proxy
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T getProxy() {
+	public <T> T getProxy() { // proxyCreatorSupport 三个子类都有此方法，
 		return (T) createAopProxy().getProxy();
 	}
 

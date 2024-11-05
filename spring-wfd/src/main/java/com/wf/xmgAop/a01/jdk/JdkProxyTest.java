@@ -38,7 +38,12 @@ public class JdkProxyTest {
 				// 代理类的代理可以存在多个类，是一个类数组的形式Class[]的形式。不同的可以有不同的逻辑
 				if (EchoService.class.isAssignableFrom(method.getDeclaringClass())) {
 					ProxyEchoService echoService = new ProxyEchoService(new DefaultEchoService());
-					return echoService.echo((String) args[0]);
+					if(method.getName().equals("echo")){
+						return echoService.echo((String) args[0]);
+					}else{
+						return echoService.echo2((String) args[0]);
+					}
+
 				}
 				return null;
 			}
@@ -46,6 +51,7 @@ public class JdkProxyTest {
 
 		EchoService echoService = (EchoService) proxy;
 		echoService.echo("Hello,World");
+		echoService.echo2("Hello,World");
 
 		// $Proxy1 观察返回的对象是累增的
 		Object proxy2 = Proxy.newProxyInstance(classLoader,

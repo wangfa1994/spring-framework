@@ -16,7 +16,7 @@
 
 package org.springframework.aop;
 
-/**
+/** 限制切入点或引入到一组给定目标类的匹配的过滤器。
  * Filter that restricts matching of a pointcut or introduction to
  * a given set of target classes.
  *

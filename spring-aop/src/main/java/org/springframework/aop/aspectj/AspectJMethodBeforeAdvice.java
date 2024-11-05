@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * Spring AOP advice that wraps an AspectJ before method.
- *
- * @author Rod Johnson
+ * AspectJMethodBeforeAdvice 也实现了MethodBeforeAdvice ，而我们开发者实现的MethodBeforeAdvice会被包装为 MethodBeforeAdviceInterceptor
+ * @author Rod Johnson     AspectJ 是注解实现
  * @author Adrian Colyer
  * @since 2.0
  */

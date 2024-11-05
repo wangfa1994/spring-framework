@@ -36,5 +36,55 @@ public class Readme {
 	 *
 	 * 静态代理，包括 oop继承 和 组合模式
 	 *
+	 * ProxyFactoryBean
+	 * ProxyFactory
+	 * AspectJProxyFactory
+	 *
+	 *
+	 *
+	 * spring aop api
+	 *
+	 * joinPoint
+	 *    --Invocation
+	 *    	-- MethodInvocation （构造器的不支持）
+	 *    		-- ProxyMethodInvocation
+	 *    			-- ReflectiveMethodInvocation
+	 *    				-- CglibMethodInvocation
+	 *
+	 *
+	 * pointCut
+	 * 		-- StaticMethodMatcherPointcut
+	 *
+	 * Adivce
+	 * 		--interceptor(类似AroundAdvice)
+	 * 			--methodInterceptor
+	 * 		--BeforeAdvice
+	 * 			-- MethodBeforeAdvice
+	 * 		--AfterAdvice
+	 * 			-- AfterReturningAdvice
+	 * 			-- ThrowsAdvice
+	 *
+	 * advisor
+	 * 		--PointcutAdvisor
+	 * 			--DefaultPointCutAdvisor
+	 *
+	 * AdvisedSupport
+	 * 		--ProxyCreatorSupport
+	 * 			--proxyFactory
+	 * 			--proxyFactoryBean
+	 * 			--AspectJProxyFactory
+	 *
+	 * AbstractAdvisorAutoProxyCreator
+	 * 		-- BeanNameAutoProxyCreator
+	 * 	    -- DefaultAdvisorAutoProxyCreator
+	 * 	    -- AnnotationAwareAspectJAutoProxyCreator
+	 *
+	 *
+	 * TargetSource
+	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 }

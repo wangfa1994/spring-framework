@@ -29,10 +29,15 @@ public class AOPProxyFactoryBeanDemo {
 	}
 
 	/**
+	 *  基于 ProxyFactory 类进行处理
 	 * 脱离了spring的容器，底层真正的实现对象 ProxyFactory
-	 * ProxyFactory
+	 * ProxyFactory 与 AspectJProxyFactory 是什么关系呢？
+	 *  他们都继承了 ProxyCreatorSupport 类，说明他们都是对应的代理工厂的实现，只不过是应用于不同的业务场景吧
+	 *  ProxyFactoryBean 也是继承了 ProxyCreatorSupport 类
+	 *
 	 */
 	private static void proxyFactory() {
+		// 目标对象
 		DefaultEchoService defaultEchoService = new DefaultEchoService();
 
 		// 注入目标对象

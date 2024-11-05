@@ -33,11 +33,11 @@ import org.springframework.util.Assert;
  *
  * @author Rod Johnson
  * @see AfterReturningAdviceInterceptor
- * @see ThrowsAdviceInterceptor
+ * @see ThrowsAdviceInterceptor 实现了两个语义 MethodInterceptor    BeforeAdvice
  */
 @SuppressWarnings("serial")
 public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeAdvice, Serializable {
-
+	// 本来就是advice  然后又组合了advice  其实这个组合的是我们开发者实现的advice，
 	private final MethodBeforeAdvice advice;
 
 
@@ -53,8 +53,8 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 
 	@Override
 	@Nullable
-	public Object invoke(MethodInvocation mi) throws Throwable {
-		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis());
+	public Object invoke(MethodInvocation mi) throws Throwable { // 方法拦截之后的执行方法
+		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis()); // 执行我们开发者自己的advice
 		return mi.proceed();
 	}
 

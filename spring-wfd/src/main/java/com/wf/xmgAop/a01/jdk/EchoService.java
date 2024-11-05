@@ -25,4 +25,6 @@ package com.wf.xmgAop.a01.jdk;
 public interface EchoService {
 
     String echo(String message) throws NullPointerException;
+
+	String echo2(String message) throws NullPointerException;
 }

@@ -38,7 +38,7 @@ public interface Pointcut {
 	 */
 	ClassFilter getClassFilter();
 
-	/**
+	/** 返回这个切入点的MethodMatcher。
 	 * Return the MethodMatcher for this pointcut.
 	 * @return the MethodMatcher (never {@code null})
 	 */

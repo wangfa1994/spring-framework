@@ -90,7 +90,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 	private static final String AJC_MAGIC = "ajc$";
 
 	private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<>();
-
+	// 支持的 AspectJ的源语
 	static {
 		SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
 		SUPPORTED_PRIMITIVES.add(PointcutPrimitive.ARGS);
@@ -116,13 +116,13 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 
 	private Class<?>[] pointcutParameterTypes = new Class<?>[0];
 
-	@Nullable
+	@Nullable // ioc容器
 	private BeanFactory beanFactory;
 
 	@Nullable
 	private transient ClassLoader pointcutClassLoader;
 
-	@Nullable // 切点表达式处理类
+	@Nullable // 切点表达式处理类 ， 语法规则直接使用了aspectj 进行了解释
 	private transient PointcutExpression pointcutExpression;
 
 	private transient boolean pointcutParsingFailed = false;
@@ -294,7 +294,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 
 		try {
 			try {
-				return obtainPointcutExpression().couldMatchJoinPointsInType(targetClass);
+				return obtainPointcutExpression().couldMatchJoinPointsInType(targetClass); // 桥接给aspect进行处理，只有方法级别的匹配，
 			}
 			catch (ReflectionWorldException ex) {
 				logger.debug("PointcutExpression matching rejected target class - trying fallback expression", ex);

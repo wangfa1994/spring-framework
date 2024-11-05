@@ -17,4 +17,13 @@ public class ProxyEchoService implements EchoService {
 		System.out.println("echo 方法执行的实现：" + costTime + " ms.");
 		return result;
 	}
+
+	@Override
+	public String echo2(String message) throws NullPointerException {
+		long startTime = System.currentTimeMillis();
+		String result = echoService.echo2(message);
+		long costTime = System.currentTimeMillis() - startTime;
+		System.out.println("echo2 方法执行的实现：" + costTime + " ms.");
+		return result;
+	}
 }
