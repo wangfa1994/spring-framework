@@ -38,7 +38,7 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class AfterReturningAdviceInterceptor implements MethodInterceptor, AfterAdvice, Serializable {
 
-	private final AfterReturningAdvice advice;
+	private final AfterReturningAdvice advice; // 我们开发的通知
 
 
 	/**
@@ -54,7 +54,7 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, After
 	@Override
 	@Nullable
 	public Object invoke(MethodInvocation mi) throws Throwable {
-		Object retVal = mi.proceed();
+		Object retVal = mi.proceed(); // mi 我们真正的对象，
 		this.advice.afterReturning(retVal, mi.getMethod(), mi.getArguments(), mi.getThis());
 		return retVal;
 	}

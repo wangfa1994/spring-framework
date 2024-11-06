@@ -80,9 +80,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 	/** We use a static Log to avoid serialization issues. */
 	private static final Log logger = LogFactory.getLog(JdkDynamicAopProxy.class);
 
-	/** Config used to configure this proxy. */
+	/** Config used to configure this proxy. 用于配置该代理的Config 而且还是 AspectJProxyFactory */
 	private final AdvisedSupport advised;
-
+	// 代理接口
 	private final Class<?>[] proxiedInterfaces;
 
 	/**
@@ -108,7 +108,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			throw new AopConfigException("No advisors and no TargetSource specified");
 		}
 		this.advised = config;
-		this.proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(this.advised, true);
+		this.proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(this.advised, true); // 通过代理工具解析出代理的接口
 		findDefinedEqualsAndHashCodeMethods(this.proxiedInterfaces);
 	}
 
@@ -186,7 +186,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		Object oldProxy = null;
 		boolean setProxyContext = false;
 
-		TargetSource targetSource = this.advised.targetSource; // 目标对象
+		TargetSource targetSource = this.advised.targetSource; // 目标对象 advised 为AdvisedSupport对象，但是实际是AspectJProxyFactory
 		Object target = null;
 		// jdk 标准的try catch finally
 		try {
@@ -234,7 +234,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				retVal = AopUtils.invokeJoinpointUsingReflection(target, method, argsToUse);
 			}
 			else {
-				// We need to create a method invocation...
+				// We need to create a method invocation... 我们需要创建一个方法调用…
 				MethodInvocation invocation =
 						new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);
 				// Proceed to the joinpoint through the interceptor chain.

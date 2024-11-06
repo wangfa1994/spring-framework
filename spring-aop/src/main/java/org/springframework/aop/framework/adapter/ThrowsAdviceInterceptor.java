@@ -61,9 +61,9 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 	private static final Log logger = LogFactory.getLog(ThrowsAdviceInterceptor.class);
 
 
-	private final Object throwsAdvice;
+	private final Object throwsAdvice; // 此时的自定义的advice 不一定是Advice类型
 
-	/** Methods on throws advice, keyed by exception class. */
+	/** Methods on throws advice, keyed by exception class. 方法抛出通知，由异常类指定 */
 	private final Map<Class<?>, Method> exceptionHandlerMap = new HashMap<>();
 
 
@@ -77,7 +77,7 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 		this.throwsAdvice = throwsAdvice;
 
 		Method[] methods = throwsAdvice.getClass().getMethods();
-		for (Method method : methods) {
+		for (Method method : methods) { // 我们的方法名需要是 afterThrowing 并且 只有一个或者四个参数的时候，才能被识别 类注释上四个类别
 			if (method.getName().equals(AFTER_THROWING) &&
 					(method.getParameterCount() == 1 || method.getParameterCount() == 4)) {
 				Class<?> throwableParam = method.getParameterTypes()[method.getParameterCount() - 1];
@@ -115,7 +115,7 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 		catch (Throwable ex) {
 			Method handlerMethod = getExceptionHandler(ex);
 			if (handlerMethod != null) {
-				invokeHandlerMethod(mi, ex, handlerMethod);
+				invokeHandlerMethod(mi, ex, handlerMethod); // 开始执行
 			}
 			throw ex;
 		}
@@ -132,7 +132,7 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Trying to find handler for exception of type [" + exceptionClass.getName() + "]");
 		}
-		Method handler = this.exceptionHandlerMap.get(exceptionClass);
+		Method handler = this.exceptionHandlerMap.get(exceptionClass); // 得到我们的方法
 		while (handler == null && exceptionClass != Throwable.class) {
 			exceptionClass = exceptionClass.getSuperclass();
 			handler = this.exceptionHandlerMap.get(exceptionClass);
@@ -145,14 +145,14 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 
 	private void invokeHandlerMethod(MethodInvocation mi, Throwable ex, Method method) throws Throwable {
 		Object[] handlerArgs;
-		if (method.getParameterCount() == 1) {
+		if (method.getParameterCount() == 1) { // 一个参数
 			handlerArgs = new Object[] {ex};
 		}
-		else {
+		else { // 剩余的四个
 			handlerArgs = new Object[] {mi.getMethod(), mi.getArguments(), mi.getThis(), ex};
 		}
 		try {
-			method.invoke(this.throwsAdvice, handlerArgs);
+			method.invoke(this.throwsAdvice, handlerArgs); // 进行方法执行
 		}
 		catch (InvocationTargetException targetEx) {
 			throw targetEx.getTargetException();

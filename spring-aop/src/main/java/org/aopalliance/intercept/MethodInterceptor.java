@@ -19,7 +19,7 @@ package org.aopalliance.intercept;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/**
+/** 在接口到目标的途中拦截接口上的调用
  * Intercepts calls on an interface on its way to the target. These
  * are nested "on top" of the target.
  *

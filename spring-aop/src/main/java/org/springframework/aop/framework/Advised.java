@@ -22,7 +22,7 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.TargetSource;
 
-/**
+/** 接口将由持有AOP代理工厂配置的类实现。该配置包括拦截器和其他通知、顾问和代理接口。
  * Interface to be implemented by classes that hold the configuration
  * of a factory of AOP proxies. This configuration includes the
  * Interceptors and other advice, Advisors, and the proxied interfaces.
@@ -43,7 +43,7 @@ public interface Advised extends TargetClassAware {
 	 */
 	boolean isFrozen();
 
-	/**
+	/** 我们是否代理了完整的目标类而不是指定的接口？
 	 * Are we proxying the full target class instead of specified interfaces?
 	 */
 	boolean isProxyTargetClass();

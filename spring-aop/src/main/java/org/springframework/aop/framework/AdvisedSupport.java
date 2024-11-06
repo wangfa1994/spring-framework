@@ -91,7 +91,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 */
 	private List<Class<?>> interfaces = new ArrayList<>();
 
-	/**
+	/** advice被封装成Advisor存放的位置
 	 * List of Advisors. If an Advice is added, it will be wrapped
 	 * in an Advisor before being added to this List.
 	 */
@@ -469,7 +469,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		List<Object> cached = this.methodCache.get(cacheKey);
 		if (cached == null) {
 			cached = this.advisorChainFactory.getInterceptorsAndDynamicInterceptionAdvice(
-					this, method, targetClass);
+					this, method, targetClass); // 这里处理之后， 会将我们的Advisor 封装成 MethodInterceptor，返回了一个 MethodInterceptor 列表
 			this.methodCache.put(cacheKey, cached);
 		}
 		return cached;

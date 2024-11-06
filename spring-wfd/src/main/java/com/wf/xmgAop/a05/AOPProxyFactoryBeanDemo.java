@@ -35,6 +35,28 @@ public class AOPProxyFactoryBeanDemo {
 	 *  他们都继承了 ProxyCreatorSupport 类，说明他们都是对应的代理工厂的实现，只不过是应用于不同的业务场景吧
 	 *  ProxyFactoryBean 也是继承了 ProxyCreatorSupport 类
 	 *
+	 *
+	 * ProxyCreatorSupport 代理工厂的基类，这个里面内置了一个代理工厂 AopProxyFactory ，然后会通过代理工厂进行产生我们的代理对象
+	 *
+	 *
+	 * AopProxyFactory 接口之定义了创建代理对象的方法，简单工厂模式，
+	 *
+	 *
+	 * 又因为
+	 * ProxyFactoryBean  ProxyFactory 继承了 ProxyCreatorSupport 所以说他们也有生产代理对象的功能，只不过这个功能被基类的 ProxyCreatorSupport实现了
+	 *
+	 *
+	 * AopProxyFactory接口 与 ProxyFactory类的区别
+	 *
+	 *
+	 * AopProxyFactory接口 是自己一个单独的体系，用来创建对象的，简单工厂模版 ，只有一个创建代理对象的方法， 他只有一个实现类 DefaultAopProxyFactory 用来产生我们的代理对象
+	 *
+	 * ProxyFactory类 AOP编程的一个实现类， 主要是进行我们的aop执行，内置了AopProxyFactory用来产生代理对象， 继承AdvisedSupport则主要支持通知。
+	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 	private static void proxyFactory() {
 		// 目标对象
@@ -61,5 +83,11 @@ public class AOPProxyFactoryBeanDemo {
 
 		context.close();
 	}
+
+	/**
+	 *
+	 *
+	 *
+	 */
 
 }
