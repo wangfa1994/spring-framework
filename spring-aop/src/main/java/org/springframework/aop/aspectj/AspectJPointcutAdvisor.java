@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  * @since 2.0
  */
 public class AspectJPointcutAdvisor implements PointcutAdvisor, Ordered {
-
+	// 适配我们的Before after等advice
 	private final AbstractAspectJAdvice advice;
 
 	private final Pointcut pointcut;

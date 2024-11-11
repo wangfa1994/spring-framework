@@ -31,7 +31,7 @@ package org.springframework.aop;
  */
 public interface IntroductionAdvisor extends Advisor, IntroductionInfo {
 
-	/**
+	/**  只关注类，而对方法不做校验，  pointcutAdvisor则支持类型和方法
 	 * Return the filter determining which target classes this introduction
 	 * should apply to.
 	 * <p>This represents the class part of a pointcut. Note that method

@@ -44,7 +44,7 @@ import org.springframework.util.Assert;
 public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
 
 	@Nullable
-	private String adviceBeanName;
+	private String adviceBeanName; // 可以从spring容器中获取advice，
 
 	@Nullable
 	private BeanFactory beanFactory;
