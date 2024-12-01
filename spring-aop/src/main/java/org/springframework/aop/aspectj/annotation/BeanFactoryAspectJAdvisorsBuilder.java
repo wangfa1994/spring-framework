@@ -49,7 +49,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 	private final AspectJAdvisorFactory advisorFactory;
 
-	@Nullable
+	@Nullable // 系统中的切面bean
 	private volatile List<String> aspectBeanNames;
 
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
@@ -88,7 +88,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	public List<Advisor> buildAspectJAdvisors() {
 		List<String> aspectNames = this.aspectBeanNames; // 系统中的切面
 
-		if (aspectNames == null) {
+		if (aspectNames == null) {// 第一次的时候aspectBeanNames为空
 			synchronized (this) {
 				aspectNames = this.aspectBeanNames;
 				if (aspectNames == null) {
@@ -112,7 +112,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 									MetadataAwareAspectInstanceFactory factory =
 											new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
-									List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
+									List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory); // 从切面中得到我们的 Advisor
 									if (this.beanFactory.isSingleton(beanName)) {
 										this.advisorsCache.put(beanName, classAdvisors);
 									}

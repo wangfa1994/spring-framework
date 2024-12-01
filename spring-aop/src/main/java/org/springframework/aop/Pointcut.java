@@ -45,7 +45,7 @@ public interface Pointcut {
 	MethodMatcher getMethodMatcher();
 
 
-	/**
+	/** 总是匹配的规范化切入点实例 方法总会符合对应的切点
 	 * Canonical Pointcut instance that always matches.
 	 */
 	Pointcut TRUE = TruePointcut.INSTANCE;

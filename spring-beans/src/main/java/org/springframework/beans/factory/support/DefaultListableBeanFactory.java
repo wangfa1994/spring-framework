@@ -182,7 +182,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private volatile String[] frozenBeanDefinitionNames;
 
-	/** Whether bean definition metadata may be cached for all beans. */
+	/** Whether bean definition metadata may be cached for all beans.是否可以为所有bean缓存bean定义元数据 */
 	private volatile boolean configurationFrozen;
 
 
@@ -1326,13 +1326,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 
 			Class<?> type = descriptor.getDependencyType();// 获取到依赖的类型
-			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);// 确定是否有给出建议值
+			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);// 确定是否有给出建议值 @Value这里会解析出表达式
 			if (value != null) {
 				if (value instanceof String) {
-					String strVal = resolveEmbeddedValue((String) value);
+					String strVal = resolveEmbeddedValue((String) value); // 将表达式配置进行处理，从environment环境中获得到真正的值
 					BeanDefinition bd = (beanName != null && containsBean(beanName) ?
 							getMergedBeanDefinition(beanName) : null);
-					value = evaluateBeanDefinitionString(strVal, bd);
+					value = evaluateBeanDefinitionString(strVal, bd);//
 				}
 				TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
 				try {

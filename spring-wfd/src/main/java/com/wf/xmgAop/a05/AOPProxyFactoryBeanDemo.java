@@ -68,6 +68,7 @@ public class AOPProxyFactoryBeanDemo {
 		//proxyFactory.setTarget(defaultEchoService); // 利用这种方式比构造器少了些东西
 		// 添加 advice 实现 MethodInterceptor < interceptor  < advice
 		proxyFactory.addAdvice(new EchoServiceMethodInterceptor());
+		// proxyFactory.addAspect();不存在此方法。说明这个ProxyFactory没有整合aspectj
 		EchoService proxy = (EchoService)proxyFactory.getProxy();
 
 		System.out.println(proxy.echo("Hello,World"));

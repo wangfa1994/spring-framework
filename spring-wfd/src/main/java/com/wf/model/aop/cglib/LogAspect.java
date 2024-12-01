@@ -32,7 +32,7 @@ public class LogAspect {
 	}
 
 	// 切点PointCut: 定义了切面中的通知应该在哪些连接点(JoinPoint)上执行
-	// 连接点JointPoint:定义在应用程序执行过程中插入切面的候选点，通常是方法调用
+	// 连接点JointPoint:定义在应用程序执行过程中插入切面的候选点，通常是方法调用，spring中只支持方法级别的连接点
 	@Pointcut("execution(* com.wf.model.aop.cglib.HelloService.sayHello(..))")
 	public void pointCut(){
 

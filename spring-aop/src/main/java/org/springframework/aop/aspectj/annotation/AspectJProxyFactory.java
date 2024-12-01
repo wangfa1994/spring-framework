@@ -108,7 +108,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 		String aspectName = aspectClass.getName();
 		AspectMetadata am = createAspectMetadata(aspectClass, aspectName);
 		MetadataAwareAspectInstanceFactory instanceFactory = createAspectInstanceFactory(am, aspectClass, aspectName);
-		addAdvisorsFromAspectInstanceFactory(instanceFactory);
+		addAdvisorsFromAspectInstanceFactory(instanceFactory);// 进行解析，将切面类中的信息变成advisors
 	}
 
 

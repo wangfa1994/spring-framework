@@ -55,7 +55,7 @@ final class PostProcessorRegistrationDelegate {
 	private PostProcessorRegistrationDelegate() {
 	}
 
-
+	// 执行我们的BeanFactory的后置处理器，第一步会从容器中匹配出BeanDefinitionRegistryPostProcessor的beanDefinition,进行创建实例，执行方法，第二步会进行
 	public static void invokeBeanFactoryPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
 
@@ -112,7 +112,7 @@ final class PostProcessorRegistrationDelegate {
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
 			currentRegistryProcessors.clear();
 
-			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered.
+			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered. 接下来，调用实现Ordered的BeanDefinitionRegistryPostProcessors。
 			postProcessorNames = beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				if (!processedBeans.contains(ppName) && beanFactory.isTypeMatch(ppName, Ordered.class)) {
@@ -125,7 +125,7 @@ final class PostProcessorRegistrationDelegate {
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
 			currentRegistryProcessors.clear();
 
-			// Finally, invoke all other BeanDefinitionRegistryPostProcessors until no further ones appear.
+			// Finally, invoke all other BeanDefinitionRegistryPostProcessors until no further ones appear. 最后，调用所有其他BeanDefinitionRegistryPostProcessors，直到没有其他BeanDefinitionRegistryPostProcessors出现为止
 			boolean reiterate = true;
 			while (reiterate) {
 				reiterate = false;
@@ -143,7 +143,7 @@ final class PostProcessorRegistrationDelegate {
 				currentRegistryProcessors.clear();
 			}
 			// 注意上面执行的都是BeanDefinitionRegistryPostProcessors的回调方法，解析我们的BeanDefinition的，下面的执行才是执行我们的BeaFactoryPostProcessor的回调方法
-			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
+			// Now, invoke the postProcessBeanFactory callback of all processors handled so far. 现在，调用到目前为止处理过的所有处理器的postProcessBeanFactory回调。
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
 		}
@@ -190,7 +190,7 @@ final class PostProcessorRegistrationDelegate {
 		sortPostProcessors(orderedPostProcessors, beanFactory);
 		invokeBeanFactoryPostProcessors(orderedPostProcessors, beanFactory);
 
-		// Finally, invoke all other BeanFactoryPostProcessors.
+		// Finally, invoke all other BeanFactoryPostProcessors. 最后，调用所有其他BeanFactoryPostProcessors。
 		List<BeanFactoryPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
 		for (String postProcessorName : nonOrderedPostProcessorNames) { //这里会进入一个 org.springframework.context.event.internalEventListenerProcessor的创建，这个是EventListenerMethodProcessor
 			nonOrderedPostProcessors.add(beanFactory.getBean(postProcessorName, BeanFactoryPostProcessor.class));
@@ -308,7 +308,7 @@ final class PostProcessorRegistrationDelegate {
 		for (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
 			StartupStep postProcessBeanDefRegistry = applicationStartup.start("spring.context.beandef-registry.post-process")
 					.tag("postProcessor", postProcessor::toString);
-			postProcessor.postProcessBeanDefinitionRegistry(registry);
+			postProcessor.postProcessBeanDefinitionRegistry(registry);//执行我们对应的回调方法
 			postProcessBeanDefRegistry.end();
 		}
 	}

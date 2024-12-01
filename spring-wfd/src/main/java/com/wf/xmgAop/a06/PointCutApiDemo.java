@@ -28,7 +28,7 @@ public class PointCutApiDemo {
 
 		ProxyFactory proxyFactory = new ProxyFactory(pointCutApiDemo);
 
-		// Advisor 和advise 关系，实际上 advise本身是一个动作，在动作前需要关联一个pointcut ，
+		// Advisor 和advise 关系，实际上 advise本身是一个动作(横切逻辑)，在动作前需要关联一个pointcut ，
 		// pointcut 和 advise的关联需要Advisor进行承载
 		// advisor 是 pointcut 和 advise的关联
 		proxyFactory.addAdvisor(advisor); //  advisor 通知和切点进行了关联的承载

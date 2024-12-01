@@ -88,12 +88,12 @@ public abstract class AopConfigUtils {
 		return registerOrEscalateApcAsRequired(AspectJAwareAdvisorAutoProxyCreator.class, registry, source);
 	}
 
-	@Nullable
+	@Nullable	// 注册自动代理类，一共包括三种
 	public static BeanDefinition registerAspectJAnnotationAutoProxyCreatorIfNecessary(BeanDefinitionRegistry registry) {
 		return registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry, null);
 	}
 
-	@Nullable
+	@Nullable // 注册一个切面注解的自动代理，如果需要的话
 	public static BeanDefinition registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
 			// 添加针对AnnotationAwareAspectJAutoProxyCreator类到我们的BeanDefinitionRegistry中去

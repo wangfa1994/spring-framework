@@ -243,7 +243,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					"postProcessBeanFactory already called on this post-processor against " + registry);
 		}
 		this.registriesPostProcessed.add(registryId);
-		// 开始处理我们的配置类的BeanDefinition
+		// 开始处理我们的配置类的BeanDefinition，使得相关配置中的类变成BeanDefinition
 		processConfigBeanDefinitions(registry);
 	}
 
@@ -266,7 +266,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 
 		enhanceConfigurationClasses(beanFactory); // 这里进行了相关的aop增强,好像什么也没做
-		beanFactory.addBeanPostProcessor(new ImportAwareBeanPostProcessor(beanFactory));
+		beanFactory.addBeanPostProcessor(new ImportAwareBeanPostProcessor(beanFactory)); //添加我们的bean的后置处理器
 	}
 
 	/**
@@ -392,7 +392,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			Object configClassAttr = beanDef.getAttribute(ConfigurationClassUtils.CONFIGURATION_CLASS_ATTRIBUTE); // 确定我们的beanDefinition的配置类的类型full,lite
 			AnnotationMetadata annotationMetadata = null;
 			MethodMetadata methodMetadata = null;
-			if (beanDef instanceof AnnotatedBeanDefinition) { // 如果beanDefinition是注解类型的
+			if (beanDef instanceof AnnotatedBeanDefinition) { // 如果beanDefinition是注解类型的，我们的自定义的注解扫描出来的类就是
 				AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) beanDef;
 				annotationMetadata = annotatedBeanDefinition.getMetadata();
 				methodMetadata = annotatedBeanDefinition.getFactoryMethodMetadata();

@@ -116,7 +116,7 @@ public class InjectionMetadata {
 				(checkedElements != null ? checkedElements : this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
 			for (InjectedElement element : elementsToIterate) {
-				element.inject(target, beanName, pvs); // 循环处理我们的属性
+				element.inject(target, beanName, pvs); // 循环处理我们的属性 common autowire 自己对应的独立内部类处理
 			}
 		}
 	}

@@ -12,7 +12,7 @@ import java.util.Map;
 public class AfterAdviceApiDemo {
 
 	public static void main(String[] args) {
-// 通过创建一个 HashMap 缓存，作为被代理对象
+		// 通过创建一个 HashMap 缓存，作为被代理对象
 		Map<String, Object> cache = new HashMap<>();
 		// 创建 Proxy 工厂(AspectJ)
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache);

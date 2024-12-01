@@ -452,7 +452,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			Object current = processor.postProcessAfterInitialization(result, beanName);// AOP的代理会在这里处理
+			Object current = processor.postProcessAfterInitialization(result, beanName);// AOP的代理会在这里处理，在进行第一个bean创建的时候，就会执行对应的aop相关切面之类的准备并且缓存
 			if (current == null) {
 				return result;
 			}

@@ -1,8 +1,10 @@
 package com.wf.xmgAop.a04;
 
+import com.wf.xmgAop03.a04.AspectConfiguration;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.aop.target.SingletonTargetSource;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -24,9 +26,13 @@ public class AspectJApiDemo {
 		// 通过创建一个 HashMap 缓存，作为被代理对象
 		Map<String, Object> cache = new HashMap<>();
 		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象
-		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
-		// 增加 Aspect 配置类 可以从这里解析出来对应的advice。
-		//proxyFactory.addAspect(AspectConfiguration.class);
+		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(); // cache 目标对象，被代理的对象
+		proxyFactory.setTargetSource(new SingletonTargetSource(cache));
+
+		//AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
+
+		// 增加 Aspect 配置类 这里也可以从这里解析出来对应的advice。 存在对应的注解，这样的话才能进行解析出来
+		proxyFactory.addAspect(AspectJApiConfiguration.class);
 		// 设置暴露代理对象到 AopContext 一定要设置？
 		proxyFactory.setExposeProxy(true);
 		proxyFactory.addAdvice(new MethodBeforeAdvice() {
@@ -45,4 +51,13 @@ public class AspectJApiDemo {
 		System.out.println(proxy.get("1"));
 		// AopProxyFactory AOP代理工厂获取AOP的代理对象
 	}
+	/**
+	 * AspectJProxyFactory 代理工厂，用来产生代理对象，继承了ProxyCreatorSupport ,这个 类是代理类的基类，内置了一个DefaultAopProxyFactory类
+	 *
+	 * 创建代理工厂
+	 * 设置目标对象
+	 * 添加切面配置(可以解析出advisor)
+	 * 添加advice(可以封装成advisor)
+	 *
+	 */
 }

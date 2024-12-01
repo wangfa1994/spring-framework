@@ -551,7 +551,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 				}
 			}
 			else {
-				resource = beanFactory.resolveBeanByName(name, descriptor);
+				resource = beanFactory.resolveBeanByName(name, descriptor);// 根据名称重新获取到对应的关联的bean对象
 				autowiredBeanNames = Collections.singleton(name);
 			}
 		}

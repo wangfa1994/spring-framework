@@ -123,11 +123,11 @@ class ConfigurationClassParser {
 	private final MetadataReaderFactory metadataReaderFactory;
 
 	private final ProblemReporter problemReporter;
-
+	// 环境资源
 	private final Environment environment;
 
 	private final ResourceLoader resourceLoader;
-
+	// 当前的beanFactory
 	private final BeanDefinitionRegistry registry;
 
 	private final ComponentScanAnnotationParser componentScanParser;
@@ -244,7 +244,7 @@ class ConfigurationClassParser {
 		}
 
 		// Recursively process the configuration class and its superclass hierarchy. 递归地处理配置类及其超类层次结构。
-		SourceClass sourceClass = asSourceClass(configClass, filter);
+		SourceClass sourceClass = asSourceClass(configClass, filter); // 把配置类封装成对应的 SourceClass
 		do {
 			sourceClass = doProcessConfigurationClass(configClass, sourceClass, filter);
 		}
@@ -462,7 +462,7 @@ class ConfigurationClassParser {
 			try {
 				String resolvedLocation = this.environment.resolveRequiredPlaceholders(location);
 				Resource resource = this.resourceLoader.getResource(resolvedLocation);
-				addPropertySource(factory.createPropertySource(name, new EncodedResource(resource, encoding)));
+				addPropertySource(factory.createPropertySource(name, new EncodedResource(resource, encoding))); // 将解析出来的资源进行加载到环境中
 			}
 			catch (IllegalArgumentException | FileNotFoundException | UnknownHostException | SocketException ex) {
 				// Placeholders not resolvable or resource not found when trying to open it
@@ -480,7 +480,7 @@ class ConfigurationClassParser {
 
 	private void addPropertySource(PropertySource<?> propertySource) {
 		String name = propertySource.getName();
-		MutablePropertySources propertySources = ((ConfigurableEnvironment) this.environment).getPropertySources();
+		MutablePropertySources propertySources = ((ConfigurableEnvironment) this.environment).getPropertySources(); // 从环境中获取到现存的资源。然后将解析的新的资源进行添加
 
 		if (this.propertySourceNames.contains(name)) {
 			// We've already added a version, we need to extend it
@@ -505,7 +505,7 @@ class ConfigurationClassParser {
 		}
 
 		if (this.propertySourceNames.isEmpty()) {
-			propertySources.addLast(propertySource);
+			propertySources.addLast(propertySource); // 进行资源加载
 		}
 		else {
 			String firstProcessed = this.propertySourceNames.get(this.propertySourceNames.size() - 1);

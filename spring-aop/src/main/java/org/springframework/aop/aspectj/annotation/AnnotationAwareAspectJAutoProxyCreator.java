@@ -88,11 +88,11 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 
 	@Override
 	protected List<Advisor> findCandidateAdvisors() {
-		// Add all the Spring advisors found according to superclass rules.
+		// Add all the Spring advisors found according to superclass rules. 添加根据超类规则找到的所有Spring顾问。
 		List<Advisor> advisors = super.findCandidateAdvisors();
 		// Build Advisors for all AspectJ aspects in the bean factory.
 		if (this.aspectJAdvisorsBuilder != null) {
-			advisors.addAll(this.aspectJAdvisorsBuilder.buildAspectJAdvisors());
+			advisors.addAll(this.aspectJAdvisorsBuilder.buildAspectJAdvisors()); // 解析出我们的切面类，并且从切面类中解析出我们的通知
 		}
 		return advisors;
 	}
@@ -106,7 +106,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		// proxy, and if the aspect implements e.g the Ordered interface it will be
 		// proxied by that interface and fail at runtime as the advice method is not
 		// defined on the interface. We could potentially relax the restriction about
-		// not advising aspects in the future.
+		// not advising aspects in the future.  不是基础类 或者 (aspectJAdvisorFactory不为空 并且 当前类不是Aspect.class)
 		return (super.isInfrastructureClass(beanClass) ||
 				(this.aspectJAdvisorFactory != null && this.aspectJAdvisorFactory.isAspect(beanClass)));
 	}
