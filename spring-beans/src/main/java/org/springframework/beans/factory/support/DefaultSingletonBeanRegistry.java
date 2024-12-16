@@ -101,7 +101,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Flag that indicates whether we're currently within destroySingletons. */
 	private boolean singletonsCurrentlyInDestruction = false;
 
-	/** Disposable bean instances: bean name to disposable instance. */
+	/** Disposable bean instances: bean name to disposable instance. 存在销毁动作的Bean的存储对象*/
 	private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
 
 	/** Map between containing bean names: bean name to Set of bean names that the bean contains. */
@@ -517,7 +517,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			disposableBeanNames = StringUtils.toStringArray(this.disposableBeans.keySet());
 		}
 		for (int i = disposableBeanNames.length - 1; i >= 0; i--) {
-			destroySingleton(disposableBeanNames[i]);
+			destroySingleton(disposableBeanNames[i]); // 开始一个一个的销毁我们的Bean
 		}
 
 		this.containedBeanMap.clear();

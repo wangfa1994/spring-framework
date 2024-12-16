@@ -59,7 +59,7 @@ public class WhereBeanFromTest {
 		personDependency.setName("Hello,World");
 		autowireCapableBeanFactory.registerResolvableDependency(Person.class, personDependency);*/
 
-		context.refresh();// 比如在刷新之前进行设置，这样的话，刷新的时候在处理依赖注入的时候才可以使用
+		context.refresh();// 必须在刷新之前进行设置，这样的话，刷新的时候在处理依赖注入的时候才可以使用
 
 
 

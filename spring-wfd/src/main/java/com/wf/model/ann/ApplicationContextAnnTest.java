@@ -74,9 +74,21 @@ public class ApplicationContextAnnTest {
 	 *
 	 * ParameterNameDiscoverer参数解析体系
 	 *
-	 * 应用上下文中的beanFactory的处理器，
+	 * 应用上下文中的beanFactory的处理器， 默认的只有这一个BeanDefinitionRegistryPostProcessor，用来解析配置所有的beanDefinition的
 	 * ConfigurationClassPostProcessor --> BeanDefinitionRegistryPostProcessor--> BeanFactoryPostProcessor
 	 * ConfigurationClassPostProcessor：解析我们的配置文件，这个在应用上下文中的beanFactory实例化之后，就可是注册我们的BeanDefinition了。解析我们的配置类，将我们的配置类解析成对应的BeanDefinition
+	 *
+	 * BeanFactoryPostProcessor 也有一个EventListenerMethodProcessor类，是和事件监听相关的类
+	 *
+	 *
+	 * InstantiationAwareBeanPostProcessor 与  BeanPostProcessor
+	 *
+	 * InstantiationAwareBeanPostProcessor 主要用于 属性赋值阶段， 里面的方法主要是针对Instantiation 实例化之后的操作和赋值
+	 *
+	 * BeanPostProcessor 里面的方法主要用于Initialization阶段，这时属性关系已经依赖解决，再进行一些依赖关系处理好的一些自定义属性替换，我必须默认的给定之后，才能允许你进行相关修改，不然的话，你的自定义修改有可能又被我给默认了
+	 *
+	 *
+	 *
 	 *
 	 */
 

@@ -134,7 +134,7 @@ public class AnnotatedBeanDefinitionReader {
 	 */
 	public void register(Class<?>... componentClasses) {
 		for (Class<?> componentClass : componentClasses) {
-			registerBean(componentClass);
+			registerBean(componentClass); //把对应的classes 注册转换成对应的BeanDefinition
 		}
 	}
 

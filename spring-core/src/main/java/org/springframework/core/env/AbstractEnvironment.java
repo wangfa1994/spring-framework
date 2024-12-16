@@ -109,7 +109,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	private final Set<String> defaultProfiles = new LinkedHashSet<>(getReservedDefaultProfiles());
 
 	private final MutablePropertySources propertySources;
-
+	// 环境中存放资源配置的处理器，内部持有资源文件
 	private final ConfigurablePropertyResolver propertyResolver;
 
 
@@ -136,7 +136,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 */
 	protected AbstractEnvironment(MutablePropertySources propertySources) {
 		this.propertySources = propertySources;
-		this.propertyResolver = createPropertyResolver(propertySources);
+		this.propertyResolver = createPropertyResolver(propertySources); // 创建属性解析器 PropertySourcesPropertyResolver对象的实力
 		customizePropertySources(propertySources);
 	}
 

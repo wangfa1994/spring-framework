@@ -3,6 +3,7 @@ package com.wf.model.lazy;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
@@ -21,9 +22,17 @@ public class LazySourceTest {
 
 	public static void main(String[] args) {
 
-		proxy();
 		//lazy();
+
+		proxy();
+
+		enhancer();
 	}
+
+	private static void enhancer() {
+		Enhancer enhancer  = new Enhancer();
+	}
+
 
 	private static void lazy() {
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
@@ -35,6 +44,7 @@ public class LazySourceTest {
 		LazySourceTest lazySourceTest = applicationContext.getBean(LazySourceTest.class);
 		//System.out.println("cat: "+lazySourceTest.cat);
 		System.out.println("catLazy: "+lazySourceTest.getCatLazy());
+		System.out.println("catLazy: "+lazySourceTest.getCatLazy().getName());
 		 //cat 和 catLazy 是同一个对象 ,打印的hash值相同,但是判断却不是同一个对象
 		//System.out.println("cat 和 catLazy 是同一个对象"+(lazySourceTest.cat == lazySourceTest.catLazy));
 	}
@@ -65,6 +75,8 @@ public class LazySourceTest {
 	 */
 
 
+	// 当发现了对应的lazy注解之后，会进行代理对象的产生，这里是产生代理对象的逻辑
+	// org.springframework.context.annotation.ContextAnnotationAutowireCandidateResolver.buildLazyResolutionProxy
 	private static void proxy(){
 		TargetSource targetSource = new TargetSource() {
 			@Override
@@ -92,16 +104,18 @@ public class LazySourceTest {
 		};
 
 		ProxyFactory pf = new ProxyFactory(); // 使用代理工厂，创建被@Lazy标记的代理对象
-
-		pf.setTargetSource(targetSource);
-
-
+		pf.setTargetSource(targetSource); // 设置目标对象
+		// 得到代理对象
 		Object proxy = pf.getProxy(LazySourceTest.class.getClassLoader());
 
 		Cat cat = (Cat)proxy;
-		System.out.println(cat);
+		System.out.println(cat); //打印的时候，会转到getTarget方法中处理
 
 	}
+
+
+
+
 
 
 

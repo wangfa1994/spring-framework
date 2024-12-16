@@ -6,6 +6,5 @@ import org.springframework.context.annotation.PropertySource;
 
 @ComponentScan(basePackages ={"com.wf.model.annxml.ann"})
 @ImportResource(locations={"beanAnnXml.xml"})
-@PropertySource("")
 public class AnnXmlConfig {
 }

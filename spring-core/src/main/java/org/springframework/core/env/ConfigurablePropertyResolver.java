@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
  * {@link org.springframework.core.convert.ConversionService ConversionService}
  * used when converting property values from one type to another.
  *
- * @author Chris Beams
+ * @author Chris Beams        可配置属性解析器
  * @since 3.1
  */
 public interface ConfigurablePropertyResolver extends PropertyResolver {

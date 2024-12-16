@@ -113,7 +113,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
-	@Nullable
+	@Nullable // 环境资源 ConfigurationClassPostProcessor
 	private Environment environment;
 
 	private ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -322,7 +322,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		// Parse each @Configuration class  解析每个@Configuration类 委派给我们的 ConfigurationClassParser
 		ConfigurationClassParser parser = new ConfigurationClassParser(
 				this.metadataReaderFactory, this.problemReporter, this.environment,
-				this.resourceLoader, this.componentScanBeanNameGenerator, registry);
+				this.resourceLoader, this.componentScanBeanNameGenerator, registry);//这里面的environment 是我们容器中的环境，但是怎么给到的呢？创建ConfigurationClassPostProcessor的时候，通过environmentAware的Aware接口回调给设置进行来
 
 		Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);//解析出来的配置类
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size()); //防止我们解析的配置类，变成我们的ConfigurationClass对象

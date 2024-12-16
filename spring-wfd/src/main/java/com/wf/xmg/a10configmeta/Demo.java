@@ -19,6 +19,12 @@ public class Demo {
 	 *
 	 *
 	 *
+	 * 配置元信息
+	 * bean的元信息 beanDefinition
+	 * bean属性的元信息 PropertyValues  列表形式的 PropertyValue
+	 *
+	 *
+	 *
 	 *
 	 */
 }

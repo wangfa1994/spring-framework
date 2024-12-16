@@ -153,7 +153,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private TypeConverter typeConverter;
 
-	/** String resolvers to apply e.g. to annotation attribute values. */
+	/** String resolvers to apply e.g. to annotation attribute values. 字符串解析器应用于注释属性值 依赖注入的时候会进行使用 */
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
 	/** BeanPostProcessors to apply. 要使用的一些后置处理器 */
@@ -276,7 +276,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			// Check if bean definition exists in this factory. 检查此父类工厂中是否存在bean定义。
-			BeanFactory parentBeanFactory = getParentBeanFactory();
+			BeanFactory parentBeanFactory = getParentBeanFactory();//所以对象的查找是先从父类容器中进行查找，然后再从子类中进行查找
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
 				String nameToLookup = originalBeanName(name);
@@ -1947,7 +1947,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// work for the given bean: DestructionAwareBeanPostProcessors,
 				// DisposableBean interface, custom destroy method.
 				registerDisposableBean(beanName, new DisposableBeanAdapter(
-						bean, beanName, mbd, getBeanPostProcessorCache().destructionAware, acc));
+						bean, beanName, mbd, getBeanPostProcessorCache().destructionAware, acc)); // 如果存在销毁的相关逻辑，进行销毁的相关执行 ，新创建了一个 DisposableBeanAdapter对象用于包装适配销毁动作
 			}
 			else {
 				// A bean with a custom scope...

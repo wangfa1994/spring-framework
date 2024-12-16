@@ -62,8 +62,8 @@ abstract class ParserStrategyUtils {
 		}
 		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory ?
 				((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
-		T instance = (T) createInstance(clazz, environment, resourceLoader, registry, classLoader);
-		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader);
+		T instance = (T) createInstance(clazz, environment, resourceLoader, registry, classLoader); // 创建我们的导入类对象
+		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader); // 确定我们
 		return instance;
 	}
 
@@ -83,7 +83,7 @@ abstract class ParserStrategyUtils {
 				throw new BeanInstantiationException(clazz, "No suitable constructor found", ex);
 			}
 		}
-		return BeanUtils.instantiateClass(clazz);
+		return BeanUtils.instantiateClass(clazz); // 创建我们导入的对象实例
 	}
 
 	private static Object[] resolveArgs(Class<?>[] parameterTypes,

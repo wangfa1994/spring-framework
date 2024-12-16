@@ -3,8 +3,8 @@ package com.wf.model.imports.importBDRegistrar;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
-@Component
-@Import(AnotherMyBeanDefinitionRegisterBean.class)
+/*@Component
+@Import(AnotherMyBeanDefinitionRegisterBean.class)*/
 public class AnotherBean {
 
 	private String name = "anotherBean";

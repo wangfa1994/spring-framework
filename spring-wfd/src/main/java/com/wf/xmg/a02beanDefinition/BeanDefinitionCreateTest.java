@@ -20,7 +20,7 @@ public class BeanDefinitionCreateTest {
 	 * 	1.RootBeanDefinition
 	 * 		 * 是最完整的Bean定义类型，它可以包含关于一个Bean的所有必要信息，包括构造器参数、属性值、依赖关系、初始化方法、销毁方法等。它是定义顶级Bean的主要方式
 	 * 		 * 通常用于直接定义应用程序中的Bean，或者是那些没有父Bean的Bean定义
-	 * 		 * 是最全面的beanDefinition,包括所有的配置选项
+	 * 		 * 是最全面的beanDefinition,包括所有的配置选项，在创建实例的时候，我们的bean都会别处理成RootBeanDefinition进行处理
 	 *  2.ChildBeanDefinition
 	 *  	* ChildBeanDefinition
 	 * 		 * 表示一个Bean定义是另一个Bean定义的子定义。这意味着它可以从父Bean定义那里继承属性和配置信息，同时也可以覆盖或添加特定的属性

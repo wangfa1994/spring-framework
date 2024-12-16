@@ -67,8 +67,8 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * @see #postProcessAfterInstantiation
 	 * @see org.springframework.beans.factory.support.AbstractBeanDefinition#getBeanClass()
 	 * @see org.springframework.beans.factory.support.AbstractBeanDefinition#getFactoryMethodName()
-	 */
-	@Nullable
+	 */ //postProcessAfterInitialization
+	@Nullable // 在对象实例化之前，先调用instantiationAwareBeanPostProcessor的这个方法进行判断是否自定义了实例化流程，如果存在直接会调用BeanPostProcess的afterInitialization方法
 	default Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 		return null;
 	}

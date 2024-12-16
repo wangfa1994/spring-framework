@@ -31,6 +31,9 @@ public class ApplicationContextCreateBeanTest {
  *
  *
  *
+ *
+ *
+ *
  ** 在创建bean过程中 Instantiation 实例化 和  Initialization 初始化
  * BeanPostProcessor一共被分为下列大类
  * 	final List<InstantiationAwareBeanPostProcessor> instantiationAware = new ArrayList<>();
@@ -39,13 +42,14 @@ public class ApplicationContextCreateBeanTest {
  * 	final List<MergedBeanDefinitionPostProcessor> mergedDefinition = new ArrayList<>();
  *
  * BeanPostProcessor
- * 		postProcessBeforeInitialization 在初始化方法的时候进行调用
- * 		postProcessAfterInitialization 在初始化方法的时候进行调用
+ * 		postProcessBeforeInitialization 在初始化方法的时候进行调用,
+ * 		postProcessAfterInitialization 在初始化方法的时候进行调用 ，主要是属性赋值完之后，我们可以再次进行对属性自定义的修改和变更，如果我们先进行初始化的操作，则有可能在赋值的时候再次被默认掉。
  * InstantiationAwareBeanPostProcessor(ConfigurationClassPostProcessor.ImportAwareBeanPostProcessor,CommonAnnotationBeanPostProcessor,AutoWiredAnnotationBeanPostProcessor)
  * 		postProcessBeforeInstantiation  在创建对象之前进行调用
  * 		postProcessAfterInstantiation  在属性赋值方法的时候进行调用
  * 		postProcessProperties		在属性赋值方法的时候进行调用
  * 		postProcessPropertyValues   在属性赋值方法的时候进行调用
+ *
  * SmartInstantiationAwareBeanPostProcessor(AutoWiredAnnotationBeanPostProcessor)
  * 		predictBeanType       在创建对象之前进行调用，确定是否有指定构造器
  * 		determineCandidateConstructors

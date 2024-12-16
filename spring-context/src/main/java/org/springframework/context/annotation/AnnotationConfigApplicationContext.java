@@ -55,9 +55,9 @@ import org.springframework.util.Assert;
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
 
-	private final AnnotatedBeanDefinitionReader reader;
+	private final AnnotatedBeanDefinitionReader reader; //主要处理beanDefinition的,解析处理产生beanDefinition
 
-	private final ClassPathBeanDefinitionScanner scanner;
+	private final ClassPathBeanDefinitionScanner scanner; // 用来扫描classpath下面的beanDefinition
 
 
 	/**
@@ -66,7 +66,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() { // 进行构造器的调用的时候，会先调用父类的构造器
 		StartupStep createAnnotatedBeanDefReader = getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，注解和从资源中读取不是一套体(BeanDefinitionReader) ，在这里会初始化一些注解所需要的后置处理器的beanDefinition,是beanDefinition不是实例 很重要的四个
+		this.reader = new AnnotatedBeanDefinitionReader(this); //  beanDefinition的读取器，注解和从资源中读取不是一套体(BeanDefinitionReader) ，在这里会初始化一些注解所需要的后置处理器的beanDefinition,是beanDefinition不是实例 很重要的四个，而且还创建了容器的环境上下文变量
 		createAnnotatedBeanDefReader.end();
 		this.scanner = new ClassPathBeanDefinitionScanner(this); // 用来扫描classpath下面的beanDefinition
 	} // AnnotatedBeanDefinitionReader 和 ClassPathBeanDefinitionScanner 都是进行扫描注册beanDefinition的，但是AnnotatedBeanDefinitionReader仅仅适用于显式注入的(手动指定)

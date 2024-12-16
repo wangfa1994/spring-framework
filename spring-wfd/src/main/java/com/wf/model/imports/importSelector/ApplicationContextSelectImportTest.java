@@ -15,5 +15,12 @@ public class ApplicationContextSelectImportTest {
 
 		SelectImportsBean2 bean2 = annotationConfigApplicationContext.getBean("com.wf.model.imports.importSelector.SelectImportsBean2",SelectImportsBean2.class);
 		System.out.println(bean2);
+
+		/**
+		 * ConfigurationClassPostProcessor 的工厂后置处理器委派为 ConfigurationClassParser进行解析处理，
+		 * 如果import 导入的 是 ImportSelector类的话，则会先进行此对象的实例化，然后回调对应的方法解析出我们所配置的一系列类的全路径名称，
+		 * 然后会被当做配置类再进行处理，最后会将这些配置类变成我们的BeanDefinition，此时的beanName，就是我们配置的全路径类名。
+		 */
+
 	}
 }

@@ -154,10 +154,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private Comparator<Object> dependencyComparator;
 
-	/** Resolver to use for checking if a bean definition is an autowire candidate. 用于检查bean定义是否为自动候选的解析器?? */
+	/** Resolver to use for checking if a bean definition is an autowire candidate. 用于检查bean定义是否为自动候选的解析器?? 处理依赖的解析器 */
 	private AutowireCandidateResolver autowireCandidateResolver = SimpleAutowireCandidateResolver.INSTANCE;
 
-	/** Map from dependency type to corresponding autowired value. 从依赖类型映射到相应的自动连接值 */
+	/** Map from dependency type to corresponding autowired value. 从依赖类型映射到相应的自动连接值 spring的依赖注入来源之一,在解决依赖的时候进行使用 */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
 	/** Map of bean definition objects, keyed by bean name. */
@@ -1351,7 +1351,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return multipleBeans;
 			}
 			//解析处理正常的bean，匹配到对应的beanClass ，向beanName中依赖注入type类型的值，描述符为descriptor
-			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor); // 在解决依赖的时候会用到一些后置处理器
+			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor); // 在解决依赖的时候会用到一些后置处理器,解决依赖候选对象的时候，从两个方向获得依赖对象：1.内建的非bean，2.匹配的对象
 			if (matchingBeans.isEmpty()) {
 				if (isRequired(descriptor)) {
 					raiseNoMatchingBeanFound(type, descriptor.getResolvableType(), descriptor);
@@ -1613,7 +1613,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else if (containsSingleton(candidateName) || (descriptor instanceof StreamDependencyDescriptor &&
 				((StreamDependencyDescriptor) descriptor).isOrdered())) {
-			Object beanInstance = descriptor.resolveCandidate(candidateName, requiredType, this);
+			Object beanInstance = descriptor.resolveCandidate(candidateName, requiredType, this); // 从对应的描述符中获得我们对应的对象实例，而且把beanFactory进行了传递，从这里得到真正的对象
 			candidates.put(candidateName, (beanInstance instanceof NullBean ? null : beanInstance));
 		}
 		else { // 进行处理解决依赖，并将结果进行缓存到candidates中，getType方法进行处理获取对应的class

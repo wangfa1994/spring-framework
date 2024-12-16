@@ -146,15 +146,15 @@ class ConfigurationClassBeanDefinitionReader {
 			return;
 		}
 
-		if (configClass.isImported()) { // 配置类是否是被导入的
+		if (configClass.isImported()) { // 配置类是否是被导入的 import解析出来的配置类
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) { // 将我们配置类中的@Bean方法注册为BeanDefinition
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
-		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());// 解析我们导入的资源
-		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars()); // 解析我们
+		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());// 解析我们导入的资源获取对应的BeanDefinition
+		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars()); // 解析我们ImportBeanDefinitionRegistrar实现类的逻辑,解析出beanDefinition
 	}
 
 	/**
@@ -171,7 +171,7 @@ class ConfigurationClassBeanDefinitionReader {
 
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(configBeanDef, configBeanName);
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
-		this.registry.registerBeanDefinition(definitionHolder.getBeanName(), definitionHolder.getBeanDefinition());
+		this.registry.registerBeanDefinition(definitionHolder.getBeanName(), definitionHolder.getBeanDefinition()); // 将我们的配置类中的资源注册成beanDefinition
 		configClass.setBeanName(configBeanName);
 
 		if (logger.isTraceEnabled()) {

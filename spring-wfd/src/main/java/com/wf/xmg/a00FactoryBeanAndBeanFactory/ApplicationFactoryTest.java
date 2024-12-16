@@ -14,8 +14,11 @@ public class ApplicationFactoryTest {
 	 *  BeanFactory接口 是我们底层的容器，
 	 *  FactoryBean接口 是一个bean，这个bean也用来创建对象，我们可以通过此接口来创建对象，而且创建的对象会被spring管理，但是会没有beanName,无法通过自己的beanName进行依赖查找，可以通过类型进行查找，能被依赖注入解析到
 	 *  ObjectFactory对象工厂接口，我们可以将此注入到spring中，然后通过此对象来获取对象，
-	 *  	但是注意通过此对象(ObjectFactory)获取到的对象不会被Spring管理，每次得到的时候都会走到对应的getObject获取对象
+	 *  	但是注意通过此对象(ObjectFactory)获取到的对象不会被Spring管理，每次得到的时候都会走到对应的getObject获取对象 在bean创建过程中就有用到ObjectFactory此类，放三级缓存中的时候
 	 *  ObjectProvider接口继承自ObjectFactory接口，进行了功能扩展，可以安全的获取到对应的对象
+	 *
+	 *
+	 *  mybatis与spring整合的时候，SqlSessionFactoryBean这个就是FactoryBean的一种形式
 	**/
 	public static void main(String[] args) {
 

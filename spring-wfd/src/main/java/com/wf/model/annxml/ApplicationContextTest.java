@@ -17,7 +17,7 @@ public class ApplicationContextTest {
 		System.out.println(cat.getCategory());
 
 
-
+		//注解 和xml配合使用的时候，使用的是注解 ImportResource ,在工厂后置处理器的时候ConfigurationClassPostProcessor，会进行importResource资源的解析变成对应的BeanDefinition
 
 	}
 

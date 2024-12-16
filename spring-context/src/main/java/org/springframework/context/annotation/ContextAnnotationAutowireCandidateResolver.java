@@ -51,7 +51,7 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 	@Override
 	@Nullable
 	public Object getLazyResolutionProxyIfNecessary(DependencyDescriptor descriptor, @Nullable String beanName) {
-		return (isLazy(descriptor) ? buildLazyResolutionProxy(descriptor, beanName) : null);
+		return (isLazy(descriptor) ? buildLazyResolutionProxy(descriptor, beanName) : null); // 如果标记了lazy注解，进行构建lazyResolutionProxy代理对象
 	}
 
 	protected boolean isLazy(DependencyDescriptor descriptor) {
@@ -90,10 +90,10 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 				return false;
 			}
 			@Override
-			public Object getTarget() {
+			public Object getTarget() { // 获取真正的代理对象，可以看到里面的逻辑
 				Set<String> autowiredBeanNames = (beanName != null ? new LinkedHashSet<>(1) : null);
-				Object target = dlbf.doResolveDependency(descriptor, beanName, autowiredBeanNames, null); // 在代理调用的时候会进行这里进行执行
-				if (target == null) {
+				Object target = dlbf.doResolveDependency(descriptor, beanName, autowiredBeanNames, null); // 在代理调用的时候会进行这里进行执行,获取到我们真正的对象，然后进行处理
+				if (target == null) { // doResolveDependency 又进行回调了DefaultListableBeanFactory的解决依赖的方法
 					Class<?> type = getTargetClass();
 					if (Map.class == type) {
 						return Collections.emptyMap();

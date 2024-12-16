@@ -32,5 +32,12 @@ public class ApplicationContextCommonBeanTest {
 	 *  然后再处理我们的配置类，解析我们的配置类，变成对应的BeanDefinition注册到我们BeanDefinitionRegistry中
 	 *
 	 *
+	 * org.springframework.context.annotation.ConfigurationClassParser#processImports() 进行处理我们的Imports逻辑
+	 *
+	 * ConfigurationClassPostProcessor 属于BeanFactoryPostProcessor,在刷新容器的时候，会首先进行ConfigurationClassPostProcessor的执行，
+	 * 解析我们的配置类，从配置类中开始向外扩展处理我们的BeanDefinition，并进行注册。会委派给ConfigurationClassParser类进行处理。我们的Import相关
+	 * 的逻辑就是在这里进行处理的。
+	 *
+	 *
 	 */
 }

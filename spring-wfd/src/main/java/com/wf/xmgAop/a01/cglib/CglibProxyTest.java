@@ -2,6 +2,7 @@ package com.wf.xmgAop.a01.cglib;
 
 import com.wf.xmgAop.a01.jdk.DefaultEchoService;
 import com.wf.xmgAop.a01.jdk.EchoService;
+import org.springframework.cglib.proxy.CallbackFilter;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -20,7 +21,7 @@ public class CglibProxyTest {
 	 *
 	 * 字节码提升的三种类型
 	 *
-	 * 动态代理包括jdk动态代理 基于接口代理和cglib库代理基于类代理(字节码提升)，aspectJ的使用
+	 * 动态代理包括jdk动态代理 基于接口代理和cglib库代理基于类代理(字节码提升)，aspectJ框架的使用需要aspectJ编译器(ajc)和运行类库
 	 *
 	 * jdk动态代理：通过java.lang.reflect.Proxy类为一个或多个接口动态生成代理类。代理类实现了和目标对象相同的接口，并且在调用方法前后增加额外的操作，
 	 * 简单易用，不需要额外的库进行支持。但是只能代理实现了接口的类。动态织入
@@ -84,6 +85,23 @@ public class CglibProxyTest {
 		EchoService echoService = (EchoService) enhancer.create();
 		// 输出执行结果
 		System.out.println(echoService.echo("Hello,World"));
+	}
+
+	public static void callBackFilter(){
+
+		Enhancer enhancer = new Enhancer();
+		// 指定拦截类
+		enhancer.setSuperclass(DefaultEchoService.class);
+
+		// 拦截指定接口
+		enhancer.setInterfaces(new Class[]{EchoService.class});
+		enhancer.setCallbackFilter(new CallbackFilter() {
+			@Override
+			public int accept(Method method) {
+				return 0;
+			}
+		});
+
 	}
 
 }

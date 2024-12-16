@@ -34,6 +34,18 @@ public class ApplicationPropertiesTest {
 	 * 在DefaultListableBeanFactory 中进行处理掉@Value的值。
 	 *
 	 *
+	 * 上下文的环境属性是存放在AbstractApplicationContext的 environment变量中。从变量中我们可以得到对应的文件资源
+	 *
+	 * PropertyPlaceholderHelper 用于处理解析占位符
+	 *
+	 * PropertySourcesPropertyResolver 中也保存了我们的资源文件，真正的解析之后，获取配置值是在这里处理的
+	 *
+	 * applicationContext中的environment属性在进行构造器的时候，在进行AnnotatedBeanDefinitionReader实例化的时候进行初始化的。
+	 *
+	 * 针对ConfigurationClassPostProcessor这个工厂后置处理器，其实现了EnvironmentAware这个接口，所以在创建对象实例的时候通过这个接口的
+	 * 回调，把我们容器中的environment变量又赋值给了这个工厂后置处理器，然后再进行PropertySources 和 PropertySource解析的时候，拿到的environment变量
+	 * 其实就是容器中的环境上下文，又赋值给了ConfigurationClassParser进行处理，
+	 * 所以最后解析出来的属性的值都会被放入到这个容器上下文的环境中，这样的话，在解析依赖的时候，就可以进行使用。
 	 *
 	 *
 	 *

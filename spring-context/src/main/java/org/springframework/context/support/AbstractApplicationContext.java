@@ -196,8 +196,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ApplicationContext parent;
 
-	/** Environment used by this context. */
-	@Nullable
+	/** Environment used by this context. 此上下文使用的环境，上下文的环境是存放在AbstractApplicationContext的 environment   ，*/
+	@Nullable // 真正注入的是 StandardEnvironment类对象
 	private ConfigurableEnvironment environment;
 
 	/** BeanFactoryPostProcessors to apply on refresh. 在刷新时应用BeanFactoryPostProcessors。 */
@@ -563,7 +563,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			// 应用上下文中得到底层的容器，然后开始进行一些功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
 			// Prepare the bean factory for use in this context. 准备在此上下文中使用的bean工厂。
-			prepareBeanFactory(beanFactory);
+			prepareBeanFactory(beanFactory); //主要做了三件事情：添加通用的后置处理器对象，添加非bean，添加内建的bean对象
 			// 需要记住的是，beanFactory才是我们真正的容器
 			try {
 				// Allows post-processing of the bean factory in context subclasses. 允许在上下文子类中对bean工厂进行后处理。空实现
@@ -571,10 +571,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
-				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器的一些处理器的处理，
+				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器BeanFactory的一些处理器的处理，因为我们实例化对象主要依赖beanDefinition，这里我们就要提前通过beanFactory进行处理配置，得到我们的beanDefinition
 				// Register bean processors that intercept bean creation.
-				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理 先实例化beanPostprocess吧，毕竟下面开始实力化我们的对象了
-				beanPostProcess.end();
+				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理 先实例化处理Bean实例的beanPostprocess吧，毕竟下面开始实力化我们的对象了
+				beanPostProcess.end(); // 这里不管处理的是我们的BeanFactoryPostProcessors还是处理我们的BeanPostProcessors,都是利用了容器的getBean进行实例化，然后调用对应的方法
 				// 后置处理器包括两种，一种是对容器的处理，一种是对容器中的bean的处理
 				// Initialize message source for this context.
 				initMessageSource();
@@ -639,7 +639,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Initialize any placeholder property sources in the context environment.
+		// Initialize any placeholder property sources in the context environment. 初始化上下文环境中的任何占位符属性源。
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable:
@@ -681,7 +681,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return getBeanFactory();
 	}
 
-	/**
+	/** DefaultListableBeanFactory
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
 	 * @param beanFactory the BeanFactory to configure
@@ -709,7 +709,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory); // 在依赖查找的时候，会首先判断这些
 		beanFactory.registerResolvableDependency(ResourceLoader.class, this);
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
-		beanFactory.registerResolvableDependency(ApplicationContext.class, this);
+		beanFactory.registerResolvableDependency(ApplicationContext.class, this); // 注意我们依赖的BeanFactory类和ApplicationContext是属于不同的对象
 
 		// Register early post-processor for detecting inner beans as ApplicationListeners. 将检测内部bean的早期后处理器注册为ApplicationListeners。
 		beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
@@ -723,7 +723,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Register default environment beans. 注册我们关于环境的内建bean对象，这些是直接注册成bean对象，可以进行依赖注入，也可以进行依赖查找,但是没有bean的声明周期
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
-			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
+			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment()); //这里直接把实例对象存放到容器中了，
 		}
 		if (!beanFactory.containsLocalBean(SYSTEM_PROPERTIES_BEAN_NAME)) {
 			beanFactory.registerSingleton(SYSTEM_PROPERTIES_BEAN_NAME, getEnvironment().getSystemProperties());
@@ -748,14 +748,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 	}
 
-	/**
+	/**  实例化并调用所有已注册的BeanFactoryPostProcessor bean
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors()); //开始实力化我们的
-
+		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors()); //开始实力化我们的BeanFactoryPostProcessors
+		//为什么首先要实例化并调用 BeanFactory的后置处理器，主要是通过这个beanFactory的后置处理器来处理我们的一些配置相关信息，解析出来我们容器中的beanDefinition,不然我们的beanDefinition从哪里来呢？
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
 		if (!NativeDetector.inNativeImage() && beanFactory.getTempClassLoader() == null &&
@@ -930,7 +930,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons. 实例化所有剩余的(非lazy-init)单例。
-		beanFactory.preInstantiateSingletons();
+		beanFactory.preInstantiateSingletons(); //DefaultListableBeanFactory实现的ConfigurableListableBeanFactory接口中的方法
 	}
 
 	/**

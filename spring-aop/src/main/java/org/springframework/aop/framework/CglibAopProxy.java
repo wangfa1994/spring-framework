@@ -163,7 +163,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		}
 
 		try {
-			Class<?> rootClass = this.advised.getTargetClass();
+			Class<?> rootClass = this.advised.getTargetClass(); //得到我们原始的目标
 			Assert.state(rootClass != null, "Target class must be available for creating a CGLIB proxy");
 
 			Class<?> proxySuperClass = rootClass;
@@ -178,7 +178,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			// Validate the class, writing log messages as necessary. 验证类，必要时写入日志消息。
 			validateClassIfNecessary(proxySuperClass, classLoader);
 
-			// Configure CGLIB Enhancer... 配置CGLIB增强器…
+			// Configure CGLIB Enhancer... 配置CGLIB增强器… 这个才是真正的代理
 			Enhancer enhancer = createEnhancer();
 			if (classLoader != null) {
 				enhancer.setClassLoader(classLoader);
@@ -196,8 +196,8 @@ class CglibAopProxy implements AopProxy, Serializable {
 			Class<?>[] types = new Class<?>[callbacks.length];
 			for (int x = 0; x < types.length; x++) {
 				types[x] = callbacks[x].getClass();
-			}
-			// fixedInterceptorMap only populated at this point, after getCallbacks call above
+			} // fixedInterceptorMap只在getCallbacks调用之后被填充
+			// fixedInterceptorMap only populated at this point, after getCallbacks call above 通过enhancer设置我们的回调链
 			enhancer.setCallbackFilter(new ProxyCallbackFilter(
 					this.advised.getConfigurationOnlyCopy(), this.fixedInterceptorMap, this.fixedInterceptorOffset));
 			enhancer.setCallbackTypes(types);
@@ -662,7 +662,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	}
 
 
-	/**
+	/** 通用AOP回调。当目标是动态的或代理未冻结时使用。
 	 * General purpose AOP callback. Used when the target is dynamic or when the
 	 * proxy is not frozen.
 	 */
@@ -813,7 +813,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 
 	/**
-	 * CallbackFilter to assign Callbacks to methods.
+	 * CallbackFilter to assign Callbacks to methods.  CallbackFilter将回调函数分配给方法。
 	 */
 	private static class ProxyCallbackFilter implements CallbackFilter {
 
