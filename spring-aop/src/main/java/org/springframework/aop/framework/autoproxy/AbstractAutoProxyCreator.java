@@ -453,12 +453,12 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			}
 		}
 		else {
-			// No proxyTargetClass flag enforced, let's apply our default checks...
+			// No proxyTargetClass flag enforced, let's apply our default checks... 没有强制执行proxyTargetClass标志，让我们应用我们的默认检查…
 			if (shouldProxyTargetClass(beanClass, beanName)) {
 				proxyFactory.setProxyTargetClass(true);
 			}
 			else {
-				evaluateProxyInterfaces(beanClass, proxyFactory);
+				evaluateProxyInterfaces(beanClass, proxyFactory); //评估代理接口
 			}
 		}
 

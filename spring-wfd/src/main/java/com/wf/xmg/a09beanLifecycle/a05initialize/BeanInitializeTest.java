@@ -35,6 +35,11 @@ public class BeanInitializeTest {
 	 * 利用了 BeanPostProcessor的postProcessAfterInitialization方法进行相关处理
 	 *
 	 *
+	 * 先执行Aware接口 ，
+	 * 再执行BeanPostProcessor的postProcessorBeforeInitialization方法，
+	 * 然后执行initializingBean接口与自定义init方法，
+	 * 最后执行BeanFactoryProcessor的postProcessorAfterInitialization方法
+	 *
 	 *
 	 *
 	 *

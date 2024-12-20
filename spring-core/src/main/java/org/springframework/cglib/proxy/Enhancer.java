@@ -1214,7 +1214,7 @@ public class Enhancer extends AbstractClassGenerator {
 		while (it1.hasNext()) {
 			MethodInfo method = (MethodInfo) it1.next();
 			Method actualMethod = (it2 != null) ? (Method) it2.next() : null;
-			int index = filter.accept(actualMethod);
+			int index = filter.accept(actualMethod); // 直接进行过滤
 			if (index >= callbackTypes.length) {
 				throw new IllegalArgumentException("Callback filter returned an index that is too large: " + index);
 			}

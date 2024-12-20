@@ -1134,7 +1134,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				if (targetType != null) {
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 开始执行我们的实例化前的相关周期方法
 					if (bean != null) { // 如果我们自定义了我们的实例化对象，则会接着处理了我们的 初始化 之后的方法(注意此时是初始化 Initialization )
-						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName); //
 					}
 				}
 			}
@@ -1398,7 +1398,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) { // 实例化之后的后置操作
 			for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
 				if (!bp.postProcessAfterInstantiation(bw.getWrappedInstance(), beanName)) { // 实行实例化之后的操作通过后置方法，instantiationBeanPostProcessor的前置方法是在开始创建bean之前进行了调用，所以创建对象之后上来就调用afterInstantiation
-					return;
+					return; // 如果我们进行了后置实例化的处理，并且返回了false，则就不会进行一些默认值的再次处理了，就直接返回了对象，如果我们返回了true，则可能会导致我们设置的值被默认值再次覆盖掉
 				}
 			}
 		}
@@ -1779,7 +1779,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #applyBeanPostProcessorsBeforeInitialization
 	 * @see #invokeInitMethods
 	 * @see #applyBeanPostProcessorsAfterInitialization
-	 */ // 先执行相关的Aware接口的回调处理，然后执行相关BeanPostProcessors的BeforeInitialization方法，然后再执行Init相关方法，最后再执行BeanPostProcessors的AfterInitialization方法
+	 */ // 先执行相关的Aware接口的回调处理，然后执行相关BeanPostProcessors的BeforeInitialization方法，然后再执行InitializingBean和自定义init相关方法，最后再执行BeanPostProcessors的AfterInitialization方法
 	protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {

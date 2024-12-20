@@ -36,13 +36,13 @@ import org.springframework.util.Assert;
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 1.2.3
- * @see java.io.ByteArrayInputStream
+ * @see java.io.ByteArrayInputStream 和 java 的 ByteArrayInputStream 进行关联
  * @see InputStreamResource
  * @see org.springframework.mail.javamail.MimeMessageHelper#addAttachment(String, InputStreamSource)
  */
 public class ByteArrayResource extends AbstractResource {
 
-	private final byte[] byteArray;
+	private final byte[] byteArray; // 我们的数据数组
 
 	private final String description;
 

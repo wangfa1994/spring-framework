@@ -98,7 +98,7 @@ public abstract class AopProxyUtils {
 		return result;
 	}
 
-	/**
+	/** 确定要为给定AOP配置代理的完整接口集。
 	 * Determine the complete set of interfaces to proxy for the given AOP configuration.
 	 * <p>This will always add the {@link Advised} interface unless the AdvisedSupport's
 	 * {@link AdvisedSupport#setOpaque "opaque"} flag is on. Always adds the
@@ -106,7 +106,7 @@ public abstract class AopProxyUtils {
 	 * @param advised the proxy config
 	 * @return the complete set of interfaces to proxy
 	 * @see SpringProxy
-	 * @see Advised
+	 * @see Advised 完整的代理接口
 	 */
 	public static Class<?>[] completeProxiedInterfaces(AdvisedSupport advised) {
 		return completeProxiedInterfaces(advised, false);

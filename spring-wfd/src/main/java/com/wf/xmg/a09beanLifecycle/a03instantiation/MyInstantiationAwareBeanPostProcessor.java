@@ -8,12 +8,14 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.util.ObjectUtils;
 
+import java.beans.PropertyDescriptor;
+
 
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 
 
 	/**
-	* Bean 实例化之前 进行拦截对应的方法，然后确定是否返回自定义的对象，如果返回了自定义的对象，则不会再再进行相关bean生命周期的调用
+	* Bean 实例化之前 首先进行拦截对应的方法，然后确定是否返回自定义的对象，如果返回了自定义的对象，会在调用一下实例化之后的beanPostProcessor的afterInitialization方法就会返回了，不会再再进行相关bean生命周期的调用，
 	**/
 	@Override
 	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
@@ -53,7 +55,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 	// user 是跳过 Bean 属性赋值（填入）
 	// superUser 也是完全跳过 Bean 实例化（Bean 属性赋值（填入））
 	// userHolder
-
+	// 实例化对象之后，进行属性赋值的时候，最后执行的方法，用来进行属性值的填入
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)
 			throws BeansException {
@@ -86,4 +88,9 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		return null;
 	}
 
+	// 这个方法5.1表标记不在使用，而是使用 postProcessProperties
+	@Override
+	public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
+		return InstantiationAwareBeanPostProcessor.super.postProcessPropertyValues(pvs, pds, bean, beanName);
+	}
 }

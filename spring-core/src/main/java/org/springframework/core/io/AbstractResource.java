@@ -53,7 +53,7 @@ public abstract class AbstractResource implements Resource {
 	 */
 	@Override
 	public boolean exists() {
-		// Try file existence: can we find the file in the file system?
+		// Try file existence: can we find the file in the file system?  能否在文件系统中找到该文件？
 		if (isFile()) {
 			try {
 				return getFile().exists();

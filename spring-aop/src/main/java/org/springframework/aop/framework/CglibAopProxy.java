@@ -187,12 +187,12 @@ class CglibAopProxy implements AopProxy, Serializable {
 					enhancer.setUseCache(false);
 				}
 			}
-			enhancer.setSuperclass(proxySuperClass);
-			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised));
+			enhancer.setSuperclass(proxySuperClass); // 设置我们的代理类，我们新生成的代理类会继承此类
+			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised)); //设置我们的代理接口，我们新生成的代理类会实现这些接口的方法，这里设置了SpringProxy 和 Advised 两个接口
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
 			enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(classLoader));
 
-			Callback[] callbacks = getCallbacks(rootClass);
+			Callback[] callbacks = getCallbacks(rootClass); //根据类型获得此类型的回调方法数组
 			Class<?>[] types = new Class<?>[callbacks.length];
 			for (int x = 0; x < types.length; x++) {
 				types[x] = callbacks[x].getClass();
@@ -287,7 +287,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		boolean exposeProxy = this.advised.isExposeProxy();
 		boolean isStatic = this.advised.getTargetSource().isStatic();
 
-		// Choose an "aop" interceptor (used for AOP calls).
+		// Choose an "aop" interceptor (used for AOP calls). 选择一个“aop”拦截器（用于aop调用）。
 		Callback aopInterceptor = new DynamicAdvisedInterceptor(this.advised);
 
 		// Choose a "straight to target" interceptor. (used for calls that are
@@ -703,7 +703,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					retVal = invokeMethod(target, method, argsToUse, methodProxy);
 				}
 				else {
-					// We need to create a method invocation...
+					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed
 					retVal = new CglibMethodInvocation(proxy, target, method, args, targetClass, chain, methodProxy).proceed();
 				}
 				retVal = processReturnType(proxy, target, method, retVal);
@@ -813,7 +813,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 
 	/**
-	 * CallbackFilter to assign Callbacks to methods.  CallbackFilter将回调函数分配给方法。
+	 * CallbackFilter to assign Callbacks to methods.  CallbackFilter将回调函数分配给方法。 ????????
 	 */
 	private static class ProxyCallbackFilter implements CallbackFilter {
 

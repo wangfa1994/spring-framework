@@ -136,7 +136,7 @@ public class EncodedResource implements InputStreamSource {
 	 * @see #getInputStream()
 	 */
 	public Reader getReader() throws IOException {
-		if (this.charset != null) {
+		if (this.charset != null) { // EncodeResource 最主要的方法就是可以根据编码，重新创建我们的Reader对象
 			return new InputStreamReader(this.resource.getInputStream(), this.charset);
 		}
 		else if (this.encoding != null) {
