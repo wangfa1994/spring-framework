@@ -1,7 +1,9 @@
 package com.wf.model.factoryBean;
 
 
-public class Student {
+import org.springframework.beans.factory.BeanNameAware;
+
+public class Student implements BeanNameAware {
 
 	private String name;
 
@@ -21,5 +23,11 @@ public class Student {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+
+	@Override
+	public void setBeanName(String name) {
+		System.out.println("设置bean的名称"+name);
+		this.name = name;
 	}
 }

@@ -31,4 +31,12 @@ public class AutoStudentFactoryDto {
 	public void setStudentFactoryBean(StudentFactoryBean studentFactoryBean) {
 		this.studentFactoryBean = studentFactoryBean;
 	}
+
+	@Override
+	public String toString() {
+		return "AutoStudentFactoryDto{" +
+				"student=" + student +"\n"+
+				", studentFactoryBean=" + studentFactoryBean +
+				'}';
+	}
 }

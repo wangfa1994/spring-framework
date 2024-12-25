@@ -21,7 +21,7 @@ import java.io.IOException;
 import org.springframework.core.env.PropertySource;
 import org.springframework.lang.Nullable;
 
-/**
+/**  创建基于资源的{@link PropertySource}包装器的策略接口。
  * Strategy interface for creating resource-based {@link PropertySource} wrappers.
  *
  * @author Juergen Hoeller

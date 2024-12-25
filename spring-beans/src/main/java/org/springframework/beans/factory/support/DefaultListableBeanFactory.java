@@ -1332,11 +1332,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					String strVal = resolveEmbeddedValue((String) value); // 将表达式配置进行处理，从environment环境中获得到真正的值
 					BeanDefinition bd = (beanName != null && containsBean(beanName) ?
 							getMergedBeanDefinition(beanName) : null);
-					value = evaluateBeanDefinitionString(strVal, bd);//
+					value = evaluateBeanDefinitionString(strVal, bd);// 得到当前对象的BeanDefinition，然后和解析的值进行计算
 				}
 				TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
 				try {
-					return converter.convertIfNecessary(value, type, descriptor.getTypeDescriptor());
+					return converter.convertIfNecessary(value, type, descriptor.getTypeDescriptor()); // 确定计算出来的值和对应的类型是否需要转换，如果需要转换的话，进行转换 value加载resource类的处理
 				}
 				catch (UnsupportedOperationException ex) {
 					// A custom TypeConverter which does not support TypeDescriptor resolution...

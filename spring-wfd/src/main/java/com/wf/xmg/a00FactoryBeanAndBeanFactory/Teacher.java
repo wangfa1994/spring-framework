@@ -1,12 +1,14 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
-public class Teacher {
+import org.springframework.beans.factory.BeanNameAware;
+
+public class Teacher  implements BeanNameAware {
 
 	private String name;
 
 	private String job;
 
-	private String beanName;
+	private String beanName="";
 
 	public String getName() {
 		return name;
@@ -24,7 +26,9 @@ public class Teacher {
 		this.job = job;
 	}
 
+	// BeanNameAware 接口的回调
 	public void setBeanName(String name) {
+		System.out.println("====BeanNameAware接口的回调方法设置对应的beanName"+name);
 		beanName  = name;
 	}
 

@@ -54,11 +54,11 @@ final class ConfigurationClass {
 
 	@Nullable
 	private String beanName;
-
+	// 存放我们通过import导入的配置类的导入类，比如B通过A导入的，然后再进行解析B的时候创建出B的配置类的时候，把A设置进来了，用于后面的解析处理import
 	private final Set<ConfigurationClass> importedBy = new LinkedHashSet<>(1);
-	// 存放我们配置类中带有@Bean的方法，
+	// 存放我们配置类中带有@Bean的方法， 后面我们会处理这里的值变成beanDefinition
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
-
+	// 通过资源进行导入的会存放在这里，然后再后面进行处理
 	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =
 			new LinkedHashMap<>();
 

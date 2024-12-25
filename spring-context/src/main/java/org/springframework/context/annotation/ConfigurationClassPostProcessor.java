@@ -289,7 +289,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			}
 		}
 
-		// Return immediately if no @Configuration classes were found
+		// Return immediately if no @Configuration classes were found 如果没有找到@Configuration类，立即返回
 		if (configCandidates.isEmpty()) {
 			return;
 		}
@@ -328,7 +328,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size()); //防止我们解析的配置类，变成我们的ConfigurationClass对象
 		do {
 			StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
-			parser.parse(candidates); //开始解析我们的配置类，从顶层配置类中解析出来我们的所有符合条件的配置类，通过@comsacn,@import,@propertiesRrsource等配置的额外类
+			parser.parse(candidates); //开始解析我们的配置类，从顶层配置类中解析出来我们的所有符合条件的配置类，通过@comsacn,@import,@propertiesResource等配置的额外类
 			parser.validate();
 
 			Set<ConfigurationClass> configClasses = new LinkedHashSet<>(parser.getConfigurationClasses());//得到我们的所有配置类

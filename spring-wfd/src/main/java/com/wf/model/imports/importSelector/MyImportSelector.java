@@ -18,8 +18,10 @@ public class MyImportSelector implements ImportSelector {
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        //用于导入其他类，当类比较多时会比较方便 ，全路径名称
-        return new String[]{SelectImportsBean1.class.getName(), "com.wf.model.imports.importSelector.SelectImportsBean2"};
+
+		return new String[]{"com.wf.model.imports.importSelector.SelectImportsBean2"};
+        //用于导入其他类，当类比较多时会比较方便 ，全路径名称 ,这里得到的类名会被当做配置类进行继续解析
+		//return new String[]{SelectImportsBean1.class.getName(), "com.wf.model.imports.importSelector.SelectImportsBean2"};
     }
 
 

@@ -137,7 +137,7 @@ class TypeConverterDelegate {
 
 		Object convertedValue = newValue;
 
-		// Value not of required type?
+		// Value not of required type?  值不是必需的类型？
 		if (editor != null || (requiredType != null && !ClassUtils.isAssignableValue(requiredType, convertedValue))) {
 			if (typeDescriptor != null && requiredType != null && Collection.class.isAssignableFrom(requiredType) &&
 					convertedValue instanceof String) {
@@ -150,9 +150,9 @@ class TypeConverterDelegate {
 				}
 			}
 			if (editor == null) {
-				editor = findDefaultEditor(requiredType);
+				editor = findDefaultEditor(requiredType); // 根据类型得到我们的属性编辑器，然后属性编辑器进行属性值的解析
 			}
-			convertedValue = doConvertValue(oldValue, convertedValue, requiredType, editor);
+			convertedValue = doConvertValue(oldValue, convertedValue, requiredType, editor);//开始进行转换成真正的对象
 		}
 
 		boolean standardConversion = false;

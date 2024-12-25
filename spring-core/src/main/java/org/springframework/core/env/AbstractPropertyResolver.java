@@ -197,7 +197,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	@Override
 	public String resolvePlaceholders(String text) {
 		if (this.nonStrictHelper == null) {
-			this.nonStrictHelper = createPlaceholderHelper(true);
+			this.nonStrictHelper = createPlaceholderHelper(true);// 实例化我们的占位符解析助手
 		}
 		return doResolvePlaceholders(text, this.nonStrictHelper);
 	}
@@ -232,7 +232,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	private PropertyPlaceholderHelper createPlaceholderHelper(boolean ignoreUnresolvablePlaceholders) {
 		return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix,
-				this.valueSeparator, ignoreUnresolvablePlaceholders);
+				this.valueSeparator, ignoreUnresolvablePlaceholders); // 创建一个属性占位帮助器，${   和 }
 	}
 
 	private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {

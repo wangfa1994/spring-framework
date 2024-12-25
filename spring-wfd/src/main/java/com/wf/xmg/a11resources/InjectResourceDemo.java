@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 
 // 注入我们的资源相关信息
 public class InjectResourceDemo {
+
 	@Value("classpath:/META-INF/a11/default.properties")
 	private Resource defaultPropertiesResource;
 
@@ -42,6 +43,13 @@ public class InjectResourceDemo {
 		context.close();
 
 	}
+
+
+	/**
+	 * @value 可以直接进行资源加载，这个为什么会能根据一个字符串解析出来对应的Resource呢？这个和java中的PropertyEditor有关联，在类型转换的时候进行处理出来的
+	 *
+	 */
+
 
 
 

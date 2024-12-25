@@ -126,11 +126,11 @@ abstract class ConfigurationClassUtils {
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) { // 完全配置类 用的是&&
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
-		else if (config != null || isConfigurationCandidate(metadata)) { // 根据元信息判断是否是候选配置 精简配置类
+		else if (config != null || isConfigurationCandidate(metadata)) { // 根据元信息判断是否是候选配置 精简配置类 精简配置类包括
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE); // 添加配置标志位精简配置
 		}
 		else {
-			return false;
+			return false; // 如果我们的注册类没有标注Configuration注解则表示不是一个配置文件，直接返回false
 		}
 
 		// It's a full or lite configuration candidate... Let's determine the order value, if any. 它是一个完整或精简的候选配置…如果有的话，我们来确定阶值。

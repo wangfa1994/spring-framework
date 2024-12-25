@@ -109,7 +109,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	private final Set<String> defaultProfiles = new LinkedHashSet<>(getReservedDefaultProfiles());
 
 	private final MutablePropertySources propertySources;
-	// 环境中存放资源配置的处理器，内部持有资源文件
+	// 环境中存放资源配置的处理器，内部持有资源文件，资源处理相关
 	private final ConfigurablePropertyResolver propertyResolver;
 
 

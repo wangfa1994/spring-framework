@@ -1,4 +1,4 @@
-package com.wf.model.configProperties;
+package com.wf.model.ymlProperties;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -41,5 +41,13 @@ public class Cat {
 
 	public void setSwitchFlag(String switchFlag) {
 		this.switchFlag = switchFlag;
+	}
+
+	@Override
+	public String toString() {
+		return "Cat{" +
+				"category='" + category + '\'' +
+				", switchFlag='" + switchFlag + '\'' +
+				'}';
 	}
 }

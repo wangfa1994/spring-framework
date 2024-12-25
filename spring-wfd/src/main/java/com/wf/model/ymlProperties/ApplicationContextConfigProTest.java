@@ -1,4 +1,4 @@
-package com.wf.model.configProperties;
+package com.wf.model.ymlProperties;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
  * @Author : Mr.WangF
  * @Date: 2022/7/20 10:41
  */
-@ComponentScan(basePackages = {"com.wf.model.configProperties"})
+@ComponentScan(basePackages = {"com.wf.model.ymlProperties"})
 @PropertySource({"/model/configPro.yml"})
 public class ApplicationContextConfigProTest {
 

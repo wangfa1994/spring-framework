@@ -250,7 +250,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
 			throws BeansException {
 
-		String beanName = transformedBeanName(name); //进行转换bean的名称，主要确定是不是FactoryBean,使用了&符号进行了标记。
+		String beanName = transformedBeanName(name); //进行转换bean的名称，如果名称带&符号的话，则会进行去掉，主要确定是不是FactoryBean,使用了&符号进行了标记。
 		Object beanInstance;
 
 		// Eagerly check singleton cache for manually registered singletons. 先从我们的单例池中获取对应的实例，看看是否是已经生成了
@@ -342,7 +342,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							destroySingleton(beanName);
 							throw ex;
 						}
-					});	// 这里把Name 和 beanName都传递进去了
+					});	// 这里把name 和 beanName都传递进去了,name是我们原始的name,可能会带&符号，而beanName则是真正的beanName
 					beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, mbd); // 创建完对象之后，再确定是否是真正的要返回的对象ObjectFactory 与 FactoryBean 可能返回的是工厂类，而我们需要的是工厂创建的对象
 				}
 
@@ -933,8 +933,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			return null;
 		}
 		String result = value;
-		for (StringValueResolver resolver : this.embeddedValueResolvers) {
-			result = resolver.resolveStringValue(result);
+		for (StringValueResolver resolver : this.embeddedValueResolvers) { // 嵌入式值解析器 embedded
+			result = resolver.resolveStringValue(result); // 跳转到我们的匿名实现类中进行处理获取到对应值  strVal -> getEnvironment().resolvePlaceholders(strVal)
 			if (result == null) {
 				return null;
 			}
@@ -1643,7 +1643,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				scope = getRegisteredScope(scopeName);
 			}
 		}
-		return this.beanExpressionResolver.evaluate(value, new BeanExpressionContext(this, scope));
+		return this.beanExpressionResolver.evaluate(value, new BeanExpressionContext(this, scope)); // 使用我们的bean表达式进行评估
 	}
 
 
@@ -1869,7 +1869,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
 			}
 			if (mbd != null) {
-				mbd.isFactoryBean = true;
+				mbd.isFactoryBean = true; //这里会解析我们的bean是否是工厂bena
 			}
 			return beanInstance;
 		}
@@ -1886,11 +1886,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			mbd.isFactoryBean = true;
 		}
 		else {
-			object = getCachedObjectForFactoryBean(beanName);
+			object = getCachedObjectForFactoryBean(beanName); // 根据工厂bean的name从缓存中得到我们的对象
 		}
-		if (object == null) {
+		if (object == null) { // 如果没有得到的话，说明还没有执行对应的get逻辑
 			// Return bean instance from factory.
-			FactoryBean<?> factory = (FactoryBean<?>) beanInstance;
+			FactoryBean<?> factory = (FactoryBean<?>) beanInstance; //如果我们得到的对象是FactoryBean,这里由于name的转换，得到的一定是FactoryBean
 			// Caches object obtained from FactoryBean if it is a singleton.
 			if (mbd == null && containsBeanDefinition(beanName)) {
 				mbd = getMergedLocalBeanDefinition(beanName);
