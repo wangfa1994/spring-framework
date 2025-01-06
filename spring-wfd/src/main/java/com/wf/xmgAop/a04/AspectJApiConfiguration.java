@@ -26,6 +26,11 @@ import org.springframework.core.annotation.Order;
 @Aspect
 public class AspectJApiConfiguration {
 
+	@Pointcut("")
+	public void anyPublicMethod(){
+
+	}
+
     @Around("anyPublicMethod()")         // Join Point 拦截动作
     public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("@Around any public method.");

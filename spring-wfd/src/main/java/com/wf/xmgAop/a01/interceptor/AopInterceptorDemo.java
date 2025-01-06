@@ -64,7 +64,7 @@ public class AopInterceptorDemo {
 						// 执行我们代理对象的正常逻辑
 						EchoService echoService = new EchoServiceImpl();
 						result = echoService.echo((String) args[0]);
-					} finally {
+					} finally { //执行返回逻辑
 						long end = System.currentTimeMillis();
 						System.out.println("echo 方法执行的实现：" + (end-start) + " ms."+method.getName());
 					}

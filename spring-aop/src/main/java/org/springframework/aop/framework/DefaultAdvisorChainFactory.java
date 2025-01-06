@@ -61,7 +61,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 		// 遍历我们的 Advisor 然后封装成对应 MethodInterceptor ，然后形成我们的调用链
 		for (Advisor advisor : advisors) {
 			if (advisor instanceof PointcutAdvisor) {
-				// Add it conditionally.
+				// Add it conditionally. 有条件地添加
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
 				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();

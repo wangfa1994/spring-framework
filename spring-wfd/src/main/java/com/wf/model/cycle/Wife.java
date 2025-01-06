@@ -19,10 +19,10 @@ public class Wife {
 		System.out.println("Wife构造器");
 	}
 
-	/*@Autowired
+//	@Autowired
 	public Wife(Husband husband) {
 		this.husband = husband;
-	}*/
+	}
 
 	//@Autowired
 	public void aetHusband(Husband husband) {

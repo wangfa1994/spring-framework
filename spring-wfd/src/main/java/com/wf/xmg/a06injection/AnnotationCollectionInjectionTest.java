@@ -34,7 +34,7 @@ public class AnnotationCollectionInjectionTest {
 
 		System.out.println("annotationFieldInjectionTest.Optional.user："+annotationFieldInjectionTest.userOptional.get());
 	}
-
+		//集合类型的依赖处理是 org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans方法
 
 	@Bean
 	public User user() {

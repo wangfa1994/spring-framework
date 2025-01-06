@@ -20,7 +20,7 @@ public class Husband {
 		System.out.println("Husband构造器");
 	}
 
-	//@Autowired
+//	@Autowired
 	public Husband(Wife wife) {
 		this.wife = wife;
 	}

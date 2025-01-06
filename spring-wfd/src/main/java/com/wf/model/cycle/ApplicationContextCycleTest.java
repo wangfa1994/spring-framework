@@ -40,10 +40,10 @@ public class ApplicationContextCycleTest {
  *
  ** 在创建bean过程中 Instantiation 实例化 和  Initialization 初始化
  * BeanPostProcessor一共被分为下列大类
- * 	final List<InstantiationAwareBeanPostProcessor> instantiationAware = new ArrayList<>(); 在没有创建对象之前先会第一个进行执行的处理器 主要执行postProcessBeforeInstantiation 和 postProcessAfterInstantiation
- * 	final List<SmartInstantiationAwareBeanPostProcessor> smartInstantiationAware = new ArrayList<>();
+ * 	final List<InstantiationAwareBeanPostProcessor> instantiationAware = new ArrayList<>(); 主要执行postProcessBeforeInstantiation 和 postProcessAfterInstantiation
+ * 	final List<SmartInstantiationAwareBeanPostProcessor> smartInstantiationAware = new ArrayList<>(); 主要是匹配我们的构造器，循环依赖的后置处理
  * 	final List<DestructionAwareBeanPostProcessor> destructionAware = new ArrayList<>();
- * 	final List<MergedBeanDefinitionPostProcessor> mergedDefinition = new ArrayList<>(); bean对象创建之后的第一个执行的
+ * 	final List<MergedBeanDefinitionPostProcessor> mergedDefinition = new ArrayList<>(); bean对象创建之后的第一个执行的，用来处理类之间的依赖关系，放置到beanDefinition中
  *
  * BeanPostProcessor
  * 		postProcessBeforeInitialization

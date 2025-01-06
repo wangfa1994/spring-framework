@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class SchoolObjectFactory implements ObjectFactory<School> {
 	@Override
 	public School getObject() throws BeansException {

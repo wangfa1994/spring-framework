@@ -384,11 +384,11 @@ public class DependencyDescriptor extends InjectionPoint implements Serializable
 	 */
 	public Class<?> getDependencyType() {
 		if (this.field != null) {
-			if (this.nestingLevel > 1) {
+			if (this.nestingLevel > 1) { // 判断层级
 				Type type = this.field.getGenericType();
 				for (int i = 2; i <= this.nestingLevel; i++) {
-					if (type instanceof ParameterizedType) {
-						Type[] args = ((ParameterizedType) type).getActualTypeArguments();
+					if (type instanceof ParameterizedType) { // ParameterizedType 表示参数化类型，集合的就是属于
+						Type[] args = ((ParameterizedType) type).getActualTypeArguments(); // 从参数化类型中活的到真正的类型
 						type = args[args.length - 1];
 					}
 				}

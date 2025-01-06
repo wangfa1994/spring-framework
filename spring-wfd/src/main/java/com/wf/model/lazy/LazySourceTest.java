@@ -1,12 +1,18 @@
 package com.wf.model.lazy;
 
+import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.TargetSource;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.framework.AopProxy;
+import org.springframework.aop.framework.DefaultAopProxyFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
+
+import java.lang.reflect.Method;
 
 
 @ComponentScan(basePackages = {"com.wf.model.lazy"})
@@ -22,17 +28,12 @@ public class LazySourceTest {
 
 	public static void main(String[] args) {
 
-		//lazy();
+		 //lazy();
 
-		proxy();
+		//proxy();
+		customerProxyFactory();
 
-		enhancer();
 	}
-
-	private static void enhancer() {
-		Enhancer enhancer  = new Enhancer();
-	}
-
 
 	private static void lazy() {
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
@@ -104,12 +105,41 @@ public class LazySourceTest {
 		};
 
 		ProxyFactory pf = new ProxyFactory(); // 使用代理工厂，创建被@Lazy标记的代理对象
-		pf.setTargetSource(targetSource); // 设置目标对象
+		pf.setTargetSource(targetSource); // 设置目标对象 ,会把我们的对象封装成TargetSource
 		// 得到代理对象
 		Object proxy = pf.getProxy(LazySourceTest.class.getClassLoader());
 
 		Cat cat = (Cat)proxy;
+		String name = cat.getName();
 		System.out.println(cat); //打印的时候，会转到getTarget方法中处理
+
+		// AopProxyFactory接口 是产生 AopProxy的，    在产生的过程中委派给了ProxyFactory类 更高级的抽象，封装了代理对象的创建(门面模式)
+		// 代理对象是使用cglib产生的，他的增强逻辑是在哪里呢？ 在对应的
+
+	}
+	public static void customerProxyFactory(){
+		// 模仿高级抽象
+		Cat cat = new Cat();
+		cat.setAge(18);
+		cat.setName("cat");
+
+		DefaultAopProxyFactory defaultAopProxyFactory = new DefaultAopProxyFactory();
+		AdvisedSupport advisedSupport = new AdvisedSupport();
+		advisedSupport.setTarget(cat);
+		advisedSupport.addAdvice(new MethodBeforeAdvice() {
+			@Override
+			public void before(Method method, Object[] args, Object target) throws Throwable {
+				System.out.println("===============方法执行前的逻辑");
+			}
+		});
+
+
+		AopProxy aopProxy = defaultAopProxyFactory.createAopProxy(advisedSupport);
+
+		Cat proxy = (Cat)aopProxy.getProxy();
+		proxy.getName();
+		System.out.println(proxy);
+
 
 	}
 
@@ -126,5 +156,10 @@ public class LazySourceTest {
 
 	public void setCatLazy(Cat catLazy) {
 		this.catLazy = catLazy;
+	}
+
+	@Override
+	public String toString() {
+		return "LazySourceTest";
 	}
 }

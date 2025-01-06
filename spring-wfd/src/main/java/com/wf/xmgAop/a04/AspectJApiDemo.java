@@ -38,6 +38,7 @@ public class AspectJApiDemo {
 		proxyFactory.addAdvice(new MethodBeforeAdvice() {
 			@Override
 			public void before(Method method, Object[] args, Object target) throws Throwable {
+				System.out.println("方法执行前的操作:"+method.getName());
 				if ("put".equals(method.getName()) && args.length == 2) {
 					Object proxy = AopContext.currentProxy();
 					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s ，" +
@@ -58,6 +59,8 @@ public class AspectJApiDemo {
 	 * 设置目标对象
 	 * 添加切面配置(可以解析出advisor)
 	 * 添加advice(可以封装成advisor)
+	 *
+	 *
 	 *
 	 */
 }

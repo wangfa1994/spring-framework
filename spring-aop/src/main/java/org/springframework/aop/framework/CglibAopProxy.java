@@ -101,7 +101,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	private static final Map<Class<?>, Boolean> validatedClasses = new WeakHashMap<>();
 
 
-	/** The configuration used to configure this proxy. */
+	/** The configuration used to configure this proxy. 用于配置此代理的配置 注意AdvisedSupport也是实现了Advised */
 	protected final AdvisedSupport advised;
 
 	@Nullable
@@ -110,7 +110,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	@Nullable
 	protected Class<?>[] constructorArgTypes;
 
-	/** Dispatcher used for methods on Advised. */
+	/** Dispatcher used for methods on Advised. 分派器用于建议的方法  */
 	private final transient AdvisedDispatcher advisedDispatcher;
 
 	private transient Map<Method, Integer> fixedInterceptorMap = Collections.emptyMap();
@@ -167,7 +167,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			Assert.state(rootClass != null, "Target class must be available for creating a CGLIB proxy");
 
 			Class<?> proxySuperClass = rootClass;
-			if (rootClass.getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)) {
+			if (rootClass.getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)) { // 这里是解决代理类再被代理的逻辑？
 				proxySuperClass = rootClass.getSuperclass();
 				Class<?>[] additionalInterfaces = rootClass.getInterfaces();
 				for (Class<?> additionalInterface : additionalInterfaces) {
@@ -192,7 +192,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
 			enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(classLoader));
 
-			Callback[] callbacks = getCallbacks(rootClass); //根据类型获得此类型的回调方法数组
+			Callback[] callbacks = getCallbacks(rootClass); //根据类型获得此类型的回调方法数组，这里一定会返回封装之后的七个回调数组
 			Class<?>[] types = new Class<?>[callbacks.length];
 			for (int x = 0; x < types.length; x++) {
 				types[x] = callbacks[x].getClass();
@@ -203,7 +203,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			enhancer.setCallbackTypes(types);
 
 			// Generate the proxy class and create a proxy instance. 生成代理类并创建代理实例
-			return createProxyClassAndInstance(enhancer, callbacks);
+			return createProxyClassAndInstance(enhancer, callbacks); //将我们默认的7个回调callbacks进行了回调方法的设置,这里会回ObjenesisCglibAopProxy子类中
 		}
 		catch (CodeGenerationException | IllegalArgumentException ex) {
 			throw new AopConfigException("Could not generate CGLIB subclass of " + this.advised.getTargetClass() +
@@ -288,7 +288,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		boolean isStatic = this.advised.getTargetSource().isStatic();
 
 		// Choose an "aop" interceptor (used for AOP calls). 选择一个“aop”拦截器（用于aop调用）。
-		Callback aopInterceptor = new DynamicAdvisedInterceptor(this.advised);
+		Callback aopInterceptor = new DynamicAdvisedInterceptor(this.advised); // 这里是enhance的第一个回调
 
 		// Choose a "straight to target" interceptor. (used for calls that are
 		// unadvised but can return this). May be required to expose the proxy.
@@ -301,7 +301,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		else {
 			targetInterceptor = (isStatic ?
 					new StaticUnadvisedInterceptor(this.advised.getTargetSource().getTarget()) :
-					new DynamicUnadvisedInterceptor(this.advised.getTargetSource()));
+					new DynamicUnadvisedInterceptor(this.advised.getTargetSource())); // 动态不建议拦截器
 		}
 
 		// Choose a "direct to target" dispatcher (used for
@@ -310,7 +310,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 				new StaticDispatcher(this.advised.getTargetSource().getTarget()) : new SerializableNoOp());
 
 		Callback[] mainCallbacks = new Callback[] {
-				aopInterceptor,  // for normal advice
+				aopInterceptor,  // for normal advice 第一个是我们正常的advice
 				targetInterceptor,  // invoke target without considering advice, if optimized
 				new SerializableNoOp(),  // no override for methods mapped to this
 				targetDispatcher, this.advisedDispatcher,
@@ -416,8 +416,8 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 
 	/**
-	 * Serializable replacement for CGLIB's NoOp interface.
-	 * Public to allow use elsewhere in the framework.
+	 * serializable replacement for cglib's noop interface.
+	 * public to allow use elsewhere in the framework.
 	 */
 	public static class SerializableNoOp implements NoOp, Serializable {
 	}
@@ -668,7 +668,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	 */
 	private static class DynamicAdvisedInterceptor implements MethodInterceptor, Serializable {
 
-		private final AdvisedSupport advised;
+		private final AdvisedSupport advised; // 我们advise的配置文件，也是支持者
 
 		public DynamicAdvisedInterceptor(AdvisedSupport advised) {
 			this.advised = advised;
@@ -688,19 +688,19 @@ class CglibAopProxy implements AopProxy, Serializable {
 					setProxyContext = true;
 				}
 				// Get as late as possible to minimize the time we "own" the target, in case it comes from a pool...
-				target = targetSource.getTarget();
+				target = targetSource.getTarget(); //获取我们的真实对象
 				Class<?> targetClass = (target != null ? target.getClass() : null);
-				List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);
+				List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass); // 这里才是形成我们真正的调用链
 				Object retVal;
-				// Check whether we only have one InvokerInterceptor: that is,
-				// no real advice, but just reflective invocation of the target.
-				if (chain.isEmpty() && CglibMethodInvocation.isMethodProxyCompatible(method)) {
+				// Check whether we only have one InvokerInterceptor: that is, 检查我们是否只有一个InvokerInterceptor：
+				// no real advice, but just reflective invocation of the target. 没有真正的建议，只是对目标的反射调用。
+				if (chain.isEmpty() && CglibMethodInvocation.isMethodProxyCompatible(method)) { // 如果没有代理的情况下，直接进行方法回调
 					// We can skip creating a MethodInvocation: just invoke the target directly.
 					// Note that the final invoker must be an InvokerInterceptor, so we know
 					// it does nothing but a reflective operation on the target, and no hot
 					// swapping or fancy proxying.
 					Object[] argsToUse = AopProxyUtils.adaptArgumentsIfNecessary(method, args);
-					retVal = invokeMethod(target, method, argsToUse, methodProxy);
+					retVal = invokeMethod(target, method, argsToUse, methodProxy); //进行方法调用
 				}
 				else {
 					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed

@@ -11,7 +11,7 @@ import java.io.Reader;
 import java.util.stream.Stream;
 import org.apache.commons.io.IOUtils;
 
-// 注入我们的资源相关信息
+// 04 注入我们的资源相关信息 利用的是value处理
 public class InjectResourceDemo {
 
 	@Value("classpath:/META-INF/a11/default.properties")
@@ -24,7 +24,7 @@ public class InjectResourceDemo {
 	private String currentProjectRootPath;
 
 	@PostConstruct
-	public void init() {
+	public void init() { // 通过init进行处理，否在的话，我们的变量都要变成static的，因为我们的main方法是static的。
 		System.out.println(ResourceUtils.getContent(defaultPropertiesResource));
 		System.out.println("================");
 		Stream.of(propertiesResources).map(ResourceUtils::getContent).forEach(System.out::println);

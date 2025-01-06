@@ -107,7 +107,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	private boolean namespaceAware = false;
 
 	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
-			DefaultBeanDefinitionDocumentReader.class; // 在xml处理中，使用哪个类进行处理我们的xml文件的Document文档
+			DefaultBeanDefinitionDocumentReader.class; // 在xml处理中，使用哪个类进行解析处理我们的xml文件的Document文档
 
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 

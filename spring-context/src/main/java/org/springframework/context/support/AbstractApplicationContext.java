@@ -707,7 +707,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// BeanFactory interface not registered as resolvable type in a plain factory.
 		// MessageSource registered (and found for autowiring) as a bean. 注册我们的非bean对象，可以用于依赖注入,但是不能用于依赖查找，registerResolvableDependency方法的使用
 		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory); // 在依赖查找的时候，会首先判断这些
-		beanFactory.registerResolvableDependency(ResourceLoader.class, this);
+		beanFactory.registerResolvableDependency(ResourceLoader.class, this); // 在进行准备容器的时候，会将我们的资源加载器进行注入，所以我们才可以在后面的依赖注入中获得
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
 		beanFactory.registerResolvableDependency(ApplicationContext.class, this); // 注意我们依赖的BeanFactory类和ApplicationContext是属于不同的对象
 

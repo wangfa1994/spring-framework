@@ -1299,7 +1299,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else if (ObjectFactory.class == descriptor.getDependencyType() ||
 				ObjectProvider.class == descriptor.getDependencyType()) { // 判断依赖的对象 ObjectFactory 与 ObjectProvider
-			return new DependencyObjectProvider(descriptor, requestingBeanName);
+			return new DependencyObjectProvider(descriptor, requestingBeanName); //如果是的话，则会返回我们的DependencyObjectProvider，并不是一个代理对象
 		}
 		else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
 			return new Jsr330Factory().createDependencyProvider(descriptor, requestingBeanName);
@@ -1325,7 +1325,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return shortcut;
 			}
 
-			Class<?> type = descriptor.getDependencyType();// 获取到依赖的类型
+			Class<?> type = descriptor.getDependencyType();// 获取到依赖的类型,这里使用了Java的基本类
 			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);// 确定是否有给出建议值 @Value这里会解析出表达式
 			if (value != null) {
 				if (value instanceof String) {
@@ -1345,7 +1345,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							converter.convertIfNecessary(value, type, descriptor.getMethodParameter()));
 				}
 			}
-			// 解析处理多bean 是不是集合类型的，进行集合类型的依赖处理
+			// 解析处理多bean 判断是不是集合类型的，进行集合类型的依赖处理
 			Object multipleBeans = resolveMultipleBeans(descriptor, beanName, autowiredBeanNames, typeConverter);
 			if (multipleBeans != null) {
 				return multipleBeans;
@@ -1986,7 +1986,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (this.optional) {
 				return createOptionalDependency(this.descriptor, this.beanName);
 			}
-			else {
+			else { // 进行从容器中获得到我们真正想要的对象。
 				Object result = doResolveDependency(this.descriptor, this.beanName, null, null);
 				if (result == null) {
 					throw new NoSuchBeanDefinitionException(this.descriptor.getResolvableType());
