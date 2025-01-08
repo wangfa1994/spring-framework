@@ -18,9 +18,13 @@ public class ApplicationContextAnnBeanTest {
 		// ApplicationContext等上下文中存放了一个DefaultListableBeanFactory容器对象
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(ApplicationContextAnnBeanTest.class);
 		Cat cat = (Cat) annotationConfigApplicationContext.getBean("cat");
-		System.out.println(cat.getCategory());
+		System.out.println(cat+" === "+cat.getCategory());
+
 		Cat catStatic = (Cat) annotationConfigApplicationContext.getBean("catStatic");
-		System.out.println(catStatic.getCategory());
+		System.out.println(catStatic+" === "+catStatic.getCategory());
+
+		ParameterBean parameterBean = (ParameterBean) annotationConfigApplicationContext.getBean("parameterBean");
+		System.out.println(parameterBean);
     }
 
 	/**

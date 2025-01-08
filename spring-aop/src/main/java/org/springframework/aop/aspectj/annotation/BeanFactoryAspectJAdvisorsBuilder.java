@@ -33,7 +33,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/**
+/** 用于从BeanFactory检索@AspectJ bean并基于它们构建Spring advisor的助手，用于自动代理。
  * Helper for retrieving @AspectJ beans from a BeanFactory and building
  * Spring Advisors based on them, for use with auto-proxying.
  *
@@ -54,7 +54,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
 
-	private final Map<String, MetadataAwareAspectInstanceFactory> aspectFactoryCache = new ConcurrentHashMap<>();
+	private final Map<String, MetadataAwareAspectInstanceFactory> aspectFactoryCache = new ConcurrentHashMap<>(); // 存放我们解析的Advisor
 
 
 	/**
@@ -96,7 +96,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 					aspectNames = new ArrayList<>();
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);
-					for (String beanName : beanNames) {
+					for (String beanName : beanNames) { //循环所有的beanNames 这里会只有一次处理吧，在创建第一个我们的对象的时候，就直接全部遍历完进行了aspect的解析？
 						if (!isEligibleBean(beanName)) {
 							continue;
 						}
@@ -106,7 +106,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
-						if (this.advisorFactory.isAspect(beanType)) {
+						if (this.advisorFactory.isAspect(beanType)) { // 判断当前创建的对象是否是Aspect 切面，如果是切面的话，进行解析
 							try {
 								AspectMetadata amd = new AspectMetadata(beanType, beanName);
 								if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {

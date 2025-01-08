@@ -38,6 +38,13 @@ public class LogAspect {
 
 	}
 
+	//异常通知
+	@AfterThrowing(value = "pointCut()",throwing = "e")
+	public void logError(JoinPoint joinPoint,Exception e){
+		String name = joinPoint.getSignature().getName();
+		System.out.println("logError()==>"+name+"....【args: "+ Arrays.asList(joinPoint.getArgs()) +"】【exception: "+e+"】");
+	}
+
 	// 通知Advice： 定义了切面中实际操作的部分，代表切点匹配到的连接点上执行的代码
 	//前置通知  增强方法/增强器
 	@Before("pointCut()")
@@ -62,10 +69,5 @@ public class LogAspect {
 	}
 
 
-	//异常通知
-	@AfterThrowing(value = "pointCut()",throwing = "e")
-	public void logError(JoinPoint joinPoint,Exception e){
-		String name = joinPoint.getSignature().getName();
-		System.out.println("logError()==>"+name+"....【args: "+ Arrays.asList(joinPoint.getArgs()) +"】【exception: "+e+"】");
-	}
+
 }

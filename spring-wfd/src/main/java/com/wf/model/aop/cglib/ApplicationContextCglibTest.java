@@ -1,6 +1,18 @@
 package com.wf.model.aop.cglib;
 
+import org.aspectj.lang.annotation.*;
+import org.springframework.aop.aspectj.annotation.AbstractAspectJAdvisorFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.converter.ConvertingComparator;
+import org.springframework.util.comparator.InstanceComparator;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @Desc :
@@ -10,6 +22,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class ApplicationContextCglibTest {
 
     public static void main(String[] args) {
+		//sortDemo();
 
 		// cglib
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(CglibConfiguration.class);
@@ -20,6 +33,7 @@ public class ApplicationContextCglibTest {
 
 
 	}
+
 
 /**
  * 基本概念：
@@ -49,8 +63,33 @@ public class ApplicationContextCglibTest {
  *
  * AnnotatedGenericBeanDefinition 配置类的bean
  *
+ * @Apsect切面的解析，是实例化第一个我们的bean的时候，在对象实例化之前，在InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation中进行处理的，并且进行了排序
+ *
+ *
+ * BeanFactoryAspectJAdvisorsBuilder
+ *
+ * InstantiationModelAwarePointcutAdvisorImpl
  */
 
+	// AbstractAspectJAdvisorFactory 中针对advisor的排序
+	/*public static void sortDemo(){
+		Comparator<Method> adviceKindComparator = new ConvertingComparator<>(
+				new InstanceComparator<>(
+						Around.class, Before.class, After.class, AfterReturning.class, AfterThrowing.class),
+				(Converter<Method, Annotation>) method -> {
+					AbstractAspectJAdvisorFactory.AspectJAnnotation<?> ann = AbstractAspectJAdvisorFactory.findAspectJAnnotationOnMethod(method);
+					return (ann != null ? ann.getAnnotation() : null);
+				});
+		Comparator<Method> methodNameComparator = new ConvertingComparator<>(Method::getName);
+		Comparator<Method> adviceMethodComparator = adviceKindComparator.thenComparing(methodNameComparator);
+		Class<LogAspect> logAspectClass = LogAspect.class;
+		Method[] declaredMethods = logAspectClass.getDeclaredMethods();
 
+		List<Method> list = Arrays.asList(declaredMethods);
+		list.sort(adviceMethodComparator);
+		System.out.println(list);
+
+
+	}*/
 
 }

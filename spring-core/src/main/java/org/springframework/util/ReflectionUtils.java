@@ -360,7 +360,7 @@ public abstract class ReflectionUtils {
 		}
 		Method[] methods = getDeclaredMethods(clazz, false);
 		for (Method method : methods) {
-			if (mf != null && !mf.matches(method)) {
+			if (mf != null && !mf.matches(method)) { // mf 是排除切点pointcut的表达式
 				continue;
 			}
 			try {
@@ -370,7 +370,7 @@ public abstract class ReflectionUtils {
 				throw new IllegalStateException("Not allowed to access method '" + method.getName() + "': " + ex);
 			}
 		}
-		// Keep backing up the inheritance hierarchy.
+		// Keep backing up the inheritance hierarchy. 继续备份继承层次结构 存在继承关系的处理
 		if (clazz.getSuperclass() != null && (mf != USER_DECLARED_METHODS || clazz.getSuperclass() != Object.class)) {
 			doWithMethods(clazz.getSuperclass(), mc, mf);
 		}

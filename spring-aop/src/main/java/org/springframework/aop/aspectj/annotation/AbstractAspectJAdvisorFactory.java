@@ -73,7 +73,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 
 	@Override
 	public void validate(Class<?> aspectClass) throws AopConfigException {
-		// If the parent has the annotation and isn't abstract it's an error
+		// If the parent has the annotation and isn't abstract it's an error 如果父类有注释但不是抽象的，那就是错误
 		Class<?> superclass = aspectClass.getSuperclass();
 		if (superclass.getAnnotation(Aspect.class) != null &&
 				!Modifier.isAbstract(superclass.getModifiers())) {
@@ -101,7 +101,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	 * (there <i>should</i> only be one anyway...).
 	 */
 	@SuppressWarnings("unchecked")
-	@Nullable
+	@Nullable //
 	protected static AspectJAnnotation<?> findAspectJAnnotationOnMethod(Method method) {
 		for (Class<?> clazz : ASPECTJ_ANNOTATION_CLASSES) {
 			AspectJAnnotation<?> foundAnnotation = findAnnotation(method, (Class<Annotation>) clazz);
@@ -138,7 +138,7 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	 * Class modeling an AspectJ annotation, exposing its type enumeration and
 	 * pointcut String.
 	 * @param <A> the annotation type
-	 */
+	 */ //
 	protected static class AspectJAnnotation<A extends Annotation> {
 
 		private static final String[] EXPRESSION_ATTRIBUTES = new String[] {"pointcut", "value"};

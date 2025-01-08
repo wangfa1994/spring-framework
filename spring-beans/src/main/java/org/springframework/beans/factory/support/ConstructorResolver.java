@@ -508,12 +508,12 @@ class ConstructorResolver {
 			Deque<UnsatisfiedDependencyException> causes = null;
 
 			for (Method candidate : candidates) {
-				int parameterCount = candidate.getParameterCount();
+				int parameterCount = candidate.getParameterCount(); //获取到对应的方法参数
 
 				if (parameterCount >= minNrOfArgs) {
 					ArgumentsHolder argsHolder;
 
-					Class<?>[] paramTypes = candidate.getParameterTypes();
+					Class<?>[] paramTypes = candidate.getParameterTypes(); //得到参数类型
 					if (explicitArgs != null) {
 						// Explicit arguments given -> arguments length must match exactly.
 						if (paramTypes.length != explicitArgs.length) {
@@ -527,7 +527,7 @@ class ConstructorResolver {
 							String[] paramNames = null;
 							ParameterNameDiscoverer pnd = this.beanFactory.getParameterNameDiscoverer();
 							if (pnd != null) {
-								paramNames = pnd.getParameterNames(candidate);
+								paramNames = pnd.getParameterNames(candidate); //获得到参数的名称
 							}
 							argsHolder = createArgumentArray(beanName, mbd, resolvedValues, bw,
 									paramTypes, paramNames, candidate, autowiring, candidates.size() == 1);

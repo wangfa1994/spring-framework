@@ -60,13 +60,13 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 		Boolean hasIntroductions = null;
 		// 遍历我们的 Advisor 然后封装成对应 MethodInterceptor ，然后形成我们的调用链
 		for (Advisor advisor : advisors) {
-			if (advisor instanceof PointcutAdvisor) {
+			if (advisor instanceof PointcutAdvisor) { // 判断我们的advisor是否是PointcutAdvisor,里面封装了pointcut和advisor，第一个为Spring内置的
 				// Add it conditionally. 有条件地添加
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
 				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
 					boolean match;
-					if (mm instanceof IntroductionAwareMethodMatcher) {
+					if (mm instanceof IntroductionAwareMethodMatcher) { //我们自定义的为这个
 						if (hasIntroductions == null) {
 							hasIntroductions = hasMatchingIntroductions(advisors, actualClass);
 						}
@@ -76,7 +76,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 						match = mm.matches(method, actualClass);
 					}
 					if (match) {
-						MethodInterceptor[] interceptors = registry.getInterceptors(advisor);
+						MethodInterceptor[] interceptors = registry.getInterceptors(advisor); // 通过注册器注册成我们的MethodInterceptor,方法调用链则通过invoke进行调用
 						if (mm.isRuntime()) {
 							// Creating a new object instance in the getInterceptors() method
 							// isn't a problem as we normally cache created chains.

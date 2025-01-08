@@ -72,11 +72,11 @@ import org.springframework.util.comparator.InstanceComparator;
 @SuppressWarnings("serial")
 public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFactory implements Serializable {
 
-	// Exclude @Pointcut methods
+	// Exclude @Pointcut methods 排除@切入点方法
 	private static final MethodFilter adviceMethodFilter = ReflectionUtils.USER_DECLARED_METHODS
 			.and(method -> (AnnotationUtils.getAnnotation(method, Pointcut.class) == null));
 
-	private static final Comparator<Method> adviceMethodComparator;
+	private static final Comparator<Method> adviceMethodComparator;  // 获取到的通知的方法，使用这个Comparator进行排序
 
 	static {
 		// Note: although @After is ordered before @AfterReturning and @AfterThrowing,
@@ -92,7 +92,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 					return (ann != null ? ann.getAnnotation() : null);
 				});
 		Comparator<Method> methodNameComparator = new ConvertingComparator<>(Method::getName);
-		adviceMethodComparator = adviceKindComparator.thenComparing(methodNameComparator);
+		adviceMethodComparator = adviceKindComparator.thenComparing(methodNameComparator); // 这个为排序逻辑，通过静态方法进行了设置
 	}
 
 
@@ -122,18 +122,18 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 
 
 	@Override
-	public List<Advisor> getAdvisors(MetadataAwareAspectInstanceFactory aspectInstanceFactory) {
+	public List<Advisor> getAdvisors(MetadataAwareAspectInstanceFactory aspectInstanceFactory) { // BeanFactoryAspectInstanceFactory实现类
 		Class<?> aspectClass = aspectInstanceFactory.getAspectMetadata().getAspectClass();
 		String aspectName = aspectInstanceFactory.getAspectMetadata().getAspectName();
 		validate(aspectClass);
 
 		// We need to wrap the MetadataAwareAspectInstanceFactory with a decorator
-		// so that it will only instantiate once.
+		// so that it will only instantiate once. 我们需要用装饰器包装MetadataAwareAspectInstanceFactory，这样它就只会实例化一次。
 		MetadataAwareAspectInstanceFactory lazySingletonAspectInstanceFactory =
 				new LazySingletonAspectInstanceFactoryDecorator(aspectInstanceFactory);
 
 		List<Advisor> advisors = new ArrayList<>();
-		for (Method method : getAdvisorMethods(aspectClass)) {
+		for (Method method : getAdvisorMethods(aspectClass)) { // 我们在切面类中的定义顺序，会在这里按照执行顺序进行提取出来遍历，即使先定义了AfterThrowing，后定义Before，遍历的时候也是先Before
 			if (method.equals(ClassUtils.getMostSpecificMethod(method, aspectClass))) {
 				// Prior to Spring Framework 5.2.7, advisors.size() was supplied as the declarationOrderInAspect
 				// to getAdvisor(...) to represent the "current position" in the declared methods list.
@@ -169,9 +169,9 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 
 	private List<Method> getAdvisorMethods(Class<?> aspectClass) {
 		List<Method> methods = new ArrayList<>();
-		ReflectionUtils.doWithMethods(aspectClass, methods::add, adviceMethodFilter);
-		if (methods.size() > 1) {
-			methods.sort(adviceMethodComparator);
+		ReflectionUtils.doWithMethods(aspectClass, methods::add, adviceMethodFilter); //这里返回的methods集合已经变成了顺序的，不再是定义的顺序
+		if (methods.size() > 1) { // 得到我们的对象之后，开始进行排序，
+			methods.sort(adviceMethodComparator); // 排序之后的变成了顺序,这个是怎么排序的？
 		}
 		return methods;
 	}

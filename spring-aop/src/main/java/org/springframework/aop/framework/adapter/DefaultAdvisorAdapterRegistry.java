@@ -43,12 +43,12 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 	private final List<AdvisorAdapter> adapters = new ArrayList<>(3);
 
 
-	/**
+	/** 创建一个新的DefaultAdvisorAdapterRegistry，注册已知的适配器。
 	 * Create a new DefaultAdvisorAdapterRegistry, registering well-known adapters.
 	 */
-	public DefaultAdvisorAdapterRegistry() {
+	public DefaultAdvisorAdapterRegistry() { // 在进行构造器调用的时候就进行了默认的三个通知适配器
 		registerAdvisorAdapter(new MethodBeforeAdviceAdapter());
-		registerAdvisorAdapter(new AfterReturningAdviceAdapter());
+		registerAdvisorAdapter(new AfterReturningAdviceAdapter()); // AfterReturningAdvice 是继承了 AfterAdvice，所以这两个都是相似的
 		registerAdvisorAdapter(new ThrowsAdviceAdapter());
 	}
 
@@ -78,13 +78,13 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 	@Override
 	public MethodInterceptor[] getInterceptors(Advisor advisor) throws UnknownAdviceTypeException {
 		List<MethodInterceptor> interceptors = new ArrayList<>(3);
-		Advice advice = advisor.getAdvice();
+		Advice advice = advisor.getAdvice(); // 获取我们的通知
 		if (advice instanceof MethodInterceptor) {
 			interceptors.add((MethodInterceptor) advice);
 		}
 		for (AdvisorAdapter adapter : this.adapters) {
 			if (adapter.supportsAdvice(advice)) {
-				interceptors.add(adapter.getInterceptor(advisor));
+				interceptors.add(adapter.getInterceptor(advisor)); // 从adapter中得到的就为对应包装的BeforeInterceptor
 			}
 		}
 		if (interceptors.isEmpty()) {

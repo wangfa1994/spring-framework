@@ -528,7 +528,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 这个try操作可以理解为是针对上下文应用的操作了，或者说是自己定义了一些postprocessors的操作，在默认的bean工厂中是不存在任何处理器的
 		try { // 进行bean实例创建之前，先看看用户是不是进行了自定义BeanPostProcessors，然后bean实例创建，如果创建了就直接返回了，不存在对应的bean的生命周期了
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用beanPostprocessor的beforeInstantion，里面还会再次进行调用
+			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用beanPostprocessor的beforeInstantion，里面还会再次进行调用 aop的advice解析就是在这处理的
 			if (bean != null) {
 				return bean;
 			}
@@ -1132,7 +1132,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd); // 确定返回的目标类型的Class对象
 				if (targetType != null) {
-					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 开始执行我们的实例化前的相关周期方法
+					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 开始执行我们的实例化前的相关周期方法，如果开启了aop，创建的是aspec切面类的话，会在这里解析我们的通知
 					if (bean != null) { // 如果我们自定义了我们的实例化对象，则会接着处理了我们的 初始化 之后的方法(注意此时是初始化 Initialization )
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName); //
 					}
