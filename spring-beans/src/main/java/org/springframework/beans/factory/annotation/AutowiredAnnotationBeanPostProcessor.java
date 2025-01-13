@@ -252,7 +252,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, null);
+		InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, null); // 发现我们的元注解信息
 		metadata.checkConfigMembers(beanDefinition); //将依赖解析的属性放置到rootBeanDefinition扩展字段中去
 	}
 
@@ -480,7 +480,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			ReflectionUtils.doWithLocalFields(targetClass, field -> { // 利用反射工具类进行解析处理我们的字段
 				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
 				if (ann != null) {
-					if (Modifier.isStatic(field.getModifiers())) { //解析出来的属性如果是金泰的，则直接返回，无法进行赋值
+					if (Modifier.isStatic(field.getModifiers())) { //解析出来的属性如果是静态的，则直接返回，无法进行赋值
 						if (logger.isInfoEnabled()) {
 							logger.info("Autowired annotation is not supported on static fields: " + field);
 						}

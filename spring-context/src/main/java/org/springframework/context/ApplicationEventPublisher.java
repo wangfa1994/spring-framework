@@ -18,7 +18,7 @@ package org.springframework.context;
 
 /**
  * Interface that encapsulates event publication functionality.
- *
+ *  事件发布接口 是 ApplicationContext的父接口，这样的话，ApplicationContext 就都存在了 事件发布功能
  * <p>Serves as a super-interface for {@link ApplicationContext}.
  *
  * @author Juergen Hoeller

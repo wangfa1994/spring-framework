@@ -592,12 +592,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.postProcessed) {
 				try {// 默认的bean工厂都不存在对应的处理器，在默认的beanFactory中，只能自己通过api进行管理设置我们的依赖关系
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName); // 进行合并对应的BeanDefinition操作，用来处理对应的相关类与类之间的依赖关系,解析出来的关系被缓存在对应的injectionMetadataCache中
-				} // 使用了后置处理器 MergedBeanDefinitionPostProcessor进行处理相对应的依赖关系，用于再属性赋值的时候进行使用
+				} // 使用了后置处理器 MergedBeanDefinitionPostProcessor进行处理相对应的依赖关系，用于再属性赋值的时候进行使用，这个是因为最初在进行class变beanDefinition的时候，只进行了简单的可配置的注解解析出来的配置
 				catch (Throwable ex) {
 					throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 							"Post-processing of merged bean definition failed", ex);
 				}
-				mbd.postProcessed = true;
+				mbd.postProcessed = true; //如果进行了属性依赖的解析,将属性进行配置
 			}
 		}
 
@@ -1112,7 +1112,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
 	 */
 	protected void applyMergedBeanDefinitionPostProcessors(RootBeanDefinition mbd, Class<?> beanType, String beanName) {
-		for (MergedBeanDefinitionPostProcessor processor : getBeanPostProcessorCache().mergedDefinition) {
+		for (MergedBeanDefinitionPostProcessor processor : getBeanPostProcessorCache().mergedDefinition) { // 存在三个CommonAnnotationBeanPostProcessor,AutowiredAnnotationBeanPostProcessor,ApplicationListenerDetector
 			processor.postProcessMergedBeanDefinition(mbd, beanType, beanName);
 		}
 	}
@@ -1133,7 +1133,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				Class<?> targetType = determineTargetType(beanName, mbd); // 确定返回的目标类型的Class对象
 				if (targetType != null) {
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 开始执行我们的实例化前的相关周期方法，如果开启了aop，创建的是aspec切面类的话，会在这里解析我们的通知
-					if (bean != null) { // 如果我们自定义了我们的实例化对象，则会接着处理了我们的 初始化 之后的方法(注意此时是初始化 Initialization )
+					if (bean != null) { // 如果我们自定义了我们的实例化对象，则会接着处理了我们的 初始化 之后的方法(注意此时是初始化 Initialization ,为什么直接调用这个，因为这里有代理类的逻辑)
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName); //
 					}
 				}

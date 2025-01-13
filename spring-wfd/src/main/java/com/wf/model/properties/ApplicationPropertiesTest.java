@@ -17,8 +17,9 @@ import java.io.UnsupportedEncodingException;
 @PropertySource({"springConfig.properties"}) //propertySource也可以加载yml配置文件，看ymlProperties包
 public class ApplicationPropertiesTest {
 
-	@Value("${cat.category}")
+	@Value("${cat.category}") // @Value$用来加载外部的资源配置
 	private String category;
+
 
     public static void main(String[] args) throws UnsupportedEncodingException {
 

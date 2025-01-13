@@ -19,7 +19,7 @@ public class ApplicationContextCycleTest {
 
 
 
-
+	
     }
 
 /**org.springframework.beans.factory.support.DefaultSingletonBeanRegistry#singletonObjects

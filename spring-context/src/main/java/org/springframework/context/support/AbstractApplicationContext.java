@@ -410,7 +410,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void publishEvent(Object event, @Nullable ResolvableType eventType) {
 		Assert.notNull(event, "Event must not be null");
 
-		// Decorate event as an ApplicationEvent if necessary
+		// Decorate event as an ApplicationEvent if necessary 如有必要，将事件修饰为ApplicationEvent
 		ApplicationEvent applicationEvent;
 		if (event instanceof ApplicationEvent) {
 			applicationEvent = (ApplicationEvent) event;
@@ -422,7 +422,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Multicast right now if possible - or lazily once the multicaster is initialized
+		// Multicast right now if possible - or lazily once the multicaster is initialized 如果可能的话，立即进行多播，或者在组播器初始化后延迟进行多播
 		if (this.earlyApplicationEvents != null) {
 			this.earlyApplicationEvents.add(applicationEvent);
 		}
@@ -430,7 +430,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			getApplicationEventMulticaster().multicastEvent(applicationEvent, eventType);
 		}
 
-		// Publish event via parent context as well...
+		// Publish event via parent context as well... 通过父上下文发布事件
 		if (this.parent != null) {
 			if (this.parent instanceof AbstractApplicationContext) {
 				((AbstractApplicationContext) this.parent).publishEvent(event, eventType);
@@ -1069,7 +1069,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 
 			try {
-				// Publish shutdown event.
+				// Publish shutdown event.  发布关机事件。
 				publishEvent(new ContextClosedEvent(this));
 			}
 			catch (Throwable ex) {

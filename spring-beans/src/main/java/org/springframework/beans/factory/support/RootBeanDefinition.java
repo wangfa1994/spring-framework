@@ -113,7 +113,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Common lock for the two post-processing fields below. */
 	final Object postProcessingLock = new Object();
 
-	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. */
+	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. 表明已应用了MergedBeanDefinitionPostProcessor的包可见字段。 */
 	boolean postProcessed = false;
 
 	/** Package-visible field that indicates a before-instantiation post-processor having kicked in. */
