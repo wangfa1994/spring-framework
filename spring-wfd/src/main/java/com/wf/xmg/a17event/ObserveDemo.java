@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 // 01 jdk  观察者模式
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation","warn"})
 public class ObserveDemo {
 
 	public static void main(String[] args) {
@@ -58,6 +58,15 @@ public class ObserveDemo {
 	 * 在观察者模式中，EventListener 和 EventObject 分别对应以下角色：
 	 * 观察者（Observer）：由实现了 EventListener 接口的具体监听器类扮演。这些监听器注册到事件源上，并在事件发生时被通知。
 	 * 目标（Observable）：由继承自 EventObject 的具体事件类扮演。这些目标对象包含了事件的相关信息，并作为参数传递给监听器的方法
+	 *
+	 * spring中
+	 * ApplicationListener 继承了 EventListener
+	 * ApplicationEvent 继承了 EventObject   ，添加了 timestamp属性，标记事件的发生时间
+	 * 组成了对应的事件机制
+	 *
+	 * ApplicationContextEvent 继承了  ApplicationEvent ,添加了getApplicationContext获取applicationContext的方法
+	 *
+	 *
 	 *
 	 */
 

@@ -27,11 +27,13 @@ public class DefaultEchoService implements EchoService {
 
     @Override
     public String echo(String message) {
+		System.out.println("进入原始逻辑");
         return "[ECHO] " + message;
     }
 
 	@Override
 	public String echo2(String message) throws NullPointerException {
+		System.out.println("进入原始逻辑");
 		return "[ECHO2] " + message;
 	}
 }

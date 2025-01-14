@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStartedEvent;
 
-// 监听 ContextStartedEvent
+// 监听 ContextStartedEvent 通过实现接口
 public class SpringEventStartedEventListener implements ApplicationListener<ContextStartedEvent> {
 	@Override
 	public void onApplicationEvent(ContextStartedEvent event) {
