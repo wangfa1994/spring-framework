@@ -112,7 +112,7 @@ public class JdkProxyTest {
 
 			//byte[] classFile = ProxyGenerator.generateProxyClass(className, cl.getInterfaces());
 			// jdk 动态代理会在项目的根目录下生成对应的class文件，$Proxy
-			FileOutputStream out = new FileOutputStream("$Proxy0.class");
+			 out = new FileOutputStream("$Proxy0.class");
 			//将代理对象的class字节码写到硬盘上
 			out.write(classFile);
 			out.flush();
