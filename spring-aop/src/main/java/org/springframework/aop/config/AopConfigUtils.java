@@ -52,7 +52,7 @@ public abstract class AopConfigUtils {
 			"org.springframework.aop.config.internalAutoProxyCreator";
 
 	/**
-	 * Stores the auto proxy creator classes in escalation order.
+	 * Stores the auto proxy creator classes in escalation order. 按升级顺序存储自动代理创建器类
 	 */
 	private static final List<Class<?>> APC_PRIORITY_LIST = new ArrayList<>(3);
 

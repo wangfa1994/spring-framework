@@ -14,26 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wf.xmgAop.a01.jdk;
+package com.wf.xmgAop.a01.jdk00;
 
 /**
- * 默认 {@link EchoService} 实现
+ * Echo 服务
  *
  * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  * @since
  */
+public interface EchoService {
 
-public class DefaultEchoService implements EchoService {
+    String echo(String message) throws NullPointerException;
 
-    @Override
-    public String echo(String message) {
-		System.out.println("进入原始逻辑");
-        return "[ECHO] " + message;
-    }
-
-	@Override
-	public String echo2(String message) throws NullPointerException {
-		System.out.println("进入原始逻辑");
-		return "[ECHO2] " + message;
-	}
+	String echo2(String message) throws NullPointerException;
 }

@@ -4,8 +4,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-/**
+/** spring aop 编程模型
  * aspectJ 注解驱动
+ *
+ *  实现 enable
+ *
+ *
  */
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理
 @Aspect // 生命是一个切面

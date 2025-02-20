@@ -44,7 +44,7 @@ class AspectJAutoProxyRegistrar implements ImportBeanDefinitionRegistrar {
 		// AnnotationAwareAspectJAutoProxyCreator 是一个BeanPostProcessor后置处理器，所以在创建Bean的时候，会经过次类进行加工，可能会加工出来代理类吧？
 		AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry); // 向容器中注册我们的AOP相关的BeanDefinition，此类的 AnnotationAwareAspectJAutoProxyCreator
 
-		AnnotationAttributes enableAspectJAutoProxy =
+		AnnotationAttributes enableAspectJAutoProxy = // 设定我们的代理的模式
 				AnnotationConfigUtils.attributesFor(importingClassMetadata, EnableAspectJAutoProxy.class);
 		if (enableAspectJAutoProxy != null) {
 			if (enableAspectJAutoProxy.getBoolean("proxyTargetClass")) {

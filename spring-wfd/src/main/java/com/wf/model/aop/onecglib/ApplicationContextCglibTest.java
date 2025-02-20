@@ -3,7 +3,7 @@ package com.wf.model.aop.onecglib;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * @Desc :
+ * @Desc : 只存在一个切面的cglib 案例
  * @Author : Mr.WangF
  * @Date: 2022/7/20 10:41
  */

@@ -1,4 +1,4 @@
-package com.wf.xmgAop.a01.interceptor;
+package com.wf.xmgAop.a01.interceptor03;
 
 public class EchoServiceImpl implements EchoService{
 

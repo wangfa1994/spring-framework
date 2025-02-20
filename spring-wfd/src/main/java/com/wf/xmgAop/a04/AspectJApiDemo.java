@@ -15,6 +15,12 @@ import java.util.Map;
  * AspectJProxyFactory 代理工厂。从代理工厂中得到代理对象，
  *
  * 给我们的代理工厂设置一些通知横切逻辑advice，从代理工厂中得到的对象就可以执行横切逻辑
+ *
+ *
+ *
+ * spring aop编程模型
+ * 底层api
+ *
  */
 public class AspectJApiDemo {
 

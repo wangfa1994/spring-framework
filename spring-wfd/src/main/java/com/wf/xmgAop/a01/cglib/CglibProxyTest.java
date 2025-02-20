@@ -1,8 +1,7 @@
 package com.wf.xmgAop.a01.cglib;
 
-import com.wf.xmgAop.a01.jdk.DefaultEchoService;
-import com.wf.xmgAop.a01.jdk.EchoService;
-import org.springframework.cglib.proxy.CallbackFilter;
+import com.wf.xmgAop.a01.jdk00.DefaultEchoService;
+import com.wf.xmgAop.a01.jdk00.EchoService;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -24,6 +23,7 @@ public class CglibProxyTest {
 	 * 动态代理包括jdk动态代理
 	 * 基于接口代理和cglib库代理基于类代理(字节码提升)，
 	 * aspectJ框架的使用需要aspectJ编译器(ajc)和运行类库
+	 * asm字节码提升
 	 * 还有javassist库提升字节码
 	 * mybatis使用的是jdk，cglib javassist 三种方式进行字节码提升
 	 *
@@ -56,6 +56,11 @@ public class CglibProxyTest {
 	 *
 	 *
 	 *
+	 *
+	 * spring aop 纯java实现，运行时进行处理，不是在编译时进行处理 ，仅支持方法级别的aop，不是完整的aop实现
+	 *
+	 *
+	 *
 	 */
 
 
@@ -66,7 +71,7 @@ public class CglibProxyTest {
 
 	public static void main(String[] args) {
 		Enhancer enhancer = new Enhancer();
-		// 指定拦截类
+		// 指定super Class
 		enhancer.setSuperclass(DefaultEchoService.class);
 
 		// 拦截指定接口
@@ -81,6 +86,7 @@ public class CglibProxyTest {
 				// 错误使用
 //                Object result = method.invoke(source, args);
 				// 正确的方法调用
+				System.out.println("方法执行之前可以进行逻辑处理");
 				Object result = methodProxy.invokeSuper(source, args);
 				long costTime = System.currentTimeMillis() - startTime;
 				System.out.println("[CGLIB 字节码提升] echo 方法执行的实现：" + costTime + " ms.");

@@ -1,6 +1,4 @@
-package com.wf.xmgAop.a01.interceptor;
-
-import com.wf.xmgAop.a01.jdk.DefaultEchoService;
+package com.wf.xmgAop.a01.interceptor03;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -23,7 +21,8 @@ public class AopInterceptorDemo {
 
 	public static void main(String[] args) {
 		//normal();
-		before();
+		//before();
+		beforeAbstract();
 	}
 
 	// 正常模式
@@ -81,8 +80,6 @@ public class AopInterceptorDemo {
 
 	// 前置模式 这种模式是直接写死的逻辑的，我们是否可以将拦截的逻辑进行抽象呢?
 
-
-
 	// 前置模式的 抽象模式   将前置逻辑进行抽象
 	static BeforeInterceptor beforeInterceptor = new BeforeInterceptor() {
 		@Override
@@ -90,6 +87,10 @@ public class AopInterceptorDemo {
 			return System.currentTimeMillis();
 		}
 	};
+
+
+
+
 	private static void beforeAbstract() {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Object proxyInstance = Proxy.newProxyInstance(classLoader, new Class[]{EchoService.class}, new InvocationHandler() {
@@ -97,16 +98,43 @@ public class AopInterceptorDemo {
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 				if (method.getDeclaringClass().isAssignableFrom(EchoService.class)) {
-					// 执行前置逻辑
-					Long before = (Long)beforeInterceptor.before(proxy, method, args);
-					Object result; // 目标对象执行
+
+					Long startTime = 0L;
+					Long endTime = 0L;
+
+					Object result=null; // 目标对象执行
 					try {
+						// 执行前置逻辑
+						startTime = (Long)beforeInterceptor.before(proxy, method, args);
+
 						// 执行我们代理对象的正常逻辑
 						EchoService echoService = new EchoServiceImpl();
 						result = echoService.echo((String) args[0]);
-					} finally {
-						long end = System.currentTimeMillis();
-						System.out.println("echo 方法执行的实现：" + (end-before) + " ms."+method.getName());
+
+						//方法执行后的逻辑
+						AfterInterceptor afterInterceptor = new AfterInterceptor() {
+							@Override
+							public Object after(Object proxy, Method method, Object[] args, Object returnResult) {
+								System.out.println("AfterInterceptor我能拿到方法执行的结果"+returnResult);
+								return System.currentTimeMillis();
+							}
+						};
+						 endTime = (Long)afterInterceptor.after(proxy, method, args, result);
+
+
+					}catch (Exception e){
+						// 异常执行器
+						ExceptionInterceptor exceptionInterceptor = new ExceptionInterceptor() {
+							@Override
+							public Object throwInterceptor(Object proxy, Method method, Object[] args, Throwable throwable) {
+								return null;
+							}
+						};
+						exceptionInterceptor.throwInterceptor(proxy,method,args,e);
+					}
+					finally {
+						FinallyInterceptorImpl finallyInterceptor  = new FinallyInterceptorImpl(startTime,endTime);
+						Object finalize = finallyInterceptor.finalize(proxy, method, args, result);
 					}
 
 					return result;
@@ -117,6 +145,23 @@ public class AopInterceptorDemo {
 		});
 		String echo = ((EchoService) proxyInstance).echo("hello");
 		System.out.println("最后打印"+echo);
+	}
+
+
+	// 最终执行的方法
+	static class FinallyInterceptorImpl implements FinallyInterceptor{
+		private Long startTime,endTime;
+
+		public FinallyInterceptorImpl(Long startTime, Long endTime) {
+			this.startTime = startTime;
+			this.endTime = endTime;
+		}
+		@Override
+		public Object finalize(Object proxy, Method method, Object[] args, Object returnResult) {
+			System.out.println("FinallyInterceptor 拿到了结果"+returnResult);
+			System.out.println("执行时间为"+(endTime-startTime));
+			return null;
+		}
 	}
 
 

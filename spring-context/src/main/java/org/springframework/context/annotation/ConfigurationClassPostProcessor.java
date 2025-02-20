@@ -437,7 +437,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			return;
 		}
 
-		ConfigurationClassEnhancer enhancer = new ConfigurationClassEnhancer();
+		ConfigurationClassEnhancer enhancer = new ConfigurationClassEnhancer(); //生成我们的配置类增强
 		for (Map.Entry<String, AbstractBeanDefinition> entry : configBeanDefs.entrySet()) {
 			AbstractBeanDefinition beanDef = entry.getValue();
 			// If a @Configuration class gets proxied, always proxy the target class

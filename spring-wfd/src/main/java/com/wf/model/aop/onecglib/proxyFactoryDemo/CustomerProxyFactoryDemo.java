@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 
 public class CustomerProxyFactoryDemo {
 
+	// 脱离spring的 ProxyFactory 类的使用案例
 
 	public static void main(String[] args) {
 		HelloService helloService = new HelloService();

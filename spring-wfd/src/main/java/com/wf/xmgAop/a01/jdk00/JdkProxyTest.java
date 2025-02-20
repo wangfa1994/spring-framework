@@ -1,4 +1,4 @@
-package com.wf.xmgAop.a01.jdk;
+package com.wf.xmgAop.a01.jdk00;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,7 +34,9 @@ public class JdkProxyTest {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		DefaultEchoService target = new DefaultEchoService();
 
+		// 为什么Proxy.newProxyInstance执行之后，会生成一个全新的字节码
 		Object proxy = Proxy.newProxyInstance(classLoader, new Class[]{EchoService.class},new EchoServiceHadler(target));
+		System.out.println("代理对象属于什么呢？"+proxy.getClass());
 		EchoService echoService = (EchoService) proxy;
 		echoService.echo("Hello,World");
 		echoService.echo2("Hello,World");
@@ -57,7 +59,7 @@ public class JdkProxyTest {
 
 
 	private static void dynamicProxy() {
-		// jdk 动态代理产生的类会继承Proxy,并且实现我们的接口  public final class $Proxy0 extends Proxy implements EchoService { }
+		// jdk 动态代理产生的类会继承Proxy,并且实现我们的接口,可以多实现接口  public final class $Proxy0 extends Proxy implements EchoService { }
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		// classLoader 新生成的字节码的类使用的是那个类加载器，要属于当前classLoad的
 

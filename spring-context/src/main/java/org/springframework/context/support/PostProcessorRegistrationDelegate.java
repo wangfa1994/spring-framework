@@ -250,7 +250,7 @@ final class PostProcessorRegistrationDelegate {
 
 		// First, register the BeanPostProcessors that implement PriorityOrdered.
 		sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
-		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors); // 实例化之后就直接放进去了，所以，一定会有先后顺序，并且先放入的，在后面的beanpostprocessor创建中也会进行调用的????
+		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors); // 实例化之后就直接放进去了，所以，一定会有先后顺序，并且先放入的，在后面的beanpostprocessor创建中也会进行调用的
 
 		// Next, register the BeanPostProcessors that implement Ordered.
 		List<BeanPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());

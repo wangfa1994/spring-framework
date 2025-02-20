@@ -1,7 +1,7 @@
 package com.wf.xmgAop.a02.customer;
 
-import com.wf.xmgAop.a01.jdk.DefaultEchoService;
-import com.wf.xmgAop.a01.jdk.EchoService;
+import com.wf.xmgAop.a01.jdk00.DefaultEchoService;
+import com.wf.xmgAop.a01.jdk00.EchoService;
 import com.wf.xmgAop.a02.customer.interceptor.Interceptor;
 import com.wf.xmgAop.a02.interceptor.AfterReturnInterceptor;
 import com.wf.xmgAop.a02.interceptor.BeforeInterceptor;

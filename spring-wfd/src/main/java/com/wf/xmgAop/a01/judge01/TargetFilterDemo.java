@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wf.xmgAop.a01.judge;
+package com.wf.xmgAop.a01.judge01;
 
 import org.springframework.util.ReflectionUtils;
 
@@ -45,7 +45,7 @@ public class TargetFilterDemo {
             public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException {
                 System.out.println("仅抛出 NullPointerException 方法为：" + method);
             }
-        }, new ReflectionUtils.MethodFilter() {
+        }, new ReflectionUtils.MethodFilter() { // 进行过滤
             @Override
             public boolean matches(Method method) {
                 Class[] parameterTypes = method.getParameterTypes();

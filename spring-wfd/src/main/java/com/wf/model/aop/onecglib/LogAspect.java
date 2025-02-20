@@ -46,12 +46,14 @@ public class LogAspect {
 		System.out.println("logStart()==>"+name+"....【args: "+ Arrays.asList(joinPoint.getArgs()) +"】");
 	}
 
-	/*//返回通知
+	//返回通知
 	@AfterReturning(value = "pointCut()",returning = "result")
 	public void logReturn(JoinPoint joinPoint,Object result){
 		String name = joinPoint.getSignature().getName();
 		System.out.println("logReturn()==>"+name+"....【args: "+ Arrays.asList(joinPoint.getArgs()) +"】【result: "+result+"】");
 	}
+
+	/*
 
 
 	//后置通知

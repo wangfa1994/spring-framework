@@ -5,9 +5,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * aspectJ xml驱动
+/** spring aop 编程模型
  *
+ * aspectJ xml驱动
+ * spring Extensable xml authoring
+ *
+ * AOPNamespaceHandler  命名空间的解析handler
  */
 @Aspect
 public class AspectJXmlDemo {

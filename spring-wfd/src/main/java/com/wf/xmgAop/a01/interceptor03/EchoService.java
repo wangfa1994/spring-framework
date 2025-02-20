@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wf.xmgAop.a01.jdk;
+package com.wf.xmgAop.a01.interceptor03;
 
 /**
  * Echo 服务
@@ -25,6 +25,4 @@ package com.wf.xmgAop.a01.jdk;
 public interface EchoService {
 
     String echo(String message) throws NullPointerException;
-
-	String echo2(String message) throws NullPointerException;
 }

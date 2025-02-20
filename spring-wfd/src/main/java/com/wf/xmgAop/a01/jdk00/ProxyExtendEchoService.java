@@ -1,4 +1,4 @@
-package com.wf.xmgAop.a01.jdk;
+package com.wf.xmgAop.a01.jdk00;
 
 public class ProxyExtendEchoService extends DefaultEchoService {
 

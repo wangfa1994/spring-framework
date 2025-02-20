@@ -122,7 +122,7 @@ class ConfigurationClassEnhancer {
 		enhancer.setSuperclass(configSuperClass);
 		enhancer.setInterfaces(new Class<?>[] {EnhancedConfiguration.class});
 		enhancer.setUseFactory(false);
-		enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
+		enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE); //命名策略
 		enhancer.setStrategy(new BeanFactoryAwareGeneratorStrategy(classLoader));
 		enhancer.setCallbackFilter(CALLBACK_FILTER);
 		enhancer.setCallbackTypes(CALLBACK_FILTER.getCallbackTypes());
