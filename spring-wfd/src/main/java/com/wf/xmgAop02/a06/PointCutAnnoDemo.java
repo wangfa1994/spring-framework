@@ -1,30 +1,33 @@
-package com.wf.xmgAop03.a04;
+package com.wf.xmgAop02.a06;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-// 50 课 springAop joinPoint beforeAdvice的aspectJ实现
+/**
+ * pointCut 展示
+ */
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理
 @Configuration
-public class AspectJMethodBeforeAdviceDemo {
+public class PointCutAnnoDemo {
 
-	// AspectJMethodBeforeAdvice
 
 	public static void main(String[] args) {
-
 		AnnotationConfigApplicationContext applicationContext =
 				new AnnotationConfigApplicationContext();
-		applicationContext.register(AspectJMethodBeforeAdviceDemo.class, MethodBeforeAdviceAnnConfig.class); //  将我们的Aspect也需要进行注入 PointCutAnnConfig
+		applicationContext.register(PointCutAnnoDemo.class, PointCutAnnConfig.class); //  将我们的Aspect也需要进行注入 PointCutAnnConfig
 
 		applicationContext.refresh();
 
-		AspectJMethodBeforeAdviceDemo proxy = applicationContext.getBean(AspectJMethodBeforeAdviceDemo.class);
+		PointCutAnnoDemo proxy = applicationContext.getBean(PointCutAnnoDemo.class);
 		proxy.execute(); // 执行的时候会被我们的拦截器拦截
+
+
 	}
 
 	public void execute() {
 		System.out.println("execute()...");
 	}
+
 
 }

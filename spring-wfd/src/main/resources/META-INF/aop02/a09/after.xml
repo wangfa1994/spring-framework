@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<aop:aspectj-autoproxy/>
+	
+	<bean class="com.wf.xmgAop02.a09.AfterAdviceXmlDemo"/>
+	<bean class="com.wf.xmgAop02.a09.AfterXmlConfig" id="aspectAfterXmlConfig"/>
+
+	<aop:config>
+		<aop:aspect id="aspectConfig" ref="aspectAfterXmlConfig">
+			<aop:pointcut id="aspect" expression="execution(public * *(..))"/>
+			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> <!--method关联aspectPointCutXmlConfig中的通知方法  -->
+			<aop:around method="aroundAnyPublicMethod" pointcut-ref="aspect"/> <!--注意这个around 和before的顺序-->
+			<!--after的三种形式-->
+			<aop:after method="finalizeAnyPublicMethod" pointcut-ref="aspect"/>
+			<aop:after-returning method="afterAnyPublicMethod" pointcut-ref="aspect"/>
+			<aop:after-throwing method="afterThrowingAnyPublicMethod" pointcut-ref="aspect"/>
+		</aop:aspect>
+	</aop:config>
+
+
+
+
+
+</beans>

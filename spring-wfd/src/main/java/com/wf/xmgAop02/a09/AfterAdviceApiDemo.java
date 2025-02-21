@@ -1,18 +1,18 @@
-package com.wf.xmgAop03.a05;
+package com.wf.xmgAop02.a09;
 
-import com.wf.xmgAop02.a09.AllConfig;
 import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+import org.springframework.aop.framework.AopContext;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-//  AfterReturningAdviceInterceptor
-public class AfterReturningAdviceInterceptorDemo {
-
+public class AfterAdviceApiDemo {
 
 	public static void main(String[] args) {
+		// 通过创建一个 HashMap 缓存，作为被代理对象
 		Map<String, Object> cache = new HashMap<>();
 		// 创建 Proxy 工厂(AspectJ)
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache);
@@ -20,6 +20,17 @@ public class AfterReturningAdviceInterceptorDemo {
 		proxyFactory.addAspect(AllConfig.class);
 		// 设置暴露代理对象到 AopContext
 		proxyFactory.setExposeProxy(true);
+		proxyFactory.addAdvice(new MethodBeforeAdvice() {
+			@Override
+			public void before(Method method, Object[] args, Object target) throws Throwable {
+				if ("put".equals(method.getName()) && args.length == 2) {
+					Object proxy = AopContext.currentProxy();
+					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s ，" +
+							"代理对象：%s\n", args[0], args[1], proxy);
+				}
+			}
+		});
+
 		// 添加 AfterReturningAdvice
 		proxyFactory.addAdvice(new AfterReturningAdvice() {
 
