@@ -13,27 +13,19 @@
 
 	<aop:aspectj-autoproxy/>
 	
-	<bean class="com.wf.xmgAop02.a08.AroundBeforeXmlDemo"/>
-	<bean class="com.wf.xmgAop02.a08.AroundBeforeXmlConfig" id="aspectAfterXmlConfig"/>
+	<bean class="com.wf.xmgAop02.a08.a02apsectBeforeXml.AroundBeforeXmlDemo"/>
+	<bean class="com.wf.xmgAop02.a08.a02apsectBeforeXml.AroundBeforeXmlConfig" id="aspectAfterXmlConfig"/>
 
 	<aop:config>
 		<aop:aspect id="aspectConfig" ref="aspectAfterXmlConfig">
 			<aop:pointcut id="aspect" expression="execution(public * *(..))"/>
-			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> <!--method关联aspectPointCutXmlConfig中的通知方法  -->
 			<aop:around method="aroundAnyPublicMethod" pointcut-ref="aspect"/> <!--注意这个around 和before的顺序-->
+			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> <!--method关联aspectPointCutXmlConfig中的通知方法  -->
+			<aop:around method="beforeAnyPublicMethod" pointcut="execution(public * *(..))"/> <!--注意这个around 和before的顺序-->
 		</aop:aspect>
 	</aop:config>
 
-<!--
 
-	<aop:config>
-		<aop:aspect id="aspectConfig" ref="aspectAfterXmlConfig">
-			<aop:pointcut id="aspect" expression="execution(public * *(..))"/>
-			<aop:around method="aroundAnyPublicMethod" pointcut-ref="aspect"/> &lt;!&ndash;注意这个around 和before的顺序&ndash;&gt;
-			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> &lt;!&ndash;method关联aspectPointCutXmlConfig中的通知方法  &ndash;&gt;
-		</aop:aspect>
-	</aop:config>
--->
 
 
 

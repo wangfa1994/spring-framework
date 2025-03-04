@@ -14,24 +14,26 @@
 
 
 
-	<!-- Advice bean  -->
+	<!-- Advice bean  MethodInterceptor   表示我们的拦截逻辑 -->
 	<bean id="echoServiceMethodInterceptor"
 		  class="com.wf.xmgAop02.a10.EchoServiceMethodInterceptor"/>
 
-	<bean id="echoService" class="com.wf.xmgAop02.a10.DefaultEchoService"/>
-	<!--pointcut bean -->
+	<!--pointcut bean  pointcut 指定我们的过滤信息 -->
 	<bean id="echoServicePointcut"  class="com.wf.xmgAop02.a10.EchoServicePointcut" >
 		<constructor-arg index="0" value="echo"/>
 		<constructor-arg index="1" value="com.wf.xmgAop02.a10.EchoService"/>
 	</bean>
 
-	<!--PointcutAdvisor bean -->
+	<!--PointcutAdvisor bean   进行将我们的pointcut 和 MethodInterceptor 进行关联  -->
 	<bean class="org.springframework.aop.support.DefaultPointcutAdvisor">
 		<constructor-arg index="0" ref="echoServicePointcut"/>
 		<constructor-arg index="1" ref="echoServiceMethodInterceptor"/>
 	</bean>
 
 
-	<!--DefaultAdvisorAutoProxyCreator 类 会自动加载我们容器中的 PointcutAdvisor -->
+	<!--DefaultAdvisorAutoProxyCreator 类 会自动加载我们容器中的 PointcutAdvisor 变成真正的自动 -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+	<!-- 业务bean -->
+	<bean id="echoService" class="com.wf.xmgAop02.a10.DefaultEchoService"/>
 </beans>

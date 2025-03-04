@@ -24,6 +24,7 @@ public class AllConfig {
 	}
 
 
+	// 三种方式的执行顺序
 	@After("anyPublicMethod()")
 	public void finalizeAnyPublicMethod() {
 		System.out.println("@After any public method.");

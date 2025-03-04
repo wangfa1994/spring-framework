@@ -13,8 +13,8 @@
 
 	<aop:aspectj-autoproxy/>
 	
-	<bean class="com.wf.xmgAop02.a09.AfterAdviceXmlDemo"/>
-	<bean class="com.wf.xmgAop02.a09.AfterXmlConfig" id="aspectAfterXmlConfig"/>
+	<bean class="com.wf.xmgAop02.a09.a01aspjectAfterXml.AfterAdviceXmlDemo"/>
+	<bean class="com.wf.xmgAop02.a09.a01aspjectAfterXml.AfterXmlConfig" id="aspectAfterXmlConfig"/>
 
 	<aop:config>
 		<aop:aspect id="aspectConfig" ref="aspectAfterXmlConfig">

@@ -1,0 +1,25 @@
+package com.wf.xmgAop02.a06.a01pointcutAnn;
+
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+
+// 27
+
+@Aspect
+public class PointCutAnnConfig {
+
+	// pointcut 只负责判断过滤，不负责执行，进行判断过滤
+	@Pointcut("execution(public * *(..))") // 匹配 Join Point
+	private void anyPublicMethod() { // 方法名即 Pointcut 名 对应到AspectJ语法中的定义
+		// 这个方法是私有的，不会被执行,Pointcut只是作为一个判断，过滤出对应的连接点(方法)
+		System.out.println("@Pointcut at any public method.");
+	}
+
+	@Before("anyPublicMethod()")          // Join Point 拦截动作
+	public void beforeAnyPublicMethod() throws Throwable {
+		System.out.println("@Before any public method.");
+	}
+
+	// pointcut是进行过滤拦截， advice是具体执行动作， 一个pointcut 可以对应多个执行动作
+}

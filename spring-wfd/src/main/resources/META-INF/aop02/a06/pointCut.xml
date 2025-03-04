@@ -14,16 +14,16 @@
 	<aop:aspectj-autoproxy/>
 
 	<!--配置我们的主bean-->
-	<bean class="com.wf.xmgAop02.a06.PointCutXmlDemo"/>
+	<bean class="com.wf.xmgAop02.a06.a02pointcutXml.PointCutXmlDemo"/>
 
 	<!--配置我们的切面-->
-	<bean class="com.wf.xmgAop02.a06.PointCutXmlConfig" id="aspectPointCutXmlConfig"/>
+	<bean class="com.wf.xmgAop02.a06.a02pointcutXml.PointCutXmlConfig" id="aspectPointCutXmlConfig"/>
 
 
 	<aop:config>
 		<aop:aspect id="aspectConfig" ref="aspectPointCutXmlConfig">
-			<aop:pointcut id="aspect" expression="execution(public * *(..))"/>
-			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> <!--method关联aspectPointCutXmlConfig中的通知方法  -->
+			<aop:pointcut id="aspect" expression="execution(public * *(..))"/> <!--pointcut 进行拦截过滤， 过滤之后的动作绑定到对应的方法上-->
+			<aop:before method="beforeAnyPublicMethod" pointcut-ref="aspect"/> <!--method关联切面中的方法 aspectPointCutXmlConfig中的通知方法  -->
 		</aop:aspect>
 	</aop:config>
 

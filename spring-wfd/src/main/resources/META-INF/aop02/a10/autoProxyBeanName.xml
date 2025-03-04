@@ -21,7 +21,7 @@
 
 
 	    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
-	        <property name="beanNames" value="echo*"/> <!--模糊匹配-->
+	        <property name="beanNames" value="echo*,beanName"/> <!--模糊匹配，拦截beanName ,不写死，有一种自动代理的感觉-->
 	        <property name="interceptorNames">
 				<list>
 					<value>echoServiceMethodInterceptor</value>

@@ -63,7 +63,7 @@ public interface Ordered {
 	 * <p>Same order values will result in arbitrary sort positions for the
 	 * affected objects.
 	 * @return the order value
-	 * @see #HIGHEST_PRECEDENCE
+	 * @see #HIGHEST_PRECEDENCE 最高优先级
 	 * @see #LOWEST_PRECEDENCE
 	 */
 	int getOrder();

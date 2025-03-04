@@ -46,10 +46,10 @@ public class Readme {
 	 *
 	 * joinPoint
 	 *    --Invocation
-	 *    	-- MethodInvocation （构造器的不支持）
+	 *    	-- MethodInvocation （代理方法的）
 	 *    		-- ProxyMethodInvocation
-	 *    			-- ReflectiveMethodInvocation
-	 *    				-- CglibMethodInvocation
+	 *    			-- ReflectiveMethodInvocation(基于反射)
+	 *    			-- CglibMethodInvocation(基于cglib)
 	 *
 	 *
 	 * pointCut
@@ -57,7 +57,7 @@ public class Readme {
 	 *
 	 * Adivce
 	 * 		--interceptor(类似AroundAdvice)
-	 * 			--methodInterceptor
+	 * 			--MethodInterceptor 方法存在参数 MethodInvocation，关联到JoinPoint
 	 * 		--BeforeAdvice
 	 * 			-- MethodBeforeAdvice
 	 * 		--AfterAdvice
@@ -74,13 +74,14 @@ public class Readme {
 	 * 			--proxyFactoryBean
 	 * 			--AspectJProxyFactory
 	 *
-	 * AbstractAdvisorAutoProxyCreator
+	 * AbstractAdvisorAutoProxyCreator(自动动态代理相关)
 	 * 		-- BeanNameAutoProxyCreator
 	 * 	    -- DefaultAdvisorAutoProxyCreator
 	 * 	    -- AnnotationAwareAspectJAutoProxyCreator
 	 *
 	 *
 	 * TargetSource
+	 *
 	 *
 	 *
 	 *

@@ -35,7 +35,7 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  * @see AspectMetadata
  * @see org.aspectj.lang.reflect.AjTypeSystem
- */
+ */ // 可以从带有AspectJ注释语法的类创建Spring AOP advisor的工厂的接口。
 public interface AspectJAdvisorFactory {
 
 	/**

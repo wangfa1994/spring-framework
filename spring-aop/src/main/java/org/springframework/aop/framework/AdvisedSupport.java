@@ -394,7 +394,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			// We need an IntroductionAdvisor for this kind of introduction.
 			throw new AopConfigException("DynamicIntroductionAdvice may only be added as part of IntroductionAdvisor");
 		}
-		else {
+		else {// 这里默认了DefaultPointcutAdvisor，这个里面的point 默认是true对象，说明pointcut针对的拦截类和过滤方法都是返回true，针对所有的都进行处理
 			addAdvisor(pos, new DefaultPointcutAdvisor(advice));
 		}
 	}

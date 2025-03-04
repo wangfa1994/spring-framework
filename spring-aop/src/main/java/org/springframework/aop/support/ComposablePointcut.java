@@ -55,7 +55,7 @@ public class ComposablePointcut implements Pointcut, Serializable {
 	 * Create a default ComposablePointcut, with {@code ClassFilter.TRUE}
 	 * and {@code MethodMatcher.TRUE}.
 	 */
-	public ComposablePointcut() {
+	public ComposablePointcut() { // 构建器默认所有的类和所有的方法都应该被拦截
 		this.classFilter = ClassFilter.TRUE;
 		this.methodMatcher = MethodMatcher.TRUE;
 	}
@@ -105,12 +105,12 @@ public class ComposablePointcut implements Pointcut, Serializable {
 	}
 
 
-	/**
+	/** 组合的方式 ClassFilters
 	 * Apply a union with the given ClassFilter.
 	 * @param other the ClassFilter to apply a union with
 	 * @return this composable pointcut (for call chaining)
 	 */
-	public ComposablePointcut union(ClassFilter other) {
+	public ComposablePointcut union(ClassFilter other) { // 或的关系
 		this.classFilter = ClassFilters.union(this.classFilter, other);
 		return this;
 	}
@@ -120,7 +120,7 @@ public class ComposablePointcut implements Pointcut, Serializable {
 	 * @param other the ClassFilter to apply an intersection with
 	 * @return this composable pointcut (for call chaining)
 	 */
-	public ComposablePointcut intersection(ClassFilter other) {
+	public ComposablePointcut intersection(ClassFilter other) { // 且的关系
 		this.classFilter = ClassFilters.intersection(this.classFilter, other);
 		return this;
 	}

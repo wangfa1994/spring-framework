@@ -53,7 +53,7 @@ import java.lang.reflect.Method;
 public interface MethodMatcher {
 
 	/**
-	 * Perform static checking whether the given method matches.
+	 * Perform static checking whether the given method matches. 执行静态检查给定方法是否匹配
 	 * <p>If this returns {@code false} or if the {@link #isRuntime()}
 	 * method returns {@code false}, no runtime check (i.e. no
 	 * {@link #matches(java.lang.reflect.Method, Class, Object[])} call)
@@ -64,7 +64,7 @@ public interface MethodMatcher {
 	 */
 	boolean matches(Method method, Class<?> targetClass);
 
-	/**
+	/** 根据这个方法返回的是否是运行时的，进行两个参数或者三个参数的matches匹配
 	 * Is this MethodMatcher dynamic, that is, must a final call be made on the
 	 * {@link #matches(java.lang.reflect.Method, Class, Object[])} method at
 	 * runtime even if the 2-arg matches method returns {@code true}?

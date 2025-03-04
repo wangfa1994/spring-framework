@@ -49,9 +49,9 @@ import org.springframework.util.ClassUtils;
 @SuppressWarnings("serial")
 public class AspectJProxyFactory extends ProxyCreatorSupport {
 
-	/** Cache for singleton aspect instances. */
+	/** Cache for singleton aspect instances.  缓存 单例 模式的 实例 */
 	private static final Map<Class<?>, Object> aspectCache = new ConcurrentHashMap<>();
-
+	// 内置默认 AspectJAdvisorFactory ，这个是带Advisor的工厂， 可以从带有AspectJ注释语法的类创建Spring AOP advisor的工厂的接口。
 	private final AspectJAdvisorFactory aspectFactory = new ReflectiveAspectJAdvisorFactory();
 
 
@@ -96,8 +96,8 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 			throw new IllegalArgumentException(
 					"Aspect class [" + aspectClass.getName() + "] does not define a singleton aspect");
 		}
-		addAdvisorsFromAspectInstanceFactory(
-				new SingletonMetadataAwareAspectInstanceFactory(aspectInstance, aspectName));
+		addAdvisorsFromAspectInstanceFactory( // 进行解析添加对应的Advisor，这个从SingletonMetadataAwareAspectInstanceFactory中进行处理
+				new SingletonMetadataAwareAspectInstanceFactory(aspectInstance, aspectName)); // 是否可以通过本类方法进行获取，而不是new呢? createAspectInstanceFactory
 	}
 
 	/**
@@ -107,8 +107,8 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	public void addAspect(Class<?> aspectClass) {
 		String aspectName = aspectClass.getName();
 		AspectMetadata am = createAspectMetadata(aspectClass, aspectName);
-		MetadataAwareAspectInstanceFactory instanceFactory = createAspectInstanceFactory(am, aspectClass, aspectName);
-		addAdvisorsFromAspectInstanceFactory(instanceFactory);// 进行解析，将切面类中的信息变成advisors
+		MetadataAwareAspectInstanceFactory instanceFactory = createAspectInstanceFactory(am, aspectClass, aspectName); // 创建可以解析aspectJ注解的类
+		addAdvisorsFromAspectInstanceFactory(instanceFactory);// 使用类进行解析，将切面类中的信息变成advisors
 	}
 
 
