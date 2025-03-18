@@ -43,7 +43,7 @@ package org.springframework.aop.framework;
  */
 public interface AopProxyFactory {
 
-	/**
+	/** 通过传递的配置，得到对应的aop代理对象
 	 * Create an {@link AopProxy} for the given AOP configuration.
 	 * @param config the AOP configuration in the form of an
 	 * AdvisedSupport object

@@ -1,10 +1,23 @@
-package com.wf.xmgAop03.a05;
+package com.wf.xmgAop03.a05.a02jionpointAfterAdviceAspectJ;
 
-import com.wf.xmgAop03.a04.AspectJMethodBeforeAdviceDemo;
-import com.wf.xmgAop03.a04.MethodBeforeAdviceAnnConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+
+/** 51   joinPoint after advice Aspectj实现
+ *
+ * 接口
+ * @see org.springframework.aop.AfterAdvice
+ * @see org.springframework.aop.AfterReturningAdvice
+ * @see org.springframework.aop.ThrowsAdvice
+ *
+ * 实现
+ * @see org.springframework.aop.aspectj.AspectJAfterAdvice
+ * @see org.springframework.aop.aspectj.AspectJAfterReturningAdvice
+ * @see org.springframework.aop.aspectj.AspectJAfterThrowingAdvice
+ *
+ * */
 
 // 52课  spring 适配AspectJ的实现  ====> spring aop的实现
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理

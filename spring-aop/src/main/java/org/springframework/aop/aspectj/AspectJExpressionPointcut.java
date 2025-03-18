@@ -81,7 +81,7 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @author Ramnivas Laddad
  * @author Dave Syer
- * @since 2.0
+ * @since 2.0    pointcut 的 AspectJ 实现
  */
 @SuppressWarnings("serial")
 public class AspectJExpressionPointcut extends AbstractExpressionPointcut
@@ -116,13 +116,13 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 
 	private Class<?>[] pointcutParameterTypes = new Class<?>[0];
 
-	@Nullable // ioc容器
+	@Nullable // ioc容器  和容器进行了关联
 	private BeanFactory beanFactory;
 
 	@Nullable
 	private transient ClassLoader pointcutClassLoader;
 
-	@Nullable // 切点表达式处理类 ， 语法规则直接使用了aspectj 进行了解释
+	@Nullable // 切点表达式处理类 ， 语法规则直接使用了aspectj 进行 解释
 	private transient PointcutExpression pointcutExpression;
 
 	private transient boolean pointcutParsingFailed = false;
@@ -203,14 +203,14 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 		}
 	}
 
-	/**
+	/** 惰性地构建底层的AspectJ切入点表达式。
 	 * Lazily build the underlying AspectJ pointcut expression.
 	 */
 	private PointcutExpression obtainPointcutExpression() {
 		if (this.pointcutExpression == null) {
 			this.pointcutClassLoader = determinePointcutClassLoader();
 			this.pointcutExpression = buildPointcutExpression(this.pointcutClassLoader);
-		}
+		} // 进行了桥接到 AspecJ 中进行处理解析
 		return this.pointcutExpression;
 	}
 
@@ -317,7 +317,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 		return false;
 	}
 
-	@Override
+	@Override // MethodMatcher 方法匹配器，进行了方法的匹配
 	public boolean matches(Method method, Class<?> targetClass, boolean hasIntroductions) {
 		ShadowMatch shadowMatch = getTargetShadowMatch(method, targetClass);
 

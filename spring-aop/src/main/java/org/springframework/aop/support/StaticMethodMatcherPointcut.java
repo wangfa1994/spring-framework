@@ -28,7 +28,7 @@ import org.springframework.aop.Pointcut;
  * {@link ClassFilter} behavior. The default is {@link ClassFilter#TRUE}.
  *
  * @author Rod Johnson
- * @author Juergen Hoeller
+ * @author Juergen Hoeller  StaticMethodMatcherPointcut 可以说是一个模板StaticMethodMatcher的实现
  */
 public abstract class StaticMethodMatcherPointcut extends StaticMethodMatcher implements Pointcut {
 	// 类过滤直接为true，不对类进行过滤

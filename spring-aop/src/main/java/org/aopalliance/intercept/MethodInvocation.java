@@ -20,18 +20,18 @@ import java.lang.reflect.Method;
 
 import javax.annotation.Nonnull;
 
-/**
+/** 对方法调用的描述，在方法调用时给出给拦截器。
  * Description of an invocation to a method, given to an interceptor
  * upon method-call.
  *
  * <p>A method invocation is a joinpoint and can be intercepted by a
- * method interceptor.
+ * method interceptor. 方法调用是一个连接点，可以被方法拦截器拦截。
  *
  * @author Rod Johnson
  * @see MethodInterceptor
  */
 public interface MethodInvocation extends Invocation {
-
+	//MethodInvocation 用在aop框架中 表示对目标对象方法的调用 ，它提供了获取被调用的方法、参数、目标对象等信息的方法，并允许拦截器或通知（Advice）在方法执行前后进行操作
 	/**
 	 * Get the method being called.
 	 * <p>This method is a friendly implementation of the

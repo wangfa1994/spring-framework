@@ -1,17 +1,29 @@
-package com.wf.xmgAop03.a04;
+package com.wf.xmgAop03.a04.a02beforeAdvice;
 
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
-import org.springframework.aop.framework.AopContext;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ *重点 49 JoinpointBeforeAdvice 标准实现
+ *
+ *  接口
+ *  	-标准接口  org.springframework.aop.BeforeAdvice
+ *      -方法界别  org.springframework.aop.MethodBeforeAdvice
+ *
+ *  实现 org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor
+ *
+ *
+ *  连接点joint  的 执行动作 Advice 三类
+ */
 // 49课  springAop joinPoint beforeAdvice的标准实现
-public class MethodBeforeAdviceInterceptorDemo {
+public class A01MethodBeforeAdviceInterceptorDemo {
 
-	/** spring 在没有引入aspectj之前的实现
+	/** spring 在没有引入aspectj之前的实现，给到我们用户使用的
 	 *
 	 *  我们可以使用的两个标准接口 BeforeAdvice  MethodBeforeAdvice
 	 * 标准接口 BeforeAdvice
@@ -34,25 +46,17 @@ public class MethodBeforeAdviceInterceptorDemo {
 
 	public static void main(String[] args) {
 
-		 // 这个是我们自己手动进行实现的代理  MethodBeforeAdvice
-
-
-
-
-		// 主要使用 AspectJProxyFactory 进行我们的设置与处理
 		Map<String, Object> cache = new HashMap<>();
-		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
 		// 增加 Aspect 配置类 可以从这里解析出来对应的advice。
-		//proxyFactory.addAspect(AspectConfiguration.class);
-		proxyFactory.setExposeProxy(true);
+		// proxyFactory.setExposeProxy(true);
 		proxyFactory.addAdvice(new MethodBeforeAdvice() { // 我们手动添加的advice 会被封装成  DefaultPointcutAdvisor  MethodBeforeAdviceInterceptor 进行执行
 			@Override
 			public void before(Method method, Object[] args, Object target) throws Throwable {
 				if ("put".equals(method.getName()) && args.length == 2) {
-					Object proxy = AopContext.currentProxy();
-					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s ，" +
-							"代理对象：%s\n", args[0], args[1], proxy);
+					//Object proxy = AopContext.currentProxy();
+					//System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s ，" + "代理对象：%s\n", args[0], args[1], proxy);
+					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s " , args[0], args[1]);
 				}
 			}
 		});
@@ -64,11 +68,13 @@ public class MethodBeforeAdviceInterceptorDemo {
 	}
 
 
+
 	/** ProxyConfig
 	 * 		--AdvisedSupport   AOP代理配置管理器的基类。
 	 * 			--ProxyCreatorSupport
 	 * 				--	AspectJProxyFactory
 	 *
+	 * MethodBeforeAdvice 会被spring内部转换包装为  MethodBeforeAdviceInterceptor
 	 *
 	 */
 

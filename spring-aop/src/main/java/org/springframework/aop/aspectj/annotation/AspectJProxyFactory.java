@@ -100,7 +100,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 				new SingletonMetadataAwareAspectInstanceFactory(aspectInstance, aspectName)); // 是否可以通过本类方法进行获取，而不是new呢? createAspectInstanceFactory
 	}
 
-	/**
+	/** 将所提供类型的一个方面添加到通知链的末尾。 这里会自动解析我们的Aspect的类
 	 * Add an aspect of the supplied type to the end of the advice chain.
 	 * @param aspectClass the AspectJ aspect class
 	 */

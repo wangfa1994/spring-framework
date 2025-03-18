@@ -26,5 +26,6 @@ public interface EchoService {
 
     String echo(String message) ;
 
+	String sayAop(String helloAop);
 
 }

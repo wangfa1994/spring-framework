@@ -630,8 +630,8 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 			actualArgs = null;
 		}
 		try {
-			ReflectionUtils.makeAccessible(this.aspectJAdviceMethod); //
-			return this.aspectJAdviceMethod.invoke(this.aspectInstanceFactory.getAspectInstance(), actualArgs); //执行我们的代理逻辑
+			ReflectionUtils.makeAccessible(this.aspectJAdviceMethod); // 反射设置
+			return this.aspectJAdviceMethod.invoke(this.aspectInstanceFactory.getAspectInstance(), actualArgs); //通过反射 执行我们的代理逻辑
 		}
 		catch (IllegalArgumentException ex) {
 			throw new AopInvocationException("Mismatch on arguments to advice method [" +

@@ -4,6 +4,7 @@ import org.springframework.aop.framework.ProxyFactory;
 
 import java.util.Random;
 
+// 51
 public class ThrowsAdviceInterceptorDemo {
 
 	// ThrowsAdviceInterceptor 的实现，

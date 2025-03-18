@@ -110,7 +110,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 	private boolean autodetectInterfaces = true;
 
 	private boolean singleton = true;
-
+	// Advisor适配器注册中心的接口 默认实现类DefaultAdvisorAdapterRegistry  可以将我们的interceptorNames 进行包装成对应的 Advisor ,
 	private AdvisorAdapterRegistry advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.getInstance();
 
 	private boolean freezeProxy = false;
@@ -326,7 +326,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 			}
 			// Initialize the shared singleton instance.
 			super.setFrozen(this.freezeProxy);
-			this.singletonInstance = getProxy(createAopProxy());
+			this.singletonInstance = getProxy(createAopProxy());//得到我们的代理对象
 		}
 		return this.singletonInstance;
 	}
@@ -415,7 +415,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 		return false;
 	}
 
-	/**
+	/** 创建顾问（拦截器）链
 	 * Create the advisor (interceptor) chain. Advisors that are sourced
 	 * from a BeanFactory will be refreshed each time a new prototype instance
 	 * is added. Interceptors added programmatically through the factory API
@@ -450,7 +450,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 					// We must check if it's a singleton or prototype.
 					Object advice;
 					if (this.singleton || this.beanFactory.isSingleton(name)) {
-						// Add the real Advisor/Advice to the chain.
+						// Add the real Advisor/Advice to the chain. 将真正的AdvisorAdvice添加到链中。
 						advice = this.beanFactory.getBean(name);
 					}
 					else {

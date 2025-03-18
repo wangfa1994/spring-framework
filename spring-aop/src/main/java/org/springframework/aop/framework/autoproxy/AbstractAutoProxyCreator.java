@@ -133,7 +133,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	private TargetSourceCreator[] customTargetSourceCreators;
 
 	@Nullable
-	private BeanFactory beanFactory;
+	private BeanFactory beanFactory; // 通过BeanFactoryAware 将我们的工厂进行注入
 
 	private final Set<String> targetSourcedBeans = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
@@ -280,14 +280,14 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		return pvs;  // skip postProcessPropertyValues
 	}
 
-	/**
+	/** 如果bean被子类标识为需要代理的bean，则使用已配置的拦截器创建代理。
 	 * Create a proxy with the configured interceptors if the bean is
 	 * identified as one to proxy by the subclass.
 	 * @see #getAdvicesAndAdvisorsForBean
 	 */
 	@Override
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
-		if (bean != null) {
+		if (bean != null) { // 通过后置处理器进行处理我们的bean,然后判断是否需要代理
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
 				return wrapIfNecessary(bean, beanName, cacheKey);//判断当前类是否需要进行包装成代理,如果需要的话，进行
@@ -338,7 +338,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		} // 先判断是否是基础类或者是原始的类，如果是的话，就会直接进行跳过，不会被创建代理对象，放入到缓存advisedBeans
 
 		// Create proxy if we have advice. 如果我们有建议，创建代理。 然后会查找合适的Advisor针对当前要创创建的bean，如果不存在的话，直接返回
-		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
+		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null); // 这里进行判断我们的beanName是否被允许的代理，通过beanNames判断
 		if (specificInterceptors != DO_NOT_PROXY) { // 需要代理的情况下会进行创建代理对象，并且进行值的缓存
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);
 			Object proxy = createProxy(

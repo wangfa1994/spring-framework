@@ -35,7 +35,7 @@ import org.springframework.aop.MethodBeforeAdvice;
 class MethodBeforeAdviceAdapter implements AdvisorAdapter, Serializable {
 
 	@Override
-	public boolean supportsAdvice(Advice advice) {
+	public boolean supportsAdvice(Advice advice) { // 进行判断是否是支持的Advice，
 		return (advice instanceof MethodBeforeAdvice);
 	}
 

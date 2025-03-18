@@ -22,7 +22,7 @@ import org.springframework.aop.Advisor;
 
 /**
  * Interface for registries of Advisor adapters.
- *
+ * Advisor适配器注册中心的接口。
  * <p><i>This is an SPI interface, not to be implemented by any Spring user.</i>
  *
  * @author Rod Johnson

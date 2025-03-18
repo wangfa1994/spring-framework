@@ -1,4 +1,5 @@
-package com.wf.xmgAop03.a05;
+package com.wf.xmgAop03.a05.a01joinpointAfterAdvice;
+
 
 import com.wf.xmgAop02.a09.AllConfig;
 import org.springframework.aop.AfterReturningAdvice;
@@ -8,19 +9,39 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-//  AfterReturningAdviceInterceptor
-public class AfterReturningAdviceInterceptorDemo {
+public class AfterAdviceDemo {
 
+	/** 51   joinPoint after advice 标准实现
+	 *
+	 * @see org.springframework.aop.AfterAdvice
+	 * @see org.springframework.aop.AfterReturningAdvice
+	 * @see org.springframework.aop.ThrowsAdvice
+	 *
+	 *
+	 * 实现
+	 * @see org.springframework.aop.framework.adapter.ThrowsAdviceInterceptor
+	 * @see org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor
+	 *
+	 *
+	 *
+	 * 接口 spring提供给开发者的接口
+	 * 	-- AfterAdvice
+	 * 	-- AfterReturningAdvice
+	 * 	-- ThrowsAdvice
+	 *
+	 *
+	 * 	实现  spring内部API层面的，内部使用的  Advice都会包装成Interceptor进行实现
+	 * 	-- ThrowsAdviceInterceptor
+	 * 	-- AfterReturningAdviceInterceptor
+	 *
+	 */
 
 	public static void main(String[] args) {
 		Map<String, Object> cache = new HashMap<>();
 		// 创建 Proxy 工厂(AspectJ)
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache);
-		// 增加 Aspect 配置类
-		proxyFactory.addAspect(AllConfig.class);
-		// 设置暴露代理对象到 AopContext
-		proxyFactory.setExposeProxy(true);
-		// 添加 AfterReturningAdvice
+
+		// 添加 AfterReturningAdvice    查看 AfterReturningAdviceInterceptor断点进行执行
 		proxyFactory.addAdvice(new AfterReturningAdvice() {
 
 			@Override
@@ -44,4 +65,6 @@ public class AfterReturningAdviceInterceptorDemo {
 		proxy.put("1", "B");
 		System.out.println(cache.get("1"));
 	}
+
+
 }

@@ -1,4 +1,4 @@
-package com.wf.xmgAop03.a04;
+package com.wf.xmgAop03.a04.a02beforeAdvice;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

@@ -122,7 +122,7 @@ import java.lang.annotation.Target;
 @Import(AspectJAutoProxyRegistrar.class)
 public @interface EnableAspectJAutoProxy {
 
-	/**
+	/** 指示是否要创建基于子类（CGLIB）的代理，而不是基于标准Java接口的代理。默认值是{@code false}
 	 * Indicate whether subclass-based (CGLIB) proxies are to be created as opposed
 	 * to standard Java interface-based proxies. The default is {@code false}.
 	 */

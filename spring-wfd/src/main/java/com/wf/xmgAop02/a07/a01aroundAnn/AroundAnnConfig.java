@@ -21,7 +21,7 @@ public class AroundAnnConfig {
 		System.out.println("@Before any public method.");
 	}
 
-	@Around("anyPublicMethod()")         // Join Point 拦截动作  ProceedingJoinPoint 处理中的一个jointPoint ,joint是一个连接点
+	@Around("anyPublicMethod()")         // Join Point 拦截动作  ProceedingJoinPoint 处理中的一个jointPoint ,jointPoint 是一个连接点，这个是Around特有的
 	public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
 		System.out.println("@Around any public method.");
 		return pjp.proceed(); // around 需要我们手动主动去调用我们的方法 ，这里也可以发现，around是在Before之前进行的，因为，如果没有主动调用，Before是不会运行的

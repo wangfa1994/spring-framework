@@ -84,7 +84,7 @@ import org.springframework.util.ReflectionUtils;
 @SuppressWarnings("serial")
 class CglibAopProxy implements AopProxy, Serializable {
 
-	// Constants for CGLIB callback array indices
+	// Constants for CGLIB callback array indices  CGLIB回调数组索引的常量
 	private static final int AOP_PROXY = 0;
 	private static final int INVOKE_TARGET = 1;
 	private static final int NO_OVERRIDE = 2;
@@ -166,9 +166,9 @@ class CglibAopProxy implements AopProxy, Serializable {
 			Class<?> rootClass = this.advised.getTargetClass(); //得到我们原始的目标
 			Assert.state(rootClass != null, "Target class must be available for creating a CGLIB proxy");
 
-			Class<?> proxySuperClass = rootClass;
-			if (rootClass.getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)) { // 这里是解决代理类再被代理的逻辑？
-				proxySuperClass = rootClass.getSuperclass();
+			Class<?> proxySuperClass = rootClass; // 会存在嵌套的情况
+			if (rootClass.getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)) { // 这里是解决代理类再被代理的逻辑？ 被Cglib代理的类会存在$$标志，然后我们可以再进行代理
+				proxySuperClass = rootClass.getSuperclass();// 这样的话，我们只需要关心业务类即可，得到他的原始类
 				Class<?>[] additionalInterfaces = rootClass.getInterfaces();
 				for (Class<?> additionalInterface : additionalInterfaces) {
 					this.advised.addInterface(additionalInterface);
@@ -187,7 +187,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					enhancer.setUseCache(false);
 				}
 			}
-			enhancer.setSuperclass(proxySuperClass); // 设置我们的代理类，我们新生成的代理类会继承此类
+			enhancer.setSuperclass(proxySuperClass); // 设置我们的代理类，我们新生成的代理类会继承此类，
 			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised)); //设置我们的代理接口，我们新生成的代理类会实现这些接口的方法，这里设置了SpringProxy 和 Advised 两个接口
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
 			enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(classLoader));
@@ -558,7 +558,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	}
 
 
-	/**
+	/** 在被建议类上声明的任何方法的调度程序。  Dispatcher只有一个方法 加载对象
 	 * Dispatcher for any methods declared on the Advised class.
 	 */
 	private static class AdvisedDispatcher implements Dispatcher, Serializable {
@@ -662,7 +662,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	}
 
 
-	/** 通用AOP回调。当目标是动态的或代理未冻结时使用。
+	/** 通用AOP回调。当目标是动态的或代理未冻结时使用。 MethodInterceptor是cglib的回调拦截方法 和jdk动态代理的invoke
 	 * General purpose AOP callback. Used when the target is dynamic or when the
 	 * proxy is not frozen.
 	 */
@@ -703,7 +703,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					retVal = invokeMethod(target, method, argsToUse, methodProxy); //进行方法调用
 				}
 				else {
-					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed
+					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed，， CglibMethodInvocation 这个来自jdk的
 					retVal = new CglibMethodInvocation(proxy, target, method, args, targetClass, chain, methodProxy).proceed();
 				}
 				retVal = processReturnType(proxy, target, method, retVal);
@@ -759,7 +759,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		@Nullable
 		public Object proceed() throws Throwable {
 			try {
-				return super.proceed();
+				return super.proceed(); // 这个又转到了jdk的实现
 			}
 			catch (RuntimeException ex) {
 				throw ex;

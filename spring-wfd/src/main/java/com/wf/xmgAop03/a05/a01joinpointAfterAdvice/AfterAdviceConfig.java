@@ -1,4 +1,4 @@
-package com.wf.xmgAop03.a05;
+package com.wf.xmgAop03.a05.a01joinpointAfterAdvice;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -10,12 +10,15 @@ public class AfterAdviceConfig {
 		System.out.println("@Pointcut at any public method.");
 	}
 
-	@After("anyPublicMethod()") // // Join Point 拦截动作
+
+
+	// 三种方式的执行顺序
+	/*@After("anyPublicMethod()")
 	public void finalizeAnyPublicMethod() {
 		System.out.println("@After any public method.");
-	}
+	}*/
 
-	@AfterReturning("anyPublicMethod()")
+	/*@AfterReturning("anyPublicMethod()")
 	public void afterAnyPublicMethod() {
 		System.out.println("@AfterReturning any public method.");
 	}
@@ -23,7 +26,7 @@ public class AfterAdviceConfig {
 	@AfterThrowing("anyPublicMethod()")
 	public void afterThrowingAnyPublicMethod() {
 		System.out.println("@AfterThrowing any public method");
-	}
+	}*/
 
 
 }

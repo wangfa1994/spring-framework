@@ -37,8 +37,8 @@ import org.springframework.util.Assert;
  */
 @SuppressWarnings("serial")
 public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeAdvice, Serializable {
-	// 本来就是advice  然后又组合了advice  其实这个组合的是我们开发者实现的advice，
-	private final MethodBeforeAdvice advice;
+	// 本来就是advice ，实现的MethodInterceptor(表示拦截) 和  BeforeAdvice(表示Advice)   然后又组合了advice  其实这个组合的是我们开发者实现的advice，
+	private final MethodBeforeAdvice advice; // 为什么会又注入一个呢？这个是开发人员添加的实现
 
 
 	/**
@@ -53,8 +53,8 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 
 	@Override
 	@Nullable
-	public Object invoke(MethodInvocation mi) throws Throwable { // 方法拦截之后的执行方法
-		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis()); // 执行我们开发者自己的advice
+	public Object invoke(MethodInvocation mi) throws Throwable { // 方法拦截之后的执行方法 MethodInterceptor 方法，实际上执行的是这个，然后转入到我们的Advice中，
+		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis()); //通过 MethodInvocation获取到对应的数据， 执行我们开发者自己的advice
 		return mi.proceed();
 	}
 

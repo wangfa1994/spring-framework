@@ -16,13 +16,16 @@
 
 	<bean id="defaultEchoService" class="com.wf.xmgAop02.a04.a04ProxyFactoryBean.DefaultEchoService"/>
 
+	<!--这里添加的是ProxyFactoryBean， 是 FactoryBean,工厂bean,是一个bean,可以生产对象的bean -->
 	<bean id="echoServiceProxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetName" value="defaultEchoService"/>
 	</bean>
 
 
 
+	<!--自定义了我们的拦截逻辑，其实这个MethodInterceptor 底层也是Advice -->
 	<bean id="customerMethodInterceptor" class="com.wf.xmgAop02.a04.a04ProxyFactoryBean.CustomerMethodInterceptor"/>
+
 	<bean id="echoServiceProxyFactoryBeanMethodIntercept" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetName" value="defaultEchoService"/>
 

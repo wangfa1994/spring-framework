@@ -55,8 +55,8 @@ public class Readme {
 	 * pointCut
 	 * 		-- StaticMethodMatcherPointcut
 	 *
-	 * Adivce
-	 * 		--interceptor(类似AroundAdvice)
+	 * Adivce  分为三类
+	 * 		--Interceptor(类似AroundAdvice)
 	 * 			--MethodInterceptor 方法存在参数 MethodInvocation，关联到JoinPoint
 	 * 		--BeforeAdvice
 	 * 			-- MethodBeforeAdvice
@@ -64,9 +64,26 @@ public class Readme {
 	 * 			-- AfterReturningAdvice
 	 * 			-- ThrowsAdvice
 	 *
-	 * advisor
+	 *
+	 * Advisor
 	 * 		--PointcutAdvisor
 	 * 			--DefaultPointCutAdvisor
+	 * 		-- IntroductionAdvisor
+	 * 			--DefaultIntroductionAdvisor
+	 *
+	 *
+	 * Interceptor
+	 * 	-- MethodInterceptor(属于Advice)
+	 *
+	 *
+	 * AdvisorAdapter （进行Advice是否支持的判断，然后如果在支持的情况下，转换为methodInterceptor）
+	 *
+	 *
+	 * AopProxy
+	 * 		--jdkDynamicAopProxy
+	 * 	 	--CglibAopProxy
+	 *
+	 *
 	 *
 	 * AdvisedSupport
 	 * 		--ProxyCreatorSupport
@@ -85,6 +102,7 @@ public class Readme {
 	 *
 	 *
 	 *
+	 * 49
 	 *
 	 *
 	 */

@@ -22,17 +22,17 @@ public class PointCutApiDemo {
 
 	public static void main(String[] args) {
 
-		// 首选声明一个point cut
+		// 首选声明一个point cut 这个是我么自定义的，继承了
 		MyPointCutApiPointcut pointcut = new MyPointCutApiPointcut("execute",PointCutApiDemo.class); //这种直接定义了一个pointCut
 
-		// 将 Pointcut 适配成 Advisor  pointcut 无法直接被使用，只是一个过滤判断标准，需要通过Advisor进行转换
-		DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(pointcut, new PointCutApiMethodInterceptor());
+		// 将 Pointcut 适配成 Advisor  pointcut 无法直接被使用，只是一个过滤判断标准，需要通过Advisor进行转换 这个Advice 也是自定义的
+		DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(pointcut, new MyPointCutApiMethodInterceptor());
 
 		PointCutApiDemo pointCutApiDemo = new PointCutApiDemo();
 
 		ProxyFactory proxyFactory = new ProxyFactory(pointCutApiDemo);
 
-		// Advisor 和advise 关系，实际上 advise本身是一个动作(横切逻辑)，在动作前需要关联一个pointcut ，
+		// Advisor 和advice 关系，实际上 advice本身是一个动作(横切逻辑)，在动作前需要关联一个pointcut ，
 		// pointcut 和 advise的关联需要Advisor进行承载
 		// advisor 是 pointcut 和 advise的关联
 		proxyFactory.addAdvisor(advisor); //  advisor 通知和切点进行了关联的承载
@@ -54,6 +54,10 @@ public class PointCutApiDemo {
 		 * 而刚好就使用advisor进行承载两个之间的关系
 		 *
 		 * 然后我们就可以通过ProxyFactory 产生存在相关逻辑的代理对象了
+		 *
+		 *
+		 * 针对与Pointcut ，顶层接口 Pointcut 只定义了关于类级别的过滤和方法级别的判断
+		 * 然后进行了一些抽象实现 比如  StaticMethodMatcherPointcut 等
 		 *
 		 */
 

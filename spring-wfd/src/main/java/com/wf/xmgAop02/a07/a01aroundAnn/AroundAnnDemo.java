@@ -9,11 +9,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * 30 @AspectJ拦截动作  @Around 和 @pointcut(这个注解是aspectJ的) 有区别吗？
  *
  * @pointcut注解只是判断，没有动作，过滤类和方法，而且是aspectJ中的注解
- *
- *
- *
- *
- *
  */
 
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理

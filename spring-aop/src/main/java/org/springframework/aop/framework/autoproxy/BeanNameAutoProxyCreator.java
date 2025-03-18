@@ -101,7 +101,7 @@ public class BeanNameAutoProxyCreator extends AbstractAutoProxyCreator {
 				PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS : DO_NOT_PROXY);
 	}
 
-	/**
+	/** 当前创建的beanName，是否是允许创建代理对象的beanNames
 	 * Determine if the bean name for the given bean class matches one of the names
 	 * in the configured list of supported names.
 	 * @param beanClass the class of the bean to advise
@@ -119,7 +119,7 @@ public class BeanNameAutoProxyCreator extends AbstractAutoProxyCreator {
 					}
 					mappedName = mappedName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
 				}
-				if (isMatch(beanName, mappedName)) {
+				if (isMatch(beanName, mappedName)) { //判断当前的beanName,是否匹配我们的代理对象名称
 					return true;
 				}
 			}

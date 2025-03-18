@@ -31,7 +31,7 @@ import org.springframework.lang.Nullable;
  */
 public interface AopProxy {
 
-	/**
+	/** 创建一个新的代理对象  ,使用的是当前上下文的classLoad
 	 * Create a new proxy object.
 	 * <p>Uses the AopProxy's default class loader (if necessary for proxy creation):
 	 * usually, the thread context class loader.

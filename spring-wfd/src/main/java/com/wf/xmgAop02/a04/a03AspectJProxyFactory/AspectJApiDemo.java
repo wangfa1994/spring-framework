@@ -34,15 +34,15 @@ public class AspectJApiDemo {
 		Map<String, Object> cache = new HashMap<>();
 
 
-		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象
+		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象  AspectJProxyFactory 是2.0引入的
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
 
 		// 增加 Aspect 配置类 这里也可以从这里解析出来对应的advice。 存在对应的注解，这样的话才能进行解析出来
 		proxyFactory.addAspect(AspectJApiConfiguration.class);
 
-		// 设置我们的通知动作
+		// 手动设置我们的通知动作 ,但是没有绑定对应的pointcut,此时针对所有的类和方法都会进行拦截处理
 		proxyFactory.addAdvice(new MethodBeforeAdvice() {
-			// 我们不需要手动触发 method方法的调用，框架会帮我们处理
+			// MethodBeforeAdvice 我们不需要手动触发 method方法的调用，框架会帮我们处理
 			@Override
 			public void before(Method method, Object[] args, Object target) throws Throwable {
 				System.out.println("方法执行前的操作:"+method.getName());
@@ -55,7 +55,12 @@ public class AspectJApiDemo {
 		Map<String, Object> proxy = proxyFactory.getProxy(); // 这个proxyFactory 创建AOP代理，从AOP代理中得到代理对象，代理工厂获取代理对象
 		proxy.put("1", "A");
 		System.out.println(proxy.get("1"));
+
+		System.out.println(proxy.size());
 		// AopProxyFactory AOP代理工厂获取AOP的代理对象
+
+
+
 	}
 	/**
 	 * AspectJProxyFactory 代理工厂，用来产生代理对象，继承了ProxyCreatorSupport ,这个 类是代理类的基类，内置了一个DefaultAopProxyFactory类

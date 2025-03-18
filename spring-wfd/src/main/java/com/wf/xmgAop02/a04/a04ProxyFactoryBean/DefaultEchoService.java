@@ -27,9 +27,13 @@ public class DefaultEchoService implements EchoService {
 
     @Override
     public String echo(String message) {
-		System.out.println("进入原始逻辑");
+		System.out.println("echo进入原始逻辑");
         return "[ECHO] " + message;
     }
 
-
+	@Override
+	public String sayAop(String message) {
+		System.out.println("sayAop进入原始逻辑");
+		return "[sayAop] " + message;
+	}
 }

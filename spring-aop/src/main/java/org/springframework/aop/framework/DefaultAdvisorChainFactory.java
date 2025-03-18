@@ -63,7 +63,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 			if (advisor instanceof PointcutAdvisor) { // 判断我们的advisor是否是PointcutAdvisor,里面封装了pointcut和advisor，第一个为Spring内置的
 				// Add it conditionally. 有条件地添加
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
-				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {
+				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) { // 这里还是使用了pointCut的关于类和方法的匹配(拦截过滤模式)
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
 					boolean match;
 					if (mm instanceof IntroductionAwareMethodMatcher) { //我们自定义的为这个

@@ -23,7 +23,7 @@ import org.springframework.aop.MethodMatcher;
 /**
  * Convenient abstract superclass for static method matchers, which don't care
  * about arguments at runtime. 为静态方法匹配器提供方便的抽象超类，它在运行时不关心参数。
- *
+ * 这个可以说是 MethodMatcher 的一个默认便利实现，只需要我们实现 MethodMatcher 的 两个参数的matches即可
  * @author Rod Johnson
  */
 public abstract class StaticMethodMatcher implements MethodMatcher {

@@ -1,5 +1,21 @@
 package com.wf.xmgAop03.a03;
 
+/**
+ *  47.  pointcut 的 AspectJ 实现
+ *
+ * 实现类：org.springframework.aop.aspectj.AspectJExpressionPointcut (2.0版本引入的，说明2.0之前没有引入，使用的就是一些便捷实现)
+ *
+ * 指令支持 supported_primitives
+ *
+ * 表达式 org.aspectj.weaver.tools.PointcutExpression
+ *
+ *
+ * @see org.springframework.aop.aspectj.AspectJExpressionPointcut
+ *
+ * @see org.aspectj.weaver.tools.PointcutExpression
+ *
+ *
+ */
 // spring 与aspectj的pointcut适配
 public class AspectJDemo {
 

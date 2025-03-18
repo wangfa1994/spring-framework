@@ -47,7 +47,7 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 	private String adviceBeanName; // 可以从spring容器中获取advice，
 
 	@Nullable
-	private BeanFactory beanFactory;
+	private BeanFactory beanFactory;  // 关联到我们的ioc容器中
 
 	@Nullable
 	private transient volatile Advice advice;
@@ -113,7 +113,7 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 
 		if (this.beanFactory.isSingleton(this.adviceBeanName)) {
 			// Rely on singleton semantics provided by the factory.
-			advice = this.beanFactory.getBean(this.adviceBeanName, Advice.class);
+			advice = this.beanFactory.getBean(this.adviceBeanName, Advice.class); // 从容器中进行查找我们的Advice
 			this.advice = advice;
 			return advice;
 		}

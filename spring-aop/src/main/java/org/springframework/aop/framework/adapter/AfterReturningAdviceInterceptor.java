@@ -38,7 +38,7 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class AfterReturningAdviceInterceptor implements MethodInterceptor, AfterAdvice, Serializable {
 
-	private final AfterReturningAdvice advice; // 我们开发的通知
+	private final AfterReturningAdvice advice; // 我们用户自己实现的， AfterReturningAdviceInterceptor则是spring系统内部使用的。
 
 
 	/**
