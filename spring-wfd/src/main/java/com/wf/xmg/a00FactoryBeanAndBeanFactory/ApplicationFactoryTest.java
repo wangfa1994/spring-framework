@@ -12,7 +12,7 @@ public class ApplicationFactoryTest {
 
 	/**
 	 *  BeanFactory接口 是我们底层的容器，
-	 *  FactoryBean接口 是一个bean，这个bean也用来创建对象，我们可以通过此接口来创建对象，而且创建的对象会被spring管理，但是不是管理在我们的容器中
+	 *  FactoryBean接口 是一个bean，这个bean也用来创建对象，我们可以通过此接口来创建对象，动态常创建bean的一种形式。而且创建的对象会被spring管理，但是不是管理在我们的容器中
 	 *  而是管理在FactoryBeanRegistrySupport的cache中，无法通过自己的类名的小写作为beanName进行依赖查找，因为容器中确实不存在这个beanName，
 	 *  但是可以通过FactoryBean的beanName进行查找，而且还可以通过类型进行查找，能被依赖注入解析到。这个都是因为在创建的过程中会进行FactoryBean的逻辑
 	 *  处理，最后真正的会走到FactoryBeanRegistrySupport的cache中.
@@ -24,6 +24,9 @@ public class ApplicationFactoryTest {
 	 *
 	 *
 	 *  mybatis与spring整合的时候，SqlSessionFactoryBean这个就是FactoryBean的一种形式
+	 *
+	 *  AOP的ProxyFactoryBean 也是FactoryBean的一种形式、还有其他不少形式存在
+	 *
 	**/
 	public static void main(String[] args) {
 

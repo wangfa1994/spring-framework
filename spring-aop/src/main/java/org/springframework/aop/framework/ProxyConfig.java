@@ -33,7 +33,7 @@ public class ProxyConfig implements Serializable {
 	/** use serialVersionUID from Spring 1.2 for interoperability. */
 	private static final long serialVersionUID = -8409359707199703185L;
 
-
+	// aop 默认实现的jdk动态代理，类的代理为false
 	private boolean proxyTargetClass = false;
 
 	private boolean optimize = false;

@@ -57,7 +57,7 @@ import org.springframework.util.CollectionUtils;
  * <p>This class is used to hold snapshots of proxies.
  *
  * @author Rod Johnson
- * @author Juergen Hoeller
+ * @author Juergen Hoeller AOP代理配置管理器的基类。
  * @see org.springframework.aop.framework.AopProxy
  */
 public class AdvisedSupport extends ProxyConfig implements Advised {
@@ -79,13 +79,13 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/** Whether the Advisors are already filtered for the specific target class. */
 	private boolean preFiltered = false;
 
-	/** The AdvisorChainFactory to use. 将我们的advisor变成对应的advisor链的工厂 */
-	AdvisorChainFactory advisorChainFactory = new DefaultAdvisorChainFactory();
+	/** The AdvisorChainFactory to use. 将我们的advisor变成对应的advisor链的工厂 ,允许我们替换的 */
+	AdvisorChainFactory advisorChainFactory = new DefaultAdvisorChainFactory(); // 只有这一种实现  链工厂
 
 	/** Cache with Method as key and advisor chain List as value. */
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
-	/**
+	/** 目标对象所在的类，所有的实现的接口集合
 	 * Interfaces to be implemented by the proxy. Held in List to keep the order
 	 * of registration, to create JDK proxy with specified order of interfaces.
 	 */
@@ -240,7 +240,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	@Override
 	public final Advisor[] getAdvisors() {
-		return this.advisors.toArray(new Advisor[0]);
+		return this.advisors.toArray(new Advisor[0]); // 进行了优化移除了advisorArray数组字段，
 	}
 
 	@Override

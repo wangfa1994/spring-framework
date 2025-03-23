@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 /**
  * Base class for proxy factories.
  * Provides convenient access to a configurable AopProxyFactory.
- *
+ * 三大核心功能，针对配置的扩展管理，通过AopProxyFactory针对代理对象的产生， 通过 listeners 针对事件的监听
  * @author Juergen Hoeller
  * @since 2.0.3
  * @see #createAopProxy()
@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class ProxyCreatorSupport extends AdvisedSupport {
 
-	private AopProxyFactory aopProxyFactory;
+	private AopProxyFactory aopProxyFactory; // 内置了AopProxyFactory ,只有一种实现 DefaultAopProxyFactory
 
 	private final List<AdvisedSupportListener> listeners = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 	 * Subclasses should call this to get a new AOP proxy. They should <b>not</b>
 	 * create an AOP proxy with {@code this} as an argument.
 	 */
-	protected final synchronized AopProxy createAopProxy() {
+	protected final synchronized AopProxy createAopProxy() { //给子类进行调用的，protected修饰符
 		if (!this.active) {
 			activate();
 		}

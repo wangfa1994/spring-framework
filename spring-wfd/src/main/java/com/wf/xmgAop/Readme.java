@@ -85,11 +85,16 @@ public class Readme {
 	 *
 	 *
 	 *
-	 * AdvisedSupport
+	 * AdvisedSupport （父类 ProxyConfig Advised）
 	 * 		--ProxyCreatorSupport
 	 * 			--proxyFactory
 	 * 			--proxyFactoryBean
 	 * 			--AspectJProxyFactory
+	 *
+	 *
+	 *AdvisorChainFactory
+	 * 		-- DefaultAdvisorChainFactory 唯一实现
+	 *
 	 *
 	 * AbstractAdvisorAutoProxyCreator(自动动态代理相关)
 	 * 		-- BeanNameAutoProxyCreator
@@ -97,12 +102,32 @@ public class Readme {
 	 * 	    -- AnnotationAwareAspectJAutoProxyCreator
 	 *
 	 *
-	 * TargetSource
+	 * TargetSource (AOP代理目标对象来源)
+	 * 		--AbstractPrototypeBasedTargetSource
+	 * 			-- PrototypeTargetSource
+	 * 		--SingletonTargetSource
 	 *
 	 *
 	 *
 	 *
 	 * 49
+	 *
+	 * Aop代理对象
+	 * 	Aop代理工厂 AopProxyFactory ---> DefaultProxyFactory
+	 * 	Aop代理对象 AopProxy JdkDynamicAopProxy
+	 *
+	 *
+	 * 63
+	 * Advisor 与 Advice 的关系  1:1关系
+	 *
+	 * MethodInterceptor 与 AdvisorAdapter的关系   适配关系
+	 *
+	 * Advosor 与 AdvisorAdapter的关系  关联关系
+	 *
+	 * Aop代理对象 与 Aop代理配置  配置管理关系
+	 *
+	 * AdvisorChainFactory 与 MethodInterceptor 存储关系
+	 *
 	 *
 	 *
 	 */
