@@ -19,15 +19,15 @@ package org.aopalliance.intercept;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-/** 在接口到目标的途中拦截接口上的调用
+/** 在接口到目标的途中拦截接口上的调用 , 它们嵌套在目标的“顶部”
  * Intercepts calls on an interface on its way to the target. These
  * are nested "on top" of the target.
- *
+ * 用户应该实现invoke方法区修改原始行为 .
  * <p>The user should implement the {@link #invoke(MethodInvocation)}
  * method to modify the original behavior. E.g. the following class
  * implements a tracing interceptor (traces all the calls on the
  * intercepted method(s)):
- *
+ * 下面的类实现了一个跟踪拦截器，
  * <pre class=code>
  * class TracingInterceptor implements MethodInterceptor {
  *   Object invoke(MethodInvocation i) throws Throwable {
@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  *   }
  * }
  * </pre>
- *
+ * 这个是属于AOP联盟的规范，在AOP联盟中，MethodInterceptor是MethodInterceptor的子接口，
  * @author Rod Johnson
  */
 @FunctionalInterface

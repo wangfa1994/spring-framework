@@ -252,13 +252,13 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			if (this.advisedBeans.containsKey(cacheKey)) {
 				return null;
 			}
-			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
+			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) { // shouldSkip 中进行解析我们的Advice 类AspectJAwareAdvisorAutoProxyCreator进行处理
 				this.advisedBeans.put(cacheKey, Boolean.FALSE);
 				return null;
 			}
 		}
 
-		// Create proxy here if we have a custom TargetSource.
+		// Create proxy here if we have a custom TargetSource. 如果我们有一个自定义的TargetSource，在这里创建代理。
 		// Suppresses unnecessary default instantiation of the target bean:
 		// The TargetSource will handle target instances in a custom fashion.
 		TargetSource targetSource = getCustomTargetSource(beanClass, beanName);
@@ -266,7 +266,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			if (StringUtils.hasLength(beanName)) {
 				this.targetSourcedBeans.add(beanName);
 			}
-			Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(beanClass, beanName, targetSource);
+			Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(beanClass, beanName, targetSource); //
 			Object proxy = createProxy(beanClass, beanName, specificInterceptors, targetSource);
 			this.proxyTypes.put(cacheKey, proxy.getClass());
 			return proxy;
@@ -318,7 +318,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 	}
 
-	/**
+	/** 这个方法一共有两个地方调用，一个是postProcessor中进行了调用，一个是三级缓存中的调用
 	 * Wrap the given bean if necessary, i.e. if it is eligible for being proxied.
 	 * @param bean the raw bean instance
 	 * @param beanName the name of the bean
@@ -331,13 +331,13 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
 			return bean;
-		} // isInfrastructureClass 是否是基础类设施，切面相关的， shouldSkip 判断当前类是否应该跳过代理
+		} // isInfrastructureClass 是否是基础类设施，切面相关的类的判断， shouldSkip 判断当前类是否应该跳过代理
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {
 			this.advisedBeans.put(cacheKey, Boolean.FALSE);
 			return bean;
 		} // 先判断是否是基础类或者是原始的类，如果是的话，就会直接进行跳过，不会被创建代理对象，放入到缓存advisedBeans
 
-		// Create proxy if we have advice. 如果我们有建议，创建代理。 然后会查找合适的Advisor针对当前要创创建的bean，如果不存在的话，直接返回
+		// Create proxy if we have advice. 如果我们有建议，创建代理。 然后会查找合适的Advisor针对当前要创创建的bean，如果不存在的话，直接返回，第一个业务bean执行到这里的时候会进行首次的advice处理
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null); // 这里进行判断我们的beanName是否被允许的代理，通过beanNames判断
 		if (specificInterceptors != DO_NOT_PROXY) { // 需要代理的情况下会进行创建代理对象，并且进行值的缓存
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);

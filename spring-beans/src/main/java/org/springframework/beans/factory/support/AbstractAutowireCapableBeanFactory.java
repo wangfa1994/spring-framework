@@ -452,7 +452,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			Object current = processor.postProcessAfterInitialization(result, beanName);// AOP的代理会在这里处理，在进行第一个bean创建的时候，就会执行对应的aop相关切面之类的准备并且缓存
+			Object current = processor.postProcessAfterInitialization(result, beanName);// AOP的代理会在这里处理，通过AbstractAutoProxyCreator进行代理类的产生
 			if (current == null) {
 				return result;
 			}
@@ -526,7 +526,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Validation of method overrides failed", ex);
 		}
 		// 这个try操作可以理解为是针对上下文应用的操作了，或者说是自己定义了一些postprocessors的操作，在默认的bean工厂中是不存在任何处理器的
-		try { // 进行bean实例创建之前，先看看用户是不是进行了自定义BeanPostProcessors，然后bean实例创建，如果创建了就直接返回了，不存在对应的bean的生命周期了
+		try { // 进行bean实例创建之前，先看看用户是不是进行了自定义BeanPostProcessors，然后bean实例创建，如果创建了就直接返回了，不存在对应的bean的生命周期了，而且我们会在这里进行aop的advice的解析，在对应的后置处理器存在之后，再进行创建bean的时候，就会触发advice的处理
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用beanPostprocessor的beforeInstantion，里面还会再次进行调用 aop的advice解析就是在这处理的
 			if (bean != null) {
@@ -1157,7 +1157,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Nullable
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
-			Object result = bp.postProcessBeforeInstantiation(beanClass, beanName);
+			Object result = bp.postProcessBeforeInstantiation(beanClass, beanName); // advice的解析是通过AbstractAutoProxyCreator.postProcessBeforeInstantiation的实例化之前的操作进行解析的，
 			if (result != null) {
 				return result;
 			}

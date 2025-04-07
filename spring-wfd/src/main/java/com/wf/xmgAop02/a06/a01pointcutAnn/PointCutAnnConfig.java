@@ -19,5 +19,5 @@ public class PointCutAnnConfig {
 		System.out.println("@Before any public method.");
 	}
 
-	// pointcut是进行过滤拦截， advice是具体执行动作， 一个pointcut 可以对应多个执行动作
+	// pointcut是进行过滤拦截， advice是具体执行动作， 一个pointcut 可以对应多个执行动作,可以放到Before 可以当道After等
 }

@@ -285,7 +285,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 				}
 			}		// 这就很好奇，他是怎么知道我们的beanDefinition是配置类呢？
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) { // 这里确定我们的beanDefinition是否符合我们的配置类
-				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName)); //配置类封装成我们的BeanDefinitionHolder
+				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName)); //遍历beanDefinitions，然后过滤出，配置类封装成我们的BeanDefinitionHolder
 			}
 		}
 

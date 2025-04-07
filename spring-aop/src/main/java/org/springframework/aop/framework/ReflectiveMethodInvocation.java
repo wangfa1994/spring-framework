@@ -30,7 +30,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.lang.Nullable;
 
-/**
+/** Spring对AOP的实现 ，  扩展了  ProxyMethodInvocation
  * Spring's implementation of the AOP Alliance
  * {@link org.aopalliance.intercept.MethodInvocation} interface,
  * implementing the extended

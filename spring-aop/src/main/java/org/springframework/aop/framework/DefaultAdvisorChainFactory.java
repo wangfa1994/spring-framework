@@ -53,8 +53,8 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 
 		// This is somewhat tricky... We have to process introductions first,
 		// but we need to preserve order in the ultimate list.
-		AdvisorAdapterRegistry registry = GlobalAdvisorAdapterRegistry.getInstance();
-		Advisor[] advisors = config.getAdvisors();
+		AdvisorAdapterRegistry registry = GlobalAdvisorAdapterRegistry.getInstance(); // AdvisorAdapterRegistry 存储并装换功能
+		Advisor[] advisors = config.getAdvisors(); // 从配置类中得到我们的Advisor，但是这个Advisor是在哪里进行封装的呢？
 		List<Object> interceptorList = new ArrayList<>(advisors.length);
 		Class<?> actualClass = (targetClass != null ? targetClass : method.getDeclaringClass());
 		Boolean hasIntroductions = null;
@@ -90,7 +90,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 					}
 				}
 			}
-			else if (advisor instanceof IntroductionAdvisor) {
+			else if (advisor instanceof IntroductionAdvisor) { // 一共三种情况
 				IntroductionAdvisor ia = (IntroductionAdvisor) advisor;
 				if (config.isPreFiltered() || ia.getClassFilter().matches(actualClass)) {
 					Interceptor[] interceptors = registry.getInterceptors(advisor);
@@ -98,7 +98,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 				}
 			}
 			else {
-				Interceptor[] interceptors = registry.getInterceptors(advisor);
+				Interceptor[] interceptors = registry.getInterceptors(advisor); //一共三种情况
 				interceptorList.addAll(Arrays.asList(interceptors));
 			}
 		}

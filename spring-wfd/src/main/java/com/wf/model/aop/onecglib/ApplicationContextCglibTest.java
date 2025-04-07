@@ -16,10 +16,10 @@ public class ApplicationContextCglibTest {
 		HelloService helloService = annotationConfigApplicationContext.getBean(HelloService.class);
 
 		String zhangsan = helloService.sayHello("zhangsan");
-		//System.out.println("cglib动态代理："+zhangsan);
+		System.out.println("cglib动态代理："+zhangsan);
 
 		String echo = helloService.echo("echo");
-		//System.out.println("cglib动态代理了吗："+echo);
+		System.out.println("cglib动态代理了吗："+echo);
 
 
 		// ProxyFactory类 代理的总工厂 从这里可以得到任何类型的代理类，但是实际是委派给不同的工厂进行处理，内置了一个ProxyFactory,为DefaultAopProxyFactory
@@ -61,6 +61,18 @@ public class ApplicationContextCglibTest {
  *
  *
  * AnnotatedGenericBeanDefinition 配置类的bean
+ *
+ * advice的切面解析是在posProcessor处理器的前置实例化方法中处理的，当我们开始进行创建的时候，首先会通过我们的 AbstractAutoProxyCreator进行准备解析我们的advice，这个方法处理:AbstractAutoProxyCreator#postProcessBeforeInstantiation()
+ * 然后通过 BeanFactoryAspectJAdvisorsBuilder 进行处理解析，并维护到我们的 aspectBeanNames中，
+ * 然后在创建对象的后置处理器中的调用AbstractAutoProxyCreator#postProcessAfterInitialization进行我们的代理对象的产生逻辑
+ *
+ *
+ * AbstractAutoProxyCreator 这个类是 SmartInstantiationAwareBeanPostProcessor，
+ * 说明它集成了  InstantiationAwareBeanPostProcessor 和   BeanPostProcessor 两个功能
+ * 而 InstantiationAwareBeanPostProcessor 主要用途是在实例化对象的时候进行使用前置逻辑，看看是否用户自定义了对象直接返回，在进行赋值populateBean的时候后置逻辑的处理，实例化之后看看是否进行了赋值逻辑的拦截
+ * 而 BeanPostProcessor 主要用途是在初始化的时候进行使用，前置逻辑和后置逻辑都在initializeBean中进行
+ *
+ *
  *
  */
 

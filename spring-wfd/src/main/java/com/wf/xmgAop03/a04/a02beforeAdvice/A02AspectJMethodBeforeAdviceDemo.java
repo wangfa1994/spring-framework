@@ -7,6 +7,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 //重点 50 课 JoinPointBeforeAdvice 的 aspectJ实现
  // 实现类 AspectJMethodBeforeAdvice
 
+/**
+ *
+ * @see org.springframework.aop.aspectj.AspectJMethodBeforeAdvice
+ */
 
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理
 @Configuration

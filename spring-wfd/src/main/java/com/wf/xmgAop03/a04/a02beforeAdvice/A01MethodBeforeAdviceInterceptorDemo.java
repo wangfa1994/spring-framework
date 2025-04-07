@@ -19,6 +19,9 @@ import java.util.Map;
  *
  *
  *  连接点joint  的 执行动作 Advice 三类
+ *
+ * @see org.springframework.aop.BeforeAdvice
+ * @see org.springframework.aop.MethodBeforeAdvice
  */
 // 49课  springAop joinPoint beforeAdvice的标准实现
 public class A01MethodBeforeAdviceInterceptorDemo {

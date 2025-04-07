@@ -72,11 +72,35 @@ public class Readme {
 	 * 			--DefaultIntroductionAdvisor
 	 *
 	 *
-	 * Interceptor
-	 * 	-- MethodInterceptor(属于Advice)
+	 * org.aopalliance.intercept.Interceptor(继承了Advice)
+	 * 	-- org.aopalliance.intercept.MethodInterceptor
+	 * 		--DynamicAdvisedInterceptor
 	 *
 	 *
-	 * AdvisorAdapter （进行Advice是否支持的判断，然后如果在支持的情况下，转换为methodInterceptor）
+	 * org.springframework.cglib.proxy.Callback（重新写了Cglib的相关）
+	 *	--org.springframework.cglib.proxy.MethodInterceptor
+	 *		-- org.springframework.aop.framework.CglibAopProxy.DynamicAdvisedInterceptor (CglibAopProxy中的 Enhancer的处理callBack)
+	 *
+	 *
+	 *
+	 * org.springframework.cglib.proxy.MethodInterceptor , 这个是基于cglib的拦截器，是CGLIB库的一部分，专门用于基于子类化的代理实现，Spring内部使用的CGLIB代理专用接口
+	 * org.aopalliance.intercept.MethodInterceptor ，来自AOP Alliance（一个AOP标准化组织）的标准接口 ，定义了一个通用的AOP拦截器契约，只关注方法拦截的核心逻辑（invoke(MethodInvocation)方法）
+	 *
+	 * Spring内部通过CglibAopProxy等机制将AOP Alliance的MethodInterceptor适配到CGLIB的MethodInterceptor上，使得开发者通常只需要关心AOP Alliance的标准接口
+	 *
+	 * Spring最初使用AOP Alliance的接口作为标准AOP抽象，后来为了支持CGLIB代理，需要与CGLIB库集成。CGLIB本身有自己的MethodInterceptor接口，Spring保留了这两种接口以保持兼容性。
+	 * Spring 为了使用Cglib ，进行了 Cglib 的重新打包，变成了spring-cglib-repack的jar包。Enhancer的都进行了包名替换。
+	 *
+	 *
+	 *
+	 *
+	 * AdvisorAdapter （进行Advice是否支持的判断，然后如果在支持的情况下，转换为methodInterceptor，进行Advisor转换methodInterceptor）
+	 * 		-- AfterReturningAdviceAdapter
+	 * 		-- MethodBeforeAdviceAdapter
+	 * 		-- ThrowsAdviceAdapter
+	 *
+	 * AdvisorAdapterRegistry (通过注册类进行注册Adapter)
+	 * 		--DefaultAdvisorAdapterRegistry
 	 *
 	 *
 	 * AopProxy
@@ -85,7 +109,7 @@ public class Readme {
 	 *
 	 *
 	 *
-	 * AdvisedSupport （父类 ProxyConfig Advised）
+	 * AdvisedSupport （父类 ProxyConfig Advised,aop的配置信息）
 	 * 		--ProxyCreatorSupport
 	 * 			--proxyFactory
 	 * 			--proxyFactoryBean
@@ -93,7 +117,7 @@ public class Readme {
 	 *
 	 *
 	 *AdvisorChainFactory
-	 * 		-- DefaultAdvisorChainFactory 唯一实现
+	 * 		-- DefaultAdvisorChainFactory 唯一实现  (存储了我们的MethodInterceptor)
 	 *
 	 *
 	 * AbstractAdvisorAutoProxyCreator(自动动态代理相关)

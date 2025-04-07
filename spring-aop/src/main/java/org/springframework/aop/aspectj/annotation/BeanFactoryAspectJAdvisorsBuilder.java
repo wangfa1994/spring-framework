@@ -46,10 +46,10 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	private static final Log logger = LogFactory.getLog(BeanFactoryAspectJAdvisorsBuilder.class);
 
 	private final ListableBeanFactory beanFactory;
-
+	// AspectJ模式下的advisor工程
 	private final AspectJAdvisorFactory advisorFactory;
 
-	@Nullable // 系统中的切面bean
+	@Nullable // 系统中的切面bean ，这里解析一次之后就会进行缓存，用于后面的处理
 	private volatile List<String> aspectBeanNames;
 
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
@@ -86,7 +86,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * @see #isEligibleBean
 	 */
 	public List<Advisor> buildAspectJAdvisors() {
-		List<String> aspectNames = this.aspectBeanNames; // 系统中的切面
+		List<String> aspectNames = this.aspectBeanNames; // 系统中的切面，这里进行缓存切面名称
 
 		if (aspectNames == null) {// 第一次的时候aspectBeanNames为空
 			synchronized (this) {
@@ -95,7 +95,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-							this.beanFactory, Object.class, true, false);
+							this.beanFactory, Object.class, true, false);// 获取容器中Object的所有bean的名称，然后开始确定是否我们的advice
 					for (String beanName : beanNames) { //循环所有的beanNames 这里会只有一次处理吧，在创建第一个我们的对象的时候，就直接全部遍历完进行了aspect的解析？
 						if (!isEligibleBean(beanName)) {
 							continue;

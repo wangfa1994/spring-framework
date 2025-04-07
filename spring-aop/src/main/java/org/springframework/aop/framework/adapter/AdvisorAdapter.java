@@ -32,8 +32,8 @@ import org.springframework.aop.Advisor;
  * <p>There is no need for most Spring users to implement this interface;
  * do so only if you need to introduce more Advisor or Advice types to Spring.
  *
- * @author Rod Johnson
- */
+ * @author Rod Johnson   接口允许扩展到Spring AOP框架，以允许处理新的advisor和Advice类型。
+ */ // Spring内置的前置后置异常的适配器进行适配我们的前后异常的Advice
 public interface AdvisorAdapter {
 
 	/**

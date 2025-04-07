@@ -2,6 +2,7 @@ package com.wf.xmgAop02.a04;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /** 01
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @EnableAspectJAutoProxy // 激活我们的aspect 注解自动代理
 @Aspect // 生命是一个切面
-//@Configuration // 不标注这个注解没有激活aspect 这个是为什么呢？ 要想使Aspect生效，首先的条件是要识别出这个类被spring管理了??
+@Configuration // 不标注这个注解没有激活aspect 这个是为什么呢？ 要想使Aspect生效，首先的条件是要识别出这个类被spring管理了??
 public class AspectJAnnoDemo {
 
 

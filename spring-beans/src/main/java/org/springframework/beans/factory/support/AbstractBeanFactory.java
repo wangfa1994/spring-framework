@@ -267,7 +267,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			} //getObjectForBeanInstance一个很神奇的方法，处理ObjectFactory与FactoryBean的逻辑，获取真正的bean实例，我们得到想要的真正实例，创建对象的工厂可能已经存在了，可能也没有存在，所以在创建对象真正的逻辑前和后都会存在此方法的调用。
 			beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, null); // sharedInstance此时是在属性赋值阶段的实例，还没有完全体对象 ,这里把Name 和 beanName都传递进去了
 		}
-
+		// 没有获取到对应的实例之后，就开始走创建对应对象的逻辑
 		else {
 			// Fail if we're already creating this bean instance: 如果我们已经创建了这个bean实例，则失败:
 			// We're assumably within a circular reference. 假设我们在一个循环引用中。

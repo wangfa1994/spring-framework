@@ -39,7 +39,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
  */
 @SuppressWarnings("serial")
 public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Serializable {
-
+		// 我们的Advisor的适配器，会把我们的advice 转换适配成对应的MethodInterceptor
 	private final List<AdvisorAdapter> adapters = new ArrayList<>(3);
 
 

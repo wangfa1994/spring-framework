@@ -288,7 +288,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		boolean isStatic = this.advised.getTargetSource().isStatic();
 
 		// Choose an "aop" interceptor (used for AOP calls). 选择一个“aop”拦截器（用于aop调用）。
-		Callback aopInterceptor = new DynamicAdvisedInterceptor(this.advised); // 这里是enhance的第一个回调
+		Callback aopInterceptor = new DynamicAdvisedInterceptor(this.advised); // 这里是enhance的第一个回调 ,  DynamicAdvisedInterceptor类 是spring的一个类，这个类会将aop联盟的相关适配到cglib中
 
 		// Choose a "straight to target" interceptor. (used for calls that are
 		// unadvised but can return this). May be required to expose the proxy.
@@ -664,11 +664,11 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 	/** 通用AOP回调。当目标是动态的或代理未冻结时使用。 MethodInterceptor是cglib的回调拦截方法 和jdk动态代理的invoke
 	 * General purpose AOP callback. Used when the target is dynamic or when the
-	 * proxy is not frozen.
+	 * proxy is not frozen.  这个MethodInterceptor是属于Cglib的，然后会进过这个intercept方法，进行执行到AspectJ 中的逻辑去，这个才是真正的拦截
 	 */
 	private static class DynamicAdvisedInterceptor implements MethodInterceptor, Serializable {
 
-		private final AdvisedSupport advised; // 我们advise的配置文件，也是支持者
+		private final AdvisedSupport advised; // 我们advise的配置文件，也是支持者 ， 这个是属于aop alliance联盟的 配置
 
 		public DynamicAdvisedInterceptor(AdvisedSupport advised) {
 			this.advised = advised;
@@ -702,9 +702,9 @@ class CglibAopProxy implements AopProxy, Serializable {
 					Object[] argsToUse = AopProxyUtils.adaptArgumentsIfNecessary(method, args);
 					retVal = invokeMethod(target, method, argsToUse, methodProxy); //进行方法调用
 				}
-				else {
-					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed，， CglibMethodInvocation 这个来自jdk的
-					retVal = new CglibMethodInvocation(proxy, target, method, args, targetClass, chain, methodProxy).proceed();
+				else { // 创建 aop alliance 标准的MethodInvocation，然后执行对应的方法 proceed
+					// We need to create a method invocation... 我们需要创建一个方法调用… 通过methodInvocation进行调用proceed，， CglibMethodInvocation 这个来自jdk的 ，
+					retVal = new CglibMethodInvocation(proxy, target, method, args, targetClass, chain, methodProxy).proceed(); // 这个是转换到aspectJ的逻辑  将 CGLIB 的调用方式适配为 AOP Alliance 的标准形式
 				}
 				retVal = processReturnType(proxy, target, method, retVal);
 				return retVal;
