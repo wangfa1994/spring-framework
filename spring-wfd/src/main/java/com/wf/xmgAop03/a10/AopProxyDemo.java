@@ -24,6 +24,8 @@ public class AopProxyDemo {
 	/**
 	 *
 	 * AopProxy 代理接口
+	 * 这个接口是aop代理的接口，主要是产生aop代理对象
+	 *
 	 *
 	 *
 	 * 这个代理接口 存在两种实现

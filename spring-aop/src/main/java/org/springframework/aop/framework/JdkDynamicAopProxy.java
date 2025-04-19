@@ -186,7 +186,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		Object oldProxy = null;
 		boolean setProxyContext = false;
 
-		TargetSource targetSource = this.advised.targetSource; // 目标源 目标对象 advised 为AdvisedSupport对象，但是实际是AspectJProxyFactory
+		TargetSource targetSource = this.advised.targetSource; // 目标源 目标对象 这里的advised是代理对象的配置类，实际上也是代理工厂，在通过代理工厂进行创建代理对象的时候，进行赋值
 		Object target = null;
 		// jdk 标准的try catch finally
 		try {
@@ -222,7 +222,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			Class<?> targetClass = (target != null ? target.getClass() : null);
 
 			// Get the interception chain for this method. 获取此方法的拦截链。 advised 是一个配置类, 包装成MethodInterceptor的链
-			List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);
+			List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass); // 通过advised获得到我们的Interceptor，转换到AspectJ上
 
 			// Check whether we have any advice. If we don't, we can fall back on direct
 			// reflective invocation of the target, and avoid creating a MethodInvocation.
@@ -234,7 +234,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				retVal = AopUtils.invokeJoinpointUsingReflection(target, method, argsToUse); // 虽然使用了aopUtil，但是只是Method的调用，业务逻辑方法的调用
 			}
 			else {
-				// We need to create a method invocation... 我们需要创建一个方法调用… 基于反射的封装对象
+				// We need to create a method invocation... 我们需要创建一个方法调用… 基于反射的封装对象 ，这里的MethodInvocation实际是aop联盟中的，然后进行了封装
 				MethodInvocation invocation =
 						new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain); // jdk这个MethodInvocation 和Cglib的MethodInvocation是不同的
 				// Proceed to the joinpoint through the interceptor chain.

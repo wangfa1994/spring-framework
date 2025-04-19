@@ -1,6 +1,7 @@
-package com.wf.model.jdbc;
+package com.wf.model.jdbc.jdbc;
 
 import java.io.Serializable;
+
 
 public class Stu implements Serializable {
 
@@ -8,6 +9,8 @@ public class Stu implements Serializable {
 	private int id;
 
 	private String stuname;
+
+	private String address;
 
 	public int getId() {
 		return id;
@@ -25,12 +28,20 @@ public class Stu implements Serializable {
 		this.stuname = stuname;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	@Override
 	public String toString() {
 		return "Stu{" +
 				"id=" + id +
 				", stuname='" + stuname + '\'' +
+				", address='" + address + '\'' +
 				'}';
 	}
 }

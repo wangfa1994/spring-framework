@@ -34,13 +34,13 @@ public class AspectJApiDemo {
 		Map<String, Object> cache = new HashMap<>();
 
 
-		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象  AspectJProxyFactory 是2.0引入的
+		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象  AspectJProxyFactory 是2.0引入的 AspectJProxyFactory的继承结构上存在一个代理配置类的属性，可以把自己丢进去
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
 
 		// 增加 Aspect 配置类 这里也可以从这里解析出来对应的advice。 存在对应的注解，这样的话才能进行解析出来
 		proxyFactory.addAspect(AspectJApiConfiguration.class);
 
-		// 手动设置我们的通知动作 ,但是没有绑定对应的pointcut,此时针对所有的类和方法都会进行拦截处理
+		/*// 手动设置我们的通知动作 ,但是没有绑定对应的pointcut,此时针对所有的类和方法都会进行拦截处理
 		proxyFactory.addAdvice(new MethodBeforeAdvice() {
 			// MethodBeforeAdvice 我们不需要手动触发 method方法的调用，框架会帮我们处理
 			@Override
@@ -50,7 +50,7 @@ public class AspectJApiDemo {
 					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s \n", args[0], args[1]);
 				}
 			}
-		});
+		});*/
 		// 通过代理对象存储数据
 		Map<String, Object> proxy = proxyFactory.getProxy(); // 这个proxyFactory 创建AOP代理，从AOP代理中得到代理对象，代理工厂获取代理对象
 		proxy.put("1", "A");

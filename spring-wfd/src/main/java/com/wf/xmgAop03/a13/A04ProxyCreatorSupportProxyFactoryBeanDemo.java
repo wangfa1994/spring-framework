@@ -15,7 +15,7 @@ package com.wf.xmgAop03.a13;
  * @see org.springframework.beans.factory.BeanFactoryAware
  *
  * 特性增强
- *  实现 @see org.springframework.beans.factory.FactoryBean
+ *  实现 {@link org.springframework.beans.factory.FactoryBean}
  *
  *
  *

@@ -34,14 +34,14 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 
 	private AopProxyFactory aopProxyFactory; // 内置了AopProxyFactory ,只有一种实现 DefaultAopProxyFactory
 
-	private final List<AdvisedSupportListener> listeners = new ArrayList<>();
+	private final List<AdvisedSupportListener> listeners = new ArrayList<>(); // 关于事件的监听
 
-	/** Set to true when the first AOP proxy has been created. */
+	/** Set to true when the first AOP proxy has been created. 在创建第一个AOP代理时设置为true */
 	private boolean active = false;
 
 
 	/**
-	 * Create a new ProxyCreatorSupport instance.
+	 * Create a new ProxyCreatorSupport instance. 创建一个新的ProxyCreatorSupport实例。 默认创建了一个默认的AopProxyFactory
 	 */
 	public ProxyCreatorSupport() {
 		this.aopProxyFactory = new DefaultAopProxyFactory();
@@ -102,7 +102,7 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 		if (!this.active) {
 			activate();
 		}
-		return getAopProxyFactory().createAopProxy(this);
+		return getAopProxyFactory().createAopProxy(this); // createAopProxy每次都会产生一个新的AopProxy，并且把当前配置进行设置，当前配置中包括Advice，所以创建的AopProxy也存在
 	}
 
 	/**

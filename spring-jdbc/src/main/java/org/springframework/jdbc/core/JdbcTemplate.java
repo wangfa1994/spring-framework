@@ -103,7 +103,7 @@ import org.springframework.util.StringUtils;
  * @see RowMapper
  * @see org.springframework.jdbc.support.SQLExceptionTranslator
  * @see org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
- */
+ */ // 这是JDBC核心包中的中心委托。
 public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 
 	private static final String RETURN_RESULT_SET_PREFIX = "#result-set-";

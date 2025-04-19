@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
-/**
+/** AOP代理配置管理器的基类。
  * Base class for AOP proxy configuration managers.
  *
  * <p>These are not themselves AOP proxies, but subclasses of this class are
@@ -57,7 +57,7 @@ import org.springframework.util.CollectionUtils;
  * <p>This class is used to hold snapshots of proxies.
  *
  * @author Rod Johnson
- * @author Juergen Hoeller AOP代理配置管理器的基类。
+ * @author Juergen Hoeller   AOP代理配置管理器的基类。  AOP代理配置管理器的基类。
  * @see org.springframework.aop.framework.AopProxy
  */
 public class AdvisedSupport extends ProxyConfig implements Advised {
@@ -73,16 +73,16 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
 
 
-	/** Package-protected to allow direct access for efficiency. */
+	/** Package-protected to allow direct access for efficiency.  包装保护，允许直接访问效率  这个是我们的目标对象*/
 	TargetSource targetSource = EMPTY_TARGET_SOURCE;
 
 	/** Whether the Advisors are already filtered for the specific target class. */
 	private boolean preFiltered = false;
 
-	/** The AdvisorChainFactory to use. 将我们的advisor变成对应的advisor链的工厂 ,允许我们替换的 */
+	/** The AdvisorChainFactory to use. 将我们的advisor变成对应的advisor链的工厂 ,允许我们替换的 这个是形成链的关键 */
 	AdvisorChainFactory advisorChainFactory = new DefaultAdvisorChainFactory(); // 只有这一种实现  链工厂
 
-	/** Cache with Method as key and advisor chain List as value. */
+	/** Cache with Method as key and advisor chain List as value.  以方法作为键和顾问链列表作为值的缓存 */
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
 	/** 目标对象所在的类，所有的实现的接口集合
@@ -376,7 +376,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	@Override
 	public void addAdvice(Advice advice) throws AopConfigException {
 		int pos = this.advisors.size();
-		addAdvice(pos, advice);
+		addAdvice(pos, advice); // advice最终会变成advisor，只传递了Advice，所以会使用默认的pointCut,针对所有的方法都会进行拦截
 	}
 
 	/**

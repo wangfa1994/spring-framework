@@ -103,7 +103,7 @@ public class Readme {
 	 * 		--DefaultAdvisorAdapterRegistry
 	 *
 	 *
-	 * AopProxy
+	 * AopProxy // aop代理 ，从aop代理中得到代理对象 ，只有getProxy()方法获取代理对象
 	 * 		--jdkDynamicAopProxy
 	 * 	 	--CglibAopProxy
 	 *

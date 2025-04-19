@@ -16,6 +16,7 @@
  */
 package com.wf.xmgAop02.a04.a03AspectJProxyFactory;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
 /**
@@ -24,27 +25,27 @@ import org.aspectj.lang.annotation.*;
 @Aspect
 public class AspectJApiConfiguration {
 
-	/*@Pointcut("execution(public * *(..))")
+	@Pointcut("execution(public * *(..))")
 	public void anyPublicMethod(){
 
 	}
 
-    @Around("anyPublicMethod()")         // Join Point 拦截动作
-    public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("@Around any public method.");
-        return pjp.proceed();
-    }
+
+	@After("anyPublicMethod()")
+	public void finalizeAnyPublicMethod() {
+		System.out.println("@After any public method.");
+	}
 
     @Before("anyPublicMethod()")          // Join Point 拦截动作
     public void beforeAnyPublicMethod() throws Throwable {
         System.out.println("@Before any public method.");
     }
 
-    @After("anyPublicMethod()")
-    public void finalizeAnyPublicMethod() {
-        System.out.println("@After any public method.");
+	@Around("anyPublicMethod()")         // Join Point 拦截动作
+    public Object aroundAnyPublicMethod(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("@Around any public method.");
+        return pjp.proceed();
     }
-
     @AfterReturning("anyPublicMethod()")
     public void afterAnyPublicMethod() {
         System.out.println("@AfterReturning any public method.");
@@ -54,5 +55,5 @@ public class AspectJApiConfiguration {
     @AfterThrowing("anyPublicMethod()")
     public void afterThrowingAnyPublicMethod() {
         System.out.println("@AfterThrowing any public method");
-    }*/
+    }
 }

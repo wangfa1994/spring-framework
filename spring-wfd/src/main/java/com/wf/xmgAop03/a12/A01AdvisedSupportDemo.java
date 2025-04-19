@@ -23,9 +23,10 @@ public class A01AdvisedSupportDemo {
 
 	/**
 	 *
-	 * AdvisedSupport 进行了继承了 ProxyConfig 实现 Advised
+	 * AdvisedSupport 进行了继承了 ProxyConfig 实现 Advised  主要是进行aop的配置管理
 	 *
-	 * 是一个配置类，继承了 ProxyConfig,进行了一些基本配置的设置，
+	 * 是一个配置类，继承了 ProxyConfig,进行了一些基本配置的设置，  包括目标源
+	 *
 	 * 实现了advised ， 主要是进行一些advisor的操作，新增，移除，数量之类的。
 	 *
 	 */

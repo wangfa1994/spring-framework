@@ -28,7 +28,7 @@ import org.springframework.aop.framework.ProxyFactory;
  *  代理接口变化时，Advisor 变化是，配置复制时
  *
  */
-public interface A02AdvisedSupportListenerDemo {
+public class A02AdvisedSupportListenerDemo {
 
 
 	public static void main(String[] args) {

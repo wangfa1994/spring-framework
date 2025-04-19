@@ -14,12 +14,14 @@ public class AfterAdviceDemo {
 	/** 51   joinPoint after advice 标准实现
 	 *
 	 * @see org.springframework.aop.AfterAdvice
-	 * @see org.springframework.aop.AfterReturningAdvice
-	 * @see org.springframework.aop.ThrowsAdvice
+	 * 	 -- {@link org.springframework.aop.AfterReturningAdvice}
+	 * 	 -- {@link org.springframework.aop.ThrowsAdvice}
 	 *
 	 *
-	 * 实现
+	 *
+	 * 实现 为什么实现没有直接进行实现上面的接口呢，而是进行了 MethodInterceptor的处理
 	 * @see org.springframework.aop.framework.adapter.ThrowsAdviceInterceptor
+	 *
 	 * @see org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor
 	 *
 	 *

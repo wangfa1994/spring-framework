@@ -1,5 +1,6 @@
 package com.wf.xmgAop02.a06.a01pointcutAnn;
 
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -19,5 +20,10 @@ public class PointCutAnnConfig {
 		System.out.println("@Before any public method.");
 	}
 
-	// pointcut是进行过滤拦截， advice是具体执行动作， 一个pointcut 可以对应多个执行动作,可以放到Before 可以当道After等
+	@After("anyPublicMethod()")          // Join Point 拦截动作
+	public void afterAnyPublicMethod() throws Throwable {
+		System.out.println("@Before any public method.");
+	}
+
+	// pointcut是进行过滤拦截， advice是具体执行动作， 一个pointcut 可以对应多个执行动作,可以放到Before,After等
 }

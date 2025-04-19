@@ -8,6 +8,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * pointCut 展示
  * pointcut 只有过滤，没有动作，是一个评判的标准，advice才是动作
  *
+ * @see org.springframework.aop.Pointcut
+ *
+ * 切入点，只进行类的过滤 方法的过滤
+ *
+ * pointCut 过滤对应的 joinPoint 是否匹配当前的Advice
  *
  *
  */
@@ -37,6 +42,10 @@ public class PointCutAnnoDemo {
 		 *  整合： joinPoint 用来表示 连接点，spring中只有方法才是连接点 ，然后会通过pointcut 切点点进行拦截过滤我们需要的连接点，
 		 *  然后通过pointcut过滤出来的joinPoint，进行执行Advice
 		 *  我们可以通过Advisor 进行包装我们的joinPoint过滤逻辑和执行逻辑Advice
+		 *
+		 *
+		 *  我们在进行方法执行的时候，会进行遍历所有的advisor，而advisor中包含point Cut ，会通过此pointcut进行过滤当前方法是否匹配，
+		 *  如果匹配的情况下，会将对应的Advice变成一个拦截器，最后形成一个拦截器链，然后进行执行。
 		 *
 		 */
 

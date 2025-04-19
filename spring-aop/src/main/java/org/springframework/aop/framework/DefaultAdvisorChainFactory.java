@@ -49,7 +49,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 
 	@Override
 	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(
-			Advised config, Method method, @Nullable Class<?> targetClass) {
+			Advised config, Method method, @Nullable Class<?> targetClass) { // 从Config中取出我们的Advisor，然后进行判断是否可以处理我们的method，如果可以，则将我们的Advisor封装成对应的MethodInterceptor，然后形成我们的调用链
 
 		// This is somewhat tricky... We have to process introductions first,
 		// but we need to preserve order in the ultimate list.
@@ -76,7 +76,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 						match = mm.matches(method, actualClass);
 					}
 					if (match) {
-						MethodInterceptor[] interceptors = registry.getInterceptors(advisor); // 通过注册器注册成我们的MethodInterceptor,方法调用链则通过invoke进行调用
+						MethodInterceptor[] interceptors = registry.getInterceptors(advisor); // 通过AdvisorAdapterRegistry注册器注册成我们的MethodInterceptor,方法调用链则通过invoke进行调用
 						if (mm.isRuntime()) {
 							// Creating a new object instance in the getInterceptors() method
 							// isn't a problem as we normally cache created chains.

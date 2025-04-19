@@ -7,13 +7,13 @@ import org.springframework.aop.framework.ProxyFactory;
 public class Main {
 
 	/**
-	 * @see AspectJProxyFactory
+	 * @see org.springframework.aop.aspectj.annotation.AspectJProxyFactory (aspectJ)
 	 *
-	 * @see ProxyFactoryBean
+	 * @see org.springframework.aop.framework.ProxyFactoryBean (spring)
 	 *
-	 * @see ProxyFactory
+	 * @see org.springframework.aop.framework.ProxyFactory (spring)
 	 *
-	 * @see Pointcut
+	 * @see org.springframework.aop.Pointcut (spring)
 	 *
 	 * @see org.springframework.aop.support.StaticMethodMatcherPointcut
 	 *

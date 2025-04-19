@@ -30,7 +30,7 @@ import org.springframework.util.ClassUtils;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop
- * @since 14.03.2003
+ * @since 14.03.2003  ProxyCreatorSupport 一共三种实现 一种脱了容器的ProxyFactory 一种是容器结合的 ProxyFactoryBean 一种是和AspectJ整合的AspectJProxyFactory
  */
 @SuppressWarnings("serial")
 public class ProxyFactory extends ProxyCreatorSupport {

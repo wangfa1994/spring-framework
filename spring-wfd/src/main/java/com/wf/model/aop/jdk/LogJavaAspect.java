@@ -56,10 +56,10 @@ public class LogJavaAspect {
     }
 
 	//异常
-	//@Around("writeLog()")
-	public Object logAround(ProceedingJoinPoint joinPoint){
+	@Around("writeLog()")
+	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		String name = joinPoint.getSignature().getName();
 		System.out.println("环绕通知：logAround()==>"+name+"....【args: "+ Arrays.asList(joinPoint.getArgs()) +"】");
-		return null;
+		return joinPoint.proceed();
 	}
 }

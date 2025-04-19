@@ -20,6 +20,8 @@ import java.util.Map;
  *
  *  连接点joint  的 执行动作 Advice 三类
  *
+ * @see org.aopalliance.aop.Advice  都进行了继承 aop联盟的类型
+ *
  * @see org.springframework.aop.BeforeAdvice
  * @see org.springframework.aop.MethodBeforeAdvice
  */

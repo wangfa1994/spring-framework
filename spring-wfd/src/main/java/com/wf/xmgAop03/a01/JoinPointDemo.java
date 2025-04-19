@@ -19,7 +19,7 @@ package com.wf.xmgAop03.a01;
  *
  */
 
-// // aspect  没有进行高级抽象 Joinpoint  pointcut 则进行了高级抽象，有对应的类进行处理
+// // aspect  没有进行高级抽象 Joinpoint,  pointcut 则进行了高级抽象，有对应的类进行处理
 // 接入点接口 joinpoint
 // joinpoint 设计 看类的设计
 public class JoinPointDemo {
@@ -61,6 +61,10 @@ public class JoinPointDemo {
 	 *
 	 * Spring AOP 使用 AOP Alliance 接口作为核心抽象， 通过集成 AspectJ 来增强功能
 	 *
+	 *
+	 * spring 通过cglib与Jdk动态代理技术，产生对应的动态代理对象，然后再进行回调业务增强的时候，进行了AOP逻辑的处理
+	 *
+	 * 在处理AOP的时候，主要整合了AopAlliance 和 AspectJ ,扩展了AopAlliance,适配了AspectJ
 	 */
 
 

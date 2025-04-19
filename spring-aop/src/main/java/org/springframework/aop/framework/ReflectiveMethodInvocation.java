@@ -83,7 +83,7 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	 * List of MethodInterceptor and InterceptorAndDynamicMethodMatcher
 	 * that need dynamic checks.
 	 */
-	protected final List<?> interceptorsAndDynamicMethodMatchers;
+	protected final List<?> interceptorsAndDynamicMethodMatchers; // 我们的方法调用链
 
 	/**
 	 * Index from 0 of the current interceptor we're invoking.
@@ -159,8 +159,8 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	@Nullable
 	public Object proceed() throws Throwable {
 		// We start with an index of -1 and increment early.
-		if (this.currentInterceptorIndex == this.interceptorsAndDynamicMethodMatchers.size() - 1) {
-			return invokeJoinpoint(); //最后一次执行 joinPoint 是目标方法的执行,-1,适配了没有拦截器，直接执行方法
+		if (this.currentInterceptorIndex == this.interceptorsAndDynamicMethodMatchers.size() - 1) { // 第一个是 ExposeInvocationInterceptor 这个只是设置上下文对象
+			return invokeJoinpoint(); //最后一次执行 joinPoint 是目标方法的执行,-1,适配了没有拦截器，直接执行方法,
 		}
 
 		Object interceptorOrInterceptionAdvice =
