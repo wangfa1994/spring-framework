@@ -117,7 +117,7 @@ import org.springframework.util.StringUtils;
  * @see #getBean
  * @see #resolveDependency  具备beanfactory的功能，获取bean相关，具备BeanDefinitionRegistry的功能，进行bd注册， 具备singletonBeanRegistry的功能，注册bean实例，
  */
-@SuppressWarnings("serial") // 继承了AbstractAutowireCapableBeanFactory就有了一些通用的不需要重复实现的功能,注册中心功能被融合到了AbstractBeanFactory中，实现了ConfigurableListableBeanFactory相当于三个类型的BeanFactory的功能都存在了,
+@SuppressWarnings("serial") // 继承了AbstractAutowireCapableBeanFactory就有了一些通用的不需要重复实现的功能,bean实例注册中心功能被融合到了AbstractBeanFactory中，实现了ConfigurableListableBeanFactory相当于三个类型的BeanFactory的功能都存在了,
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory // 实现了 BeanDefinitionRegistry具备了注册beanDefinition的功能
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry, Serializable {
 
@@ -1298,7 +1298,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			return createOptionalDependency(descriptor, requestingBeanName);
 		}
 		else if (ObjectFactory.class == descriptor.getDependencyType() ||
-				ObjectProvider.class == descriptor.getDependencyType()) { // 判断依赖的对象 ObjectFactory 与 ObjectProvider
+				ObjectProvider.class == descriptor.getDependencyType()) { // 判断依赖的对象是否是 ObjectFactory 与 ObjectProvider
 			return new DependencyObjectProvider(descriptor, requestingBeanName); //如果是的话，则会返回我们的DependencyObjectProvider，并不是一个代理对象
 		}
 		else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
@@ -1308,7 +1308,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			Object result = getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary(
 					descriptor, requestingBeanName); //处理标记了@Lazy注解的依赖，为什么要出去一个代理对象呢？
 			if (result == null) { //开始真正处理解决依赖
-				result = doResolveDependency(descriptor, requestingBeanName, autowiredBeanNames, typeConverter);
+				result = doResolveDependency(descriptor, requestingBeanName, autowiredBeanNames, typeConverter); // 这里通过三级缓存向上提升到二级缓存中，得到我们的实体对象
 			}
 			return result;
 		}
@@ -1380,8 +1380,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			else {
 				// We have exactly one match. 我们正好有一处匹配。
 				Map.Entry<String, Object> entry = matchingBeans.entrySet().iterator().next();
-				autowiredBeanName = entry.getKey();
-				instanceCandidate = entry.getValue();
+				autowiredBeanName = entry.getKey(); //bean的名称
+				instanceCandidate = entry.getValue(); // bean的Class对象
 			}
 
 			if (autowiredBeanNames != null) {
@@ -1554,7 +1554,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	protected Map<String, Object> findAutowireCandidates(
 			@Nullable String beanName, Class<?> requiredType, DependencyDescriptor descriptor) {
 		// beanNamesForTypeIncludingAncestors 很复杂的一个方法，从beanDefinition和SingletonObject中进行查找
-		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
+		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors( // 如果是FactoryBean中的对象，会返回我们的FactoryBean的名称
 				this, requiredType, true, descriptor.isEager());// 查找所有符合的候选名称，如果是层次性的，也需要进行处理，这个会好到我们对应类型所匹配的所有name
 		Map<String, Object> result = CollectionUtils.newLinkedHashMap(candidateNames.length);
 		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) { //1首先先进行我们内置的非bean的匹配， resolvableDependencies中的值来自我们的上下文的扩展设置。AbstractApplicationContext.prepareBeanFactory方法设置

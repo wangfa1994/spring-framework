@@ -144,7 +144,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 				// Specifically, a value of 0 aligns with the default value used in
 				// AspectJPrecedenceComparator.getAspectDeclarationOrder(Advisor).
 				Advisor advisor = getAdvisor(method, lazySingletonAspectInstanceFactory, 0, aspectName);
-				if (advisor != null) {
+				if (advisor != null) { // 这里提取的advisor是 InstantiationModelAwarePointcutAdvisorImpl？
 					advisors.add(advisor);
 				}
 			}
@@ -171,7 +171,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 		List<Method> methods = new ArrayList<>();
 		ReflectionUtils.doWithMethods(aspectClass, methods::add, adviceMethodFilter); //这里返回的methods集合已经变成了顺序的，不再是定义的顺序
 		if (methods.size() > 1) { // 得到我们的对象之后，开始进行排序，
-			methods.sort(adviceMethodComparator); // 排序之后的变成了顺序,这个是怎么排序的？
+			methods.sort(adviceMethodComparator); // 排序之后的变成了顺序,这个是怎么排序的？ 这里的排序是针对如果一个切面中有多个相同的通知
 		}
 		return methods;
 	}
@@ -215,7 +215,7 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 
 		try {
 			return new InstantiationModelAwarePointcutAdvisorImpl(expressionPointcut, candidateAdviceMethod,
-					this, aspectInstanceFactory, declarationOrderInAspect, aspectName);
+					this, aspectInstanceFactory, declarationOrderInAspect, aspectName); //返回这样的advisor
 		}
 		catch (IllegalArgumentException | IllegalStateException ex) {
 			if (logger.isDebugEnabled()) {

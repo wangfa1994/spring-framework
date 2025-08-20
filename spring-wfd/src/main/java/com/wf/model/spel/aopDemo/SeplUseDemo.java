@@ -23,6 +23,10 @@ public class SeplUseDemo {
 		System.out.println("check userId1"+s1);
 		String s2 = seplUseDemo.checkStudent(student2);
 		System.out.println("check userId2"+s2);
+
+
+		String s3 = seplUseDemo.checkStudent(1L);
+		System.out.println("check userId2"+s3);
 	}
 
 
@@ -35,4 +39,11 @@ public class SeplUseDemo {
 		return "success";
 	}
 
+	@StudentCheck(studentId="#id")
+	public String checkStudent(Long id){
+
+		System.out.println("进入checkStudent方法执行");
+
+		return "success";
+	}
 }

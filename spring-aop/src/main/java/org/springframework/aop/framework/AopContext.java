@@ -37,7 +37,7 @@ import org.springframework.lang.Nullable;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 13.03.2003
+ * @since 13.03.2003   该类包含用于获取有关当前AOP调用的信息的静态方法
  */
 public final class AopContext {
 

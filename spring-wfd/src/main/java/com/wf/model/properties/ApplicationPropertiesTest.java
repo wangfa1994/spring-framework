@@ -60,6 +60,10 @@ public class ApplicationPropertiesTest {
 	 *
 	 *
 	 *
+	 *		@ImportResource(locations={"beanAnnXml.xml"}) 用来加载对应的xml资源，主要是注解和xml混合使用的时候处理
+	 * 		 *
+	 * 		 * @PropertySource({"springConfig.properties"}) 用来加载我们的配置信息，
+	 *
 	 */
 
 

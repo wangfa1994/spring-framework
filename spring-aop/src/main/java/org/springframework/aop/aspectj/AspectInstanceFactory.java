@@ -19,7 +19,7 @@ package org.springframework.aop.aspectj;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
-/**
+/** 接口实现，以提供AspectJ方面的实例。从Spring的bean工厂解耦。
  * Interface implemented to provide an instance of an AspectJ aspect.
  * Decouples from Spring's bean factory.
  *
@@ -29,7 +29,7 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
- * @see org.springframework.beans.factory.BeanFactory#getBean
+ * @see org.springframework.beans.factory.BeanFactory#getBean   Aspect的实例工厂
  */
 public interface AspectInstanceFactory extends Ordered {
 

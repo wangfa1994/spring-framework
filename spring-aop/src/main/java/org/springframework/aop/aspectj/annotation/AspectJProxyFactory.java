@@ -52,7 +52,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	/** Cache for singleton aspect instances.  缓存 单例 模式的 实例 */
 	private static final Map<Class<?>, Object> aspectCache = new ConcurrentHashMap<>();
 	// 内置默认 AspectJAdvisorFactory ，这个是带Advisor的工厂， 可以从带有AspectJ注释语法的类创建Spring AOP advisor的工厂的接口。
-	private final AspectJAdvisorFactory aspectFactory = new ReflectiveAspectJAdvisorFactory();
+	private final AspectJAdvisorFactory aspectFactory = new ReflectiveAspectJAdvisorFactory(); //  Reflective反射的含义
 
 
 	/**
@@ -91,7 +91,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	public void addAspect(Object aspectInstance) {
 		Class<?> aspectClass = aspectInstance.getClass();
 		String aspectName = aspectClass.getName();
-		AspectMetadata am = createAspectMetadata(aspectClass, aspectName);
+		AspectMetadata am = createAspectMetadata(aspectClass, aspectName); // 通过我们的Aspect对象得到我们的切面元信息 AspectMetadata ，
 		if (am.getAjType().getPerClause().getKind() != PerClauseKind.SINGLETON) {
 			throw new IllegalArgumentException(
 					"Aspect class [" + aspectClass.getName() + "] does not define a singleton aspect");
@@ -106,8 +106,8 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 */
 	public void addAspect(Class<?> aspectClass) {
 		String aspectName = aspectClass.getName();
-		AspectMetadata am = createAspectMetadata(aspectClass, aspectName);
-		MetadataAwareAspectInstanceFactory instanceFactory = createAspectInstanceFactory(am, aspectClass, aspectName); // 创建可以解析aspectJ注解的类
+		AspectMetadata am = createAspectMetadata(aspectClass, aspectName);  // 通过我们的Aspect对象得到我们的切面元信息 AspectMetadata ，
+		MetadataAwareAspectInstanceFactory instanceFactory = createAspectInstanceFactory(am, aspectClass, aspectName); // 创建可以解析aspectJ注解的工厂
 		addAdvisorsFromAspectInstanceFactory(instanceFactory);// 使用类进行解析，将切面类中的信息变成advisors
 	}
 
@@ -118,7 +118,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 * @see AspectJProxyUtils#makeAdvisorChainAspectJCapableIfNecessary(List)
 	 */
 	private void addAdvisorsFromAspectInstanceFactory(MetadataAwareAspectInstanceFactory instanceFactory) {
-		List<Advisor> advisors = this.aspectFactory.getAdvisors(instanceFactory);
+		List<Advisor> advisors = this.aspectFactory.getAdvisors(instanceFactory); // 从我们的aspectJ实体对象中解析我们的advisor，这个MetadataAwareAspectInstanceFactory包含元信息，切面实体对象
 		Class<?> targetClass = getTargetClass();
 		Assert.state(targetClass != null, "Unresolvable target class");
 		advisors = AopUtils.findAdvisorsThatCanApply(advisors, targetClass);
@@ -149,7 +149,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 		MetadataAwareAspectInstanceFactory instanceFactory;
 		if (am.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 			// Create a shared aspect instance.
-			Object instance = getSingletonAspectInstance(aspectClass);
+			Object instance = getSingletonAspectInstance(aspectClass); // 通过反射得到我们的Aspect切面类的实体对象
 			instanceFactory = new SingletonMetadataAwareAspectInstanceFactory(instance, aspectName);
 		}
 		else {
@@ -165,7 +165,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 */
 	private Object getSingletonAspectInstance(Class<?> aspectClass) {
 		return aspectCache.computeIfAbsent(aspectClass,
-				clazz -> new SimpleAspectInstanceFactory(clazz).getAspectInstance());
+				clazz -> new SimpleAspectInstanceFactory(clazz).getAspectInstance()); // 通过反射得到我们的aspectClass的实体对象
 	}
 
 

@@ -1,25 +1,32 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.beanFactory.Student;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean.Teacher;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean.TeacherFactoryBean;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectFactory.School;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectFactory.SchoolObjectFactory;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
-import org.springframework.stereotype.Component;
+
 // 01 BeanFactory  FactoryBean 与   ObjectFactory 有什么区别
 public class ApplicationFactoryTest {
 
 	/**
-	 *  BeanFactory接口 是我们底层的容器，
-	 *  FactoryBean接口 是一个bean，这个bean也用来创建对象，我们可以通过此接口来创建对象，动态常创建bean的一种形式。而且创建的对象会被spring管理，但是不是管理在我们的容器中
+	 *  {@link BeanFactory}接口 是一个工厂，用来存我们的bean,我们底层的容器，定义了一些获取对象bean的通用的接口
+	 *  {@link FactoryBean}接口 是一个bean，这个bean也用来创建对象，我们可以通过此接口来创建对象，动态常创建bean的一种形式。而且创建的对象会被spring管理，但是不是管理在我们的容器中
 	 *  而是管理在FactoryBeanRegistrySupport的cache中，无法通过自己的类名的小写作为beanName进行依赖查找，因为容器中确实不存在这个beanName，
 	 *  但是可以通过FactoryBean的beanName进行查找，而且还可以通过类型进行查找，能被依赖注入解析到。这个都是因为在创建的过程中会进行FactoryBean的逻辑
 	 *  处理，最后真正的会走到FactoryBeanRegistrySupport的cache中.
 	 *
-	 *  ObjectFactory对象工厂接口，我们可以将此注入到spring中，然后通过此对象来获取对象，
-	 *  	但是注意通过此对象(ObjectFactory)获取到的对象不会被Spring管理，每次得到的时候都会走到对应的getObject获取对象 在bean创建过程中就有用到ObjectFactory此类，放三级缓存中的时候
-	 *  ObjectProvider接口继承自ObjectFactory接口，进行了功能扩展，可以安全的获取到对应的对象,但是此对象仍然不会被spring所管理，
+	 *  {@link ObjectFactory}对象工厂接口，我们可以将此注入到spring中，然后通过此对象来获取对象，
+	 *  	但是注意通过此对象(ObjectFactory)获取到的对象不会被Spring管理，每次得到的时候都会走到对应的getObject获取对象(FactoryBean则和spring进行了关联)
+	 *  	在bean创建过程中就有用到ObjectFactory此类，放三级缓存中的时候
+	 *  {@link ObjectProvider}接口继承自ObjectFactory接口，进行了功能扩展，可以安全的获取到对应的对象,但是此对象仍然不会被spring所管理，
 	 *  在创建bean过程中，ObjectFactory并没有类似FactoryBean的逻辑缓存，只有一个简单的判断
 	 *
 	 *

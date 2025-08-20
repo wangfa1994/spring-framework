@@ -261,8 +261,8 @@ public abstract class BeanFactoryUtils {
 	public static String[] beanNamesForTypeIncludingAncestors(
 			ListableBeanFactory lbf, Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
 
-		Assert.notNull(lbf, "ListableBeanFactory must not be null");
-		String[] result = lbf.getBeanNamesForType(type, includeNonSingletons, allowEagerInit); // type为Class类型进行找到beanName，如果是FactoryBean管理的类型，会返回对应的工厂bean的名称
+		Assert.notNull(lbf, "ListableBeanFactory must not be null"); // getBeanNamesForType 通过给定的类型去查找对应的系统中的beanName;
+		String[] result = lbf.getBeanNamesForType(type, includeNonSingletons, allowEagerInit); // type为Class类型，进行找到beanName，如果是FactoryBean管理的类型，会返回对应的工厂bean的名称
 		if (lbf instanceof HierarchicalBeanFactory) {
 			HierarchicalBeanFactory hbf = (HierarchicalBeanFactory) lbf;
 			if (hbf.getParentBeanFactory() instanceof ListableBeanFactory) {

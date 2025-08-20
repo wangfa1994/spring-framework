@@ -33,5 +33,7 @@ public class A02AdvisorAdapterDemo {
 	 *
 	 *  AdvisorAdapterRegistry 是把Advisor 适配成   MethodInterceptor
 	 *
+	 *  aop 联盟的 Advice 会被spring封装成自己的Advisor，然后通过  AdvisorAdapterRegistry 再吧自己的Advisor 转换成  成aop联盟的MethodInterceptor
+	 *
 	 */
 }

@@ -84,7 +84,7 @@ abstract class ConfigurationClassUtils {
 	 */
 	public static boolean checkConfigurationClassCandidate(
 			BeanDefinition beanDef, MetadataReaderFactory metadataReaderFactory) {
-
+		// 先判断一些不能作用配置类的情况进行处理，如果不能判断出来，就会通过注解Configuration进行判断是否是精简或者完全配置类
 		String className = beanDef.getBeanClassName();
 		if (className == null || beanDef.getFactoryMethodName() != null) {
 			return false;
@@ -126,7 +126,7 @@ abstract class ConfigurationClassUtils {
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) { // 完全配置类 用的是&&
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
-		else if (config != null || isConfigurationCandidate(metadata)) { // 根据元信息判断是否是候选配置 精简配置类 精简配置类包括
+		else if (config != null || isConfigurationCandidate(metadata)) { // 根据元信息判断是否是候选配置 精简配置类 精简配置类包括 Component  ComponentScan  Import  ImportResource
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE); // 添加配置标志位精简配置
 		}
 		else {

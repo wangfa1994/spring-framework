@@ -1,9 +1,7 @@
 package com.wf.xmgAop02.a04.a03AspectJProxyFactory;
 
-import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +21,7 @@ import java.util.Map;
  *
  *  待确认问题，使用jar进行验证
  */
-public class AspectJApiDemo {
+public class AspectJApiTest {
 
 	public static void main(String[] args) {
 
@@ -31,26 +29,17 @@ public class AspectJApiDemo {
 		// 主要使用 AspectJProxyFactory 进行我们的设置与处理
 
 		// 通过创建一个 HashMap 缓存，作为被代理对象
-		Map<String, Object> cache = new HashMap<>();
+		Map<String, Object> targetSource = new HashMap<>();
 
 
 		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象  AspectJProxyFactory 是2.0引入的 AspectJProxyFactory的继承结构上存在一个代理配置类的属性，可以把自己丢进去
-		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(cache); // cache 目标对象，被代理的对象
+		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(targetSource); // cache 目标对象，被代理的对象
 
 		// 增加 Aspect 配置类 这里也可以从这里解析出来对应的advice。 存在对应的注解，这样的话才能进行解析出来
-		proxyFactory.addAspect(AspectJApiConfiguration.class);
+		//proxyFactory.addAspect(AspectJApiConfiguration.class);
+		AspectJApiConfiguration con = new AspectJApiConfiguration();
+		proxyFactory.addAspect(con);
 
-		/*// 手动设置我们的通知动作 ,但是没有绑定对应的pointcut,此时针对所有的类和方法都会进行拦截处理
-		proxyFactory.addAdvice(new MethodBeforeAdvice() {
-			// MethodBeforeAdvice 我们不需要手动触发 method方法的调用，框架会帮我们处理
-			@Override
-			public void before(Method method, Object[] args, Object target) throws Throwable {
-				System.out.println("方法执行前的操作:"+method.getName());
-				if ("put".equals(method.getName()) && args.length == 2) {
-					System.out.printf("[MethodBeforeAdvice] 当前存放是 Key: %s , Value : %s \n", args[0], args[1]);
-				}
-			}
-		});*/
 		// 通过代理对象存储数据
 		Map<String, Object> proxy = proxyFactory.getProxy(); // 这个proxyFactory 创建AOP代理，从AOP代理中得到代理对象，代理工厂获取代理对象
 		proxy.put("1", "A");
@@ -63,7 +52,7 @@ public class AspectJApiDemo {
 
 	}
 	/**
-	 * AspectJProxyFactory 代理工厂，用来产生代理对象，继承了ProxyCreatorSupport ,这个 类是代理类的基类，内置了一个DefaultAopProxyFactory类
+	 * {@link AspectJProxyFactory} 代理工厂，用来产生代理对象，继承了ProxyCreatorSupport ,这个 类是代理类的基类，内置了一个DefaultAopProxyFactory类
 	 *
 	 * 创建代理工厂
 	 * 设置目标对象

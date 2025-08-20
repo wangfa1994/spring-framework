@@ -17,7 +17,7 @@ import java.lang.reflect.Proxy;
  */
 
 
-public class AopInterceptorDemo {
+public class AopInterceptorTest {
 
 	public static void main(String[] args) {
 		//normal();

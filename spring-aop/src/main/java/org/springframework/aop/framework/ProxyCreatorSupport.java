@@ -27,8 +27,8 @@ import org.springframework.util.Assert;
  * 三大核心功能，针对配置的扩展管理，通过AopProxyFactory针对代理对象的产生， 通过 listeners 针对事件的监听
  * @author Juergen Hoeller
  * @since 2.0.3
- * @see #createAopProxy()
- */
+ * @see #createAopProxy()   ProxyCreatorSupport 主要是进行产生aop代理， 有三种aop代理，一种脱了容器的ProxyFactory 一种是容器结合的 ProxyFactoryBean 一种是和AspectJ整合的AspectJProxyFactory
+ */							// aop代理产生的 业务代理对象 存在两种，一种是Jdk动态代理对象，一种是cglib代理对象
 @SuppressWarnings("serial")
 public class ProxyCreatorSupport extends AdvisedSupport {
 

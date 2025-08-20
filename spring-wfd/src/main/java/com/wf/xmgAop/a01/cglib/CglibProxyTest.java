@@ -18,7 +18,7 @@ public class CglibProxyTest {
 	 * 切面 aspect 整合了切点和通知的类
 	 *
 	 *
-	 * 字节码提升的四种类型 (jdk代理，Cglib代理 javassist代理 ，aspectJ代理)
+	 * 字节码提升的六种种类型 (jdk代理，Cglib代理 javassist代理 ，aspectJ代理，asm增强，ByteBuddy)
 	 *
 	 * 动态代理包括jdk动态代理
 	 * 基于接口代理和cglib库代理基于类代理(字节码提升)，
@@ -81,13 +81,8 @@ public class CglibProxyTest {
 			@Override
 			public Object intercept(Object source, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 				long startTime = System.currentTimeMillis();
-				// Source -> CGLIB 子类
-				// 目标类  -> DefaultEchoService
-				// 错误使用
-//                Object result = method.invoke(source, args);
-				// 正确的方法调用
 				System.out.println("方法执行之前可以进行逻辑处理");
-				Object result = methodProxy.invokeSuper(source, args);
+				Object result = methodProxy.invokeSuper(source, args); // 直接使用代理类进行调用
 				long costTime = System.currentTimeMillis() - startTime;
 				System.out.println("[CGLIB 字节码提升] echo 方法执行的实现：" + costTime + " ms.");
 				return result;

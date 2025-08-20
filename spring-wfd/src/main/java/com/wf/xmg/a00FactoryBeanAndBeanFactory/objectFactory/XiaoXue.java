@@ -1,7 +1,7 @@
-package com.wf.xmg.a00FactoryBeanAndBeanFactory;
+package com.wf.xmg.a00FactoryBeanAndBeanFactory.objectFactory;
 
-public class School {
-	private String name;
+public class XiaoXue implements School {
+	private String name="xiaoxue";
 
 	private String address;
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import org.springframework.beans.factory.config.BeanDefinition;
 
 /**
  * @Desc : 简单的上下文ApplicationContext的使用
@@ -30,24 +31,29 @@ public class ApplicationContextAnnTest {
     }
 
 	/**存在的体系
-	 * BeanDefinition体系:三种类型的BeanDefinition
-	 * BeanDefinitionReader体系:BeanDefinition的解析器，包括两类，从资源中读取和从注解中读取
-	 * ClassPathBeanDefinitionScanner体系：从classPath中获取我们的beanDefinition，会解析一些注解标注的类和注解同源
-	 * BeanNameGenerator体系：生成BeanDefinition的名称，包括资源解析的命名规则，和注解类的命名规则
-	 * ScopeMetadataResolver体系:用来解决对应的beanDefinition的作用域元信息
-	 * BeanDefinitionRegistry体系：BeanDefinition的注册体系，通过此接口，将我们的BeanDefinition注册到容器中
+	 * {@link BeanDefinition }体系:三种类型的BeanDefinition
+	 * {@link org.springframework.beans.factory.support.BeanDefinitionReader}体系:BeanDefinition的解析器，包括两类，从资源中读取和从注解中读取
+	 * {@link org.springframework.beans.factory.support.BeanNameGenerator}体系：生成BeanDefinition的名称，包括资源解析的命名规则，和注解类的命名规则
+	 * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}体系：BeanDefinition的注册体系，通过此接口，将我们的BeanDefinition注册到容器中
 	 *
-	 * RuntimeBeanReference:用来解决封装依赖的容器对象
+	 * {@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner}体系：从classPath中获取我们的beanDefinition，会解析一些注解标注的类和注解同源
+	 * {@link org.springframework.context.annotation.ScopeMetadataResolver}体系:用来解决对应的beanDefinition的作用域元信息
+	 * {@link org.springframework.context.annotation.ConfigurationClassParser}:解析我们的配置文件
+	 * {@link org.springframework.context.annotation.ComponentScanAnnotationParser}：解析我们的@ComponentScan注解
+	 * {@link org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider} : 从指定的基本包开始扫描候选组件的组件
 	 *
-	 * AutowireCandidateResolver体系
+	 * {@link org.springframework.beans.factory.config.RuntimeBeanReference}:用来解决封装依赖的容器对象
 	 *
-	 * BeanFactory体系：就是我们的spring容器，只包括我们的容器功能，解析BeanDefinition,创建对应的bean，预留扩展接口
-	 * ApplicationContext体系：针对容器做的应用级别的上下文，实现一些扩展接口来处理我们的应用级别的功能。
+	 * {@link org.springframework.beans.factory.support.AutowireCandidateResolver}体系
 	 *
-	 * ConfigurationClassParser:解析我们的配置文件
-	 * ComponentScanAnnotationParser：解析我们的@ComponentScan注解
-	 * ClassPathBeanDefinitionScanner 、ClassPathScanningCandidateComponentProvider
+	 * {@link org.springframework.beans.factory.BeanFactory}体系：就是我们的spring容器，只包括我们的容器功能，解析BeanDefinition,创建对应的bean，预留扩展接口
+	 * {@link org.springframework.context.ApplicationContext}体系：针对容器做的应用级别的上下文，实现一些扩展接口来处理我们的应用级别的功能。
+	 *
+	 *
+	 *
 	 * ConfigurationClassBeanDefinitionReader：
+	 *
+	 * ConfigurationClassParser 与 ConfigurationClassPostProcessor 类
 	 *
 	 * InstantiationStrategy体系用于创建对应的bean实例
 	 * SingletonBeanRegistry体系：Bean实例对象的注册体系。直接将我们的bean实例对象注册到我们的容器中

@@ -90,7 +90,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private final Set<String> singletonsCurrentlyInCreation =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
-	/** Names of beans currently excluded from in creation checks. */
+	/** Names of beans currently excluded from in creation checks. 当前在创建检查中排除的bean的名称。 */
 	private final Set<String> inCreationCheckExclusions =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
@@ -191,7 +191,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						if (singletonObject == null) {
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName); // 从三级缓存中取出来对象工厂，得到对象放到二级缓存中去
 							if (singletonFactory != null) {
-								singletonObject = singletonFactory.getObject();
+								singletonObject = singletonFactory.getObject(); // 从三级缓存中得到工厂之后可以得到提前bean实例对象，为什么会使用early，有可能依赖的对象是代理对象
 								this.earlySingletonObjects.put(beanName, singletonObject); // 放二级缓存
 								this.singletonFactories.remove(beanName); // 移除三级缓存
 							}

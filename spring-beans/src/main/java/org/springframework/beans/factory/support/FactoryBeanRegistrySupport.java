@@ -106,14 +106,14 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 						object = alreadyThere;
 					}
 					else {
-						if (shouldPostProcess) {
+						if (shouldPostProcess) {// 判断是否需要执行PostProcess
 							if (isSingletonCurrentlyInCreation(beanName)) {
 								// Temporarily return non-post-processed object, not storing it yet..
 								return object;
 							}
 							beforeSingletonCreation(beanName);
 							try {
-								object = postProcessObjectFromFactoryBean(object, beanName);
+								object = postProcessObjectFromFactoryBean(object, beanName);//执行我们的后置处理器
 							}
 							catch (Throwable ex) {
 								throw new BeanCreationException(beanName,

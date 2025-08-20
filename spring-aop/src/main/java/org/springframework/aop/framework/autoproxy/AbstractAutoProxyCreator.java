@@ -114,8 +114,8 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
-
-	/** Default is global AdvisorAdapterRegistry. */
+	// aop 联盟的 Advice 会被spring封装成自己的Advisor，然后通过  AdvisorAdapterRegistry 再吧自己的Advisor 转换成  成aop联盟的MethodInterceptor
+	/** Default is global AdvisorAdapterRegistry. 默认是全局AdvisorAdapterRegistry。 这个是进行spring aop的Advisor包装转换成aop联盟的MethodInterceptor的适配器， */
 	private AdvisorAdapterRegistry advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.getInstance();
 
 	/**
@@ -245,7 +245,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	}
 
 	@Override
-	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) {
+	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) { // 这个是 instantiationAwareBeanPostProcessor的回调接口，在这里进行了Advice的解析
 		Object cacheKey = getCacheKey(beanClass, beanName);
 
 		if (!StringUtils.hasLength(beanName) || !this.targetSourcedBeans.contains(beanName)) {
@@ -374,7 +374,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		return retVal;
 	}
 
-	/**
+	/** 如果给定的bean不应该被这个后处理器考虑自动代理，则子类应该重写此方法以返回{@code true}。
 	 * Subclasses should override this method to return {@code true} if the
 	 * given bean should not be considered for auto-proxying by this post-processor.
 	 * <p>Sometimes we need to be able to avoid this happening, e.g. if it will lead to

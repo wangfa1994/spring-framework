@@ -100,15 +100,15 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	protected transient Log logger = LogFactory.getLog(getClass());
 
-	@Nullable
+	@Nullable // 存放调用初始化的注解的变量 PostConstruct
 	private Class<? extends Annotation> initAnnotationType;
 
-	@Nullable
+	@Nullable // 存放调用销毁注解的变量 preDestroy
 	private Class<? extends Annotation> destroyAnnotationType;
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
-	@Nullable
+	@Nullable // 处理关于生命周期的数据元信息，缓存对应的类和生命周期元信息
 	private final transient Map<Class<?>, LifecycleMetadata> lifecycleMetadataCache = new ConcurrentHashMap<>(256);
 
 
@@ -146,8 +146,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		LifecycleMetadata metadata = findLifecycleMetadata(beanType);
-		metadata.checkConfigMembers(beanDefinition);
+		LifecycleMetadata metadata = findLifecycleMetadata(beanType); // 发现我们的注解信息
+		metadata.checkConfigMembers(beanDefinition); // 将我们的注解信息进行存放到对应的RootBeanDefinition字段中
 	}
 
 	@Override

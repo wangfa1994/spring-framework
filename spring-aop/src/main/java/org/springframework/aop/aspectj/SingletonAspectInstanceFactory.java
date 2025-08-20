@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class SingletonAspectInstanceFactory implements AspectInstanceFactory, Serializable {
 
-	private final Object aspectInstance;
+	private final Object aspectInstance; //我们切面类的实体对象，可以是通过反射得到
 
 
 	/**

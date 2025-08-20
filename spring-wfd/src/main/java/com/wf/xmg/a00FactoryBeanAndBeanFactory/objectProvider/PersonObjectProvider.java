@@ -1,4 +1,4 @@
-package com.wf.xmg.a00FactoryBeanAndBeanFactory;
+package com.wf.xmg.a00FactoryBeanAndBeanFactory.objectProvider;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -15,6 +15,7 @@ public class PersonObjectProvider implements ObjectProvider<Person> {
 		return person;
 	}
 
+	// 带参数的，可以通过参数进行返回对应的对象
 	@Override
 	public Person getObject(Object... args) throws BeansException {
 
@@ -22,6 +23,8 @@ public class PersonObjectProvider implements ObjectProvider<Person> {
 		return person;
 	}
 
+
+	// 支持jdk 1.8
 	@Override
 	public Person getIfAvailable() throws BeansException {
 		return null;

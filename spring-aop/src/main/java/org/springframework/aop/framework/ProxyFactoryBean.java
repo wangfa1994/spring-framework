@@ -121,7 +121,7 @@ public class ProxyFactoryBean extends ProxyCreatorSupport
 	private transient boolean classLoaderConfigured = false;
 
 	@Nullable
-	private transient BeanFactory beanFactory;
+	private transient BeanFactory beanFactory; //整合了我们的容器
 
 	/** Whether the advisor chain has already been initialized. */
 	private boolean advisorChainInitialized = false;

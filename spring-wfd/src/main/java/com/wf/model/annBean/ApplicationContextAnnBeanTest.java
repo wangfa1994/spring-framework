@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @Desc : @Bean的处理大致逻辑
+ * @Desc : 注解 @Bean的处理大致逻辑
  * @Author : Mr.WangF
  * @Date: 2022/7/20 10:41
  */

@@ -2,6 +2,7 @@ package com.wf.xmg.a01applicationAndFactory;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -47,12 +48,13 @@ public class WhereBeanFromTest {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(WhereBeanFromTest.class);
 		// 手动注册我们的非bean
-		context.addBeanFactoryPostProcessor(realBeanFactory -> {
+		BeanFactoryPostProcessor postProcessor = realBeanFactory -> {
 			// 注册 Resolvable Dependency 这个bean会被处理成非bean进行依赖注入
 			Person personDependency = new Person();
 			personDependency.setName("Hello,World");
 			realBeanFactory.registerResolvableDependency(Person.class, personDependency);
-		});
+		};
+		context.addBeanFactoryPostProcessor(postProcessor);
 
 		/*ConfigurableListableBeanFactory autowireCapableBeanFactory = (ConfigurableListableBeanFactory)context.getAutowireCapableBeanFactory();
 		Person personDependency = new Person();

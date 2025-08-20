@@ -62,7 +62,7 @@ import org.springframework.util.PatternMatchUtils;
  */
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
 
-	private final BeanDefinitionRegistry registry;
+	private final BeanDefinitionRegistry registry; //beanDefinition的注册中心，扫描出来的类变成BeanDefinition进行注册到BeanDefinitionRegistry中
 
 	private BeanDefinitionDefaults beanDefinitionDefaults = new BeanDefinitionDefaults();
 
@@ -254,7 +254,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		doScan(basePackages);
 		// 在开始解析的时候，如果需要的话，会先进行我们的注解配置处理器的注册
 		// Register annotation config processors, if necessary. 如果需要，注册注释配置处理器。
-		if (this.includeAnnotationConfig) {
+		if (this.includeAnnotationConfig) { // 在开始解析的时候，如果需要注册关于注解相关的，会进行相关配置的注册，这里注册的是BeanDefinition
 			AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 		}
 

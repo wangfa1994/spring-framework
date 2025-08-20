@@ -25,6 +25,7 @@ public class ApplicationContextTest {
 	 */
 
 	public static void main(String[] args) {
+		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext();
 
 		/**
 		 * BeanFactory接口与ApplicationContext接口

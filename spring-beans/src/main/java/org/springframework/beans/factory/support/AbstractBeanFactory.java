@@ -119,7 +119,7 @@ import org.springframework.util.StringValueResolver;
  * @see DefaultListableBeanFactory#getBeanDefinition
  */ // AbstractBeanFactory 没有ListableBeanFactory的相关特性，他只实现了ConfigurableBeanFactory接口 和HierarchicalBeanFactory接口
 public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
-	// AbstractBeanFactory 竟然还是一个SingletonBeanRegistry,单例Bean的注册中心，所以他的子类都具有注册Bean实例的能力
+	// AbstractBeanFactory 竟然还是一个SingletonBeanRegistry,单例Bean的注册中心，所以他的子类都具有注册Bean实例的能力，包括了DefaultListableBeanFactory
 	/** Parent bean factory, for bean inheritance support. */
 	@Nullable
 	private BeanFactory parentBeanFactory;
@@ -330,7 +330,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance. 创建一个bean实例，在这里讲bean放入到创建中的集合中
-				if (mbd.isSingleton()) { // getSingleton是注册中心的方法，createBean是BeanFactory的方法，如果我在注册中心没有得到，那就去注册,利用ObjectFactory接口来回调产生实例
+				if (mbd.isSingleton()) { // getSingleton是注册中心SingletonBeanRegistry的方法，createBean是BeanFactory的方法，如果我在注册中心没有得到，那就去注册,利用ObjectFactory接口来回调产生实例
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);
@@ -1647,7 +1647,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 
-	/**
+	/** 预测指定bean的最终bean类型（已处理的bean实例的）。
 	 * Predict the eventual bean type (of the processed bean instance) for the
 	 * specified bean. Called by {@link #getType} and {@link #isTypeMatch}.
 	 * Does not need to handle FactoryBeans specifically, since it is only
@@ -1857,7 +1857,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @param mbd the merged bean definition
 	 * @return the object to expose for the bean
 	 */
-	protected Object getObjectForBeanInstance(
+	protected Object getObjectForBeanInstance( // 从我们的实例中得到对象，可能是实例本身，也有可能是其他的
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
 		// Don't let calling code try to dereference the factory if the bean isn't a factory. 如果bean不是工厂，不要让调用代码试图取消对工厂的引用。
@@ -1877,7 +1877,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean. 现在我们有了bean实例，它可以是一个普通的bean，也可以是一个FactoryBean。
 		// If it's a FactoryBean, we use it to create a bean instance, unless the 如果它是一个FactoryBean，我们使用它来创建一个bean实例，除非调用者确实需要对工厂的引用。
 		// caller actually wants a reference to the factory.
-		if (!(beanInstance instanceof FactoryBean)) {
+		if (!(beanInstance instanceof FactoryBean)) { // 如果我们的实例不是FactoryBean,直接返回，如果是的话，则进行判断是返回factoryBean 还是factoryBean中的对象
 			return beanInstance;
 		}
 
@@ -1895,7 +1895,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			if (mbd == null && containsBeanDefinition(beanName)) {
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
-			boolean synthetic = (mbd != null && mbd.isSynthetic());
+			boolean synthetic = (mbd != null && mbd.isSynthetic()); // 判断是否对factoryBean管理的对象实行后置处理器 ,判断是否是合成的
 			object = getObjectFromFactoryBean(factory, beanName, !synthetic); // 从FactoryBean中获取到对应的实例对象
 		}
 		return object;

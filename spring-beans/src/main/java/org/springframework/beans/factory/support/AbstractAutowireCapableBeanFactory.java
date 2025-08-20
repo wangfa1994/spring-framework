@@ -525,10 +525,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throw new BeanDefinitionStoreException(mbdToUse.getResourceDescription(),
 					beanName, "Validation of method overrides failed", ex);
 		}
-		// 这个try操作可以理解为是针对上下文应用的操作了，或者说是自己定义了一些postprocessors的操作，在默认的bean工厂中是不存在任何处理器的
+		// 这个try操作可以理解为是针对上下文应用的操作了，或者说是自己定义了一些postprocessors的操作，在没有和上下文整合的bean工厂中是不存在任何处理器的
 		try { // 进行bean实例创建之前，先看看用户是不是进行了自定义BeanPostProcessors，然后bean实例创建，如果创建了就直接返回了，不存在对应的bean的生命周期了，而且我们会在这里进行aop的advice的解析，在对应的后置处理器存在之后，再进行创建bean的时候，就会触发advice的处理
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用beanPostprocessor的beforeInstantion，里面还会再次进行调用 aop的advice解析就是在这处理的
+			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用InstantiationAwareBeanPostProcessor的postProcessorBeforeInstantiation， aop的advice解析就是在这处理的
 			if (bean != null) {
 				return bean;
 			}
@@ -581,7 +581,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (instanceWrapper == null) { // 首先进行实例化，然后进行属性赋值，再进行相关自定义接口的处理
 			instanceWrapper = createBeanInstance(beanName, mbd, args); // 实例化bean,真正的逻辑，对象的创建离不开构造器，构造器允许我们通过后置处理器进行指定
 		}
-		Object bean = instanceWrapper.getWrappedInstance();
+		Object bean = instanceWrapper.getWrappedInstance(); // 得到我们实例化的bean对象
 		Class<?> beanType = instanceWrapper.getWrappedClass();
 		if (beanType != NullBean.class) {
 			mbd.resolvedTargetType = beanType;
@@ -590,9 +590,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Allow post-processors to modify the merged bean definition. 允许后处理器修改合并的bean定义。？为甚要进行操作，因为要根据注解处理依赖关系
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
-				try {// 默认的bean工厂都不存在对应的处理器，在默认的beanFactory中，只能自己通过api进行管理设置我们的依赖关系
+				try {// 没有和上下文整合的默认的bean工厂都不存在对应的处理器，在默认的beanFactory中，只能自己通过api进行管理设置我们的依赖关系
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName); // 进行合并对应的BeanDefinition操作，用来处理对应的相关类与类之间的依赖关系,解析出来的关系被缓存在对应的injectionMetadataCache中
-				} // 使用了后置处理器 MergedBeanDefinitionPostProcessor进行处理相对应的依赖关系，用于再属性赋值的时候进行使用，这个是因为最初在进行class变beanDefinition的时候，只进行了简单的可配置的注解解析出来的配置
+				} // 使用了后置处理器 MergedBeanDefinitionPostProcessor进行处理相对应的依赖关系，用于再属性赋值的时候进行使用，这个是因为最初在进行class变beanDefinition的时候，只进行了针对于class简单的可配置的注解解析出来的配置
 				catch (Throwable ex) {
 					throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 							"Post-processing of merged bean definition failed", ex);
@@ -610,7 +610,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			} // 三级缓存也是为了解决循环依赖问题，通过工厂模式来延迟创建 Bean 的实例，直到所有依赖都准备好为止，在默认的beanFactory 也会存在对应的逻辑呢，这个按照功能其实是属于SingletonBeanRegistry体系
-			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean)); //当bean创建完成后，将我们正在创建的bean,放入到三级缓存中，用于依赖查找,加入的是一个ObjectFactory
+			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean)); //当bean创建完成后，将我们正在创建的bean,放入到三级缓存中，用于依赖查找,加入的是一个ObjectFactory ，最后一个参数bean，实际上就是我们上面创还能的实例对象
 		}	// ObjectFactory中 getEarlyBeanReference还是利用了对应的SmartInstantiationAwareBeanPostProcessor的get
 
 		// Initialize the bean instance. 初始化bean实例。主要包括两个步骤一个是进行属性的填充(populate)，一个是进行接口的回调(initialize)
@@ -1113,7 +1113,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	protected void applyMergedBeanDefinitionPostProcessors(RootBeanDefinition mbd, Class<?> beanType, String beanName) {
 		for (MergedBeanDefinitionPostProcessor processor : getBeanPostProcessorCache().mergedDefinition) { // 存在三个CommonAnnotationBeanPostProcessor,AutowiredAnnotationBeanPostProcessor,ApplicationListenerDetector
-			processor.postProcessMergedBeanDefinition(mbd, beanType, beanName);
+			processor.postProcessMergedBeanDefinition(mbd, beanType, beanName); // 用于处理和生命周期相关的注解方法，解析PostConstruct,PreDestroy
 		}
 	}
 
@@ -1428,7 +1428,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				pvs = mbd.getPropertyValues();
 			}
 			for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
-				PropertyValues pvsToUse = bp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName); // 填充属性前进行计算属性，通过相关回调，我们可以重置修改相关属性值,autowire就是在这通过后置处理器完成的依赖
+				PropertyValues pvsToUse = bp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName); //依赖属性处理 填充属性前进行计算属性，通过相关回调，我们可以重置修改相关属性值,autowire就是在这通过后置处理器完成的依赖
 				if (pvsToUse == null) {
 					if (filteredPds == null) {
 						filteredPds = filterPropertyDescriptorsForDependencyCheck(bw, mbd.allowCaching);
@@ -1788,16 +1788,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}, getAccessControlContext());
 		}
 		else {
-			invokeAwareMethods(beanName, bean); // 1.先执行容器的Aware接口
+			invokeAwareMethods(beanName, bean); // 1.先执行beanFactory的Aware接口,这里是工厂默认的,这个是针对单个bean是否实现了aware接口
 		}
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName); //2.再执行对应的初始化之前的接口回调@PostConstruct 这里主要就开始处理BeanPostProcessor的方法了
+			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName); //2.再执行对应的初始化之前的接口回调@PostConstruct 这里主要就开始处理BeanPostProcessor的方法了，这里是针对所有的bean
 		} //上下文的Aware接口的回调是利用ApplicationContextAwareProcessor在此处进行回调的。InitDestroyAnnotationBeanPostProcessor 处理@PostConstruct
 
 		try {
-			invokeInitMethods(beanName, wrappedBean, mbd); // 3.执行初始化的自定义方法，包括InitializingBean 和xml中自定义的init-method
+			invokeInitMethods(beanName, wrappedBean, mbd); // 3.执行初始化的自定义方法，包括InitializingBean 和xml中自定义的init-method ，这里也是针对单个bean
 		}
 		catch (Throwable ex) {
 			throw new BeanCreationException(

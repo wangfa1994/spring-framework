@@ -18,22 +18,21 @@ package com.wf.xmgAop02.a04.a03AspectJProxyFactory;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 
 /**
- * Aspect 配置类
+ * Aspect 配置类 ,在进行AspectJ相关使用的时候这个@Aspect注解一定要存在的
  */
 @Aspect
 public class AspectJApiConfiguration {
 
-	@Pointcut("execution(public * *(..))")
+	@Pointcut("execution(public * *(..))") // 通过 pointCut 过滤 joinPoint
 	public void anyPublicMethod(){
-
 	}
 
-
 	@After("anyPublicMethod()")
-	public void finalizeAnyPublicMethod() {
-		System.out.println("@After any public method.");
+	public void finalizeAnyPublicMethod1() {
+		System.out.println("@After0 any public method.");
 	}
 
     @Before("anyPublicMethod()")          // Join Point 拦截动作

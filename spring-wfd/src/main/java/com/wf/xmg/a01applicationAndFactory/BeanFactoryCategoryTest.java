@@ -56,7 +56,7 @@ public class BeanFactoryCategoryTest {
 
 		DefaultListableBeanFactory  beanFactory = new DefaultListableBeanFactory();
 		// 手动注册一些bean 主要提现了DefaultListableBeanFactory的注册存储bean功能以及获取bean
-		registerSingleton(beanFactory);
+		registerSingleton(beanFactory); //beanFactory 赋予了SingletonBeanRegistry功能
 
 		// 父子关系查找
 		lookupByParentChild(beanFactory);

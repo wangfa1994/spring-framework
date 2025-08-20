@@ -103,7 +103,7 @@ public class InjectionMetadata {
 		for (InjectedElement element : this.injectedElements) {
 			Member member = element.getMember();
 			if (!beanDefinition.isExternallyManagedConfigMember(member)) {
-				beanDefinition.registerExternallyManagedConfigMember(member);
+				beanDefinition.registerExternallyManagedConfigMember(member); //将关于生命周期的信息存放起来，Autowire的信息
 				checkedElements.add(element);
 			}
 		}
@@ -116,7 +116,7 @@ public class InjectionMetadata {
 				(checkedElements != null ? checkedElements : this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
 			for (InjectedElement element : elementsToIterate) {
-				element.inject(target, beanName, pvs); // 循环处理我们的属性 common autowire 自己对应的独立内部类处理
+				element.inject(target, beanName, pvs); // 循环处理我们的属性 common autowire 自己对应的独立内部类处理 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.AutowiredFieldElement.inject
 			}
 		}
 	}

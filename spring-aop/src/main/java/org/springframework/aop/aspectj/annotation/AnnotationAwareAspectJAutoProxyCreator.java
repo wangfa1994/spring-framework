@@ -50,7 +50,7 @@ import org.springframework.util.Assert;
 public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorAutoProxyCreator {
 
 	@Nullable
-	private List<Pattern> includePatterns;
+	private List<Pattern> includePatterns; // 判断是否是AspectJ的模式的列表
 
 	@Nullable
 	private AspectJAdvisorFactory aspectJAdvisorFactory;
@@ -89,7 +89,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	@Override
 	protected List<Advisor> findCandidateAdvisors() {
 		// Add all the Spring advisors found according to superclass rules. 添加根据超类规则找到的所有Spring顾问。
-		List<Advisor> advisors = super.findCandidateAdvisors();
+		List<Advisor> advisors = super.findCandidateAdvisors(); // 这里是解析我们自己实现了Advice.class的类，
 		// Build Advisors for all AspectJ aspects in the bean factory.
 		if (this.aspectJAdvisorsBuilder != null) {
 			advisors.addAll(this.aspectJAdvisorsBuilder.buildAspectJAdvisors()); // 解析出我们的切面类，并且从切面类中解析出我们的通知，这个会是在我们第一个代理类处理的时候进行构建
@@ -146,7 +146,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 
 		@Override
 		protected boolean isEligibleBean(String beanName) {
-			return AnnotationAwareAspectJAutoProxyCreator.this.isEligibleAspectBean(beanName);
+			return AnnotationAwareAspectJAutoProxyCreator.this.isEligibleAspectBean(beanName); // Eligible 符合条件的 ，是否是符合Aspect的bean
 		}
 	}
 

@@ -155,7 +155,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	private final Set<String> lookupMethodsChecked = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
 	private final Map<Class<?>, Constructor<?>[]> candidateConstructorsCache = new ConcurrentHashMap<>(256);
-
+	//缓存对应的bean名称和对应的注解元信息，用于在回调的时候进行属性复制，这个的值，是在mergerBeanDefinition的时候进行放入的
 	private final Map<String, InjectionMetadata> injectionMetadataCache = new ConcurrentHashMap<>(256);
 
 
@@ -403,7 +403,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
-		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs);
+		InjectionMetadata metadata = findAutowiringMetadata(beanName, bean.getClass(), pvs); // 通过instantiationAwareBeanPostProcessor的postProcessProperties进行解析依赖注入的属性
 		try {
 			metadata.inject(bean, beanName, pvs); // 转入到 InjectionMetadata 进行反射设值
 		}
@@ -704,7 +704,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			desc.setContainingClass(bean.getClass());
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(2);
 			Assert.state(beanFactory != null, "No BeanFactory available");
-			TypeConverter typeConverter = beanFactory.getTypeConverter();
+			TypeConverter typeConverter = beanFactory.getTypeConverter(); //获取到我们的类型转换器
 			Object value;
 			try {//开始解决对应的对象之间的依赖关系
 				value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);

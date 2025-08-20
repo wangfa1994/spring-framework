@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @Author : Mr.WangF
  * @Date: 2022/7/20 10:41
  */
+
 public class ApplicationContextTest {
 
 	public static void main(String[] args) {
@@ -19,6 +20,13 @@ public class ApplicationContextTest {
 
 		//注解 和xml配合使用的时候，使用的是注解 ImportResource ,在工厂后置处理器的时候ConfigurationClassPostProcessor，会进行importResource资源的解析变成对应的BeanDefinition
 
+		/**
+		 * @ImportResource(locations={"beanAnnXml.xml"})  用来加载对应的xml资源，主要是注解和xml混合使用的时候处理
+		 *
+		 * @PropertySource({"springConfig.properties"}) 用来加载我们的配置信息，
+		 *
+		 *
+		 */
 	}
 
 }

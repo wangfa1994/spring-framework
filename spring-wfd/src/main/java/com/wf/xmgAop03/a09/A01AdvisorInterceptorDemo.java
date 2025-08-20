@@ -22,5 +22,8 @@ public class A01AdvisorInterceptorDemo {
 	/**
 	 * AdvisorAdapter 接口 两个方法， 一个是判断是否支持的Advice ，如果是支持的，则会进行转换成对应的methodInterceptor
 	 *
+	 *
+	 *
+	 *
 	 */
 }

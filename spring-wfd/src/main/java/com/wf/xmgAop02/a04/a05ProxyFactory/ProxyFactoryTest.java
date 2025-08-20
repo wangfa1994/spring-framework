@@ -3,11 +3,9 @@ package com.wf.xmgAop02.a04.a05ProxyFactory;
 
 import com.wf.xmgAop02.a04.a04ProxyFactoryBean.DefaultEchoService;
 import com.wf.xmgAop02.a04.a04ProxyFactoryBean.EchoService;
-import org.springframework.aop.AfterReturningAdvice;
-import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.framework.ProxyFactory;
-
-import java.lang.reflect.Method;
+import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
 /**
  * 26
@@ -22,10 +20,19 @@ import java.lang.reflect.Method;
  *
  *
  *
+ * Aop代理工厂 一共包括三类 用来产生Aop代理对象，一共会产生两类JdkDy
+ * 1.{@link ProxyFactory} 这个代理工厂是独立的一个代理对象，从这里可以直接进行得到代理对象进行操作
+ * 2.{@link ProxyFactoryBean} 这个代理工厂是整理到了容器中，可以从spring中容器中进行得到相关属性
+ * 3.{@link AspectJProxyFactory} 这个是整合了AspectJ,通过AspectJ进行处理
+ *
+ * 三种业务场景的代理工厂(ProxyFactory/ProxyFactoryBean/AspectJProxyFactory)。
+ * 通过唯一的Aop的代理工厂(AopProxyFactory/DefaultAopProxyFactory)产生两类Aop代理对象(JdkDynamicAopProxy/ObjenesisCglibAopProxy/CglibAopProxy)，
+ * 然后通过两类Aop代理对象产生业务代理对象.
+ *
  */
 
 
-public class ProxyFactoryDemo {
+public class ProxyFactoryTest {
 
 	public static void main(String[] args) {
 		DefaultEchoService defaultEchoService = new DefaultEchoService();
@@ -58,8 +65,9 @@ public class ProxyFactoryDemo {
 		EchoService proxy = (EchoService)proxyFactory.getProxy(); //这里得到是java的动态代理，而不是cglib的动态代理，
 		System.out.println("最后主方法打印:"+proxy.echo("hello"));
 
-		//MethodInvocation   与 MethodInterceptor 
+		// MethodInvocation   与 MethodInterceptor
 		// AOPProxy  生成代理对象的工厂接口
 		// AOP代理对象  和 代理对象   通过Aop代理对象产生代理对象
+
 	}
 }

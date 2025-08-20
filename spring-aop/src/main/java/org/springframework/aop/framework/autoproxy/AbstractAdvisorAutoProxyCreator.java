@@ -51,7 +51,7 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyCreator {
 
-	@Nullable // 解析我们的advisor的辅助类
+	@Nullable // 解析我们的advisor的辅助类  在进行AbstractAutoProxyCreator的时候进行使用，解析我们系统中的Advisor
 	private BeanFactoryAdvisorRetrievalHelper advisorRetrievalHelper;
 
 
@@ -65,7 +65,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 		initBeanFactory((ConfigurableListableBeanFactory) beanFactory);
 	}
 
-	protected void initBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+	protected void initBeanFactory(ConfigurableListableBeanFactory beanFactory) { // 回调的时候会进行初始化 advisorRetrievalHelper
 		this.advisorRetrievalHelper = new BeanFactoryAdvisorRetrievalHelperAdapter(beanFactory);
 	}
 
@@ -189,7 +189,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 
 		@Override
 		protected boolean isEligibleBean(String beanName) {
-			return AbstractAdvisorAutoProxyCreator.this.isEligibleAdvisorBean(beanName);
+			return AbstractAdvisorAutoProxyCreator.this.isEligibleAdvisorBean(beanName); // isEligibleAdvisorBean 三种实现
 		}
 	}
 

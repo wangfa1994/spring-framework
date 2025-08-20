@@ -54,7 +54,7 @@ public abstract class AopProxyUtils {
 	private static final Method isSealedMethod = ClassUtils.getMethodIfAvailable(Class.class, "isSealed");
 
 
-	/**
+	/**  获取 给定 代理背后的 单例 目标对象 （如果有的话）。
 	 * Obtain the singleton target object behind the given proxy, if any.
 	 * @param candidate the (potential) proxy to check
 	 * @return the singleton target object managed in a {@link SingletonTargetSource},
@@ -84,7 +84,7 @@ public abstract class AopProxyUtils {
 	 * @see org.springframework.aop.TargetClassAware#getTargetClass()
 	 * @see Advised#getTargetSource()
 	 */
-	public static Class<?> ultimateTargetClass(Object candidate) {
+	public static Class<?> ultimateTargetClass(Object candidate) { // 获取最终的代理的目标类
 		Assert.notNull(candidate, "Candidate object must not be null");
 		Object current = candidate;
 		Class<?> result = null;
@@ -106,7 +106,7 @@ public abstract class AopProxyUtils {
 	 * @param advised the proxy config
 	 * @return the complete set of interfaces to proxy
 	 * @see SpringProxy
-	 * @see Advised 完整的代理接口
+	 * @see Advised  获取 完整的代理接口
 	 */
 	public static Class<?>[] completeProxiedInterfaces(AdvisedSupport advised) {
 		return completeProxiedInterfaces(advised, false);

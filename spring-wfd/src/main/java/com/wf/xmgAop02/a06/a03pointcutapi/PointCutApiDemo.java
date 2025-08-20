@@ -50,7 +50,7 @@ public class PointCutApiDemo {
 
 		/**
 		 * PointCut 只做过滤，并且pointcut 不会直接被使用，需要通过我们的advisor进行转换，
-		 * advise实际上本来就是一个动作，他在动作之前，还需要关联一个的pointcut，进行过滤
+		 * advise实际上本来就是一个动作，他在动作之前，还需要关联一个的pointcut，进行过滤出对应的joinPoint
 		 * 而刚好就使用advisor进行承载两个之间的关系
 		 *
 		 * 然后我们就可以通过ProxyFactory 产生存在相关逻辑的代理对象了

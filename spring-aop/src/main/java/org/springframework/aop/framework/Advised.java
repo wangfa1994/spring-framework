@@ -29,7 +29,7 @@ import org.springframework.aop.TargetSource;
  *
  * <p>Any AOP proxy obtained from Spring can be cast to this interface to
  * allow manipulation of its AOP advice.
- *
+ *  任何从Spring获得的AOP代理都可以被强制转换到这个接口，以允许对它的AOP通知进行操作。
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 13.03.2003

@@ -1,4 +1,4 @@
-package com.wf.xmg.a00FactoryBeanAndBeanFactory;
+package com.wf.xmg.a00FactoryBeanAndBeanFactory.objectProvider;
 
 public class Person {
 	private String name;

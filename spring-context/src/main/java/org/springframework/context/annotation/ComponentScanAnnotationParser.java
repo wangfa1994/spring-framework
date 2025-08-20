@@ -34,7 +34,7 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
-/**
+/** ComponentScan 注释的解析器
  * Parser for the @{@link ComponentScan} annotation.
  *
  * @author Chris Beams

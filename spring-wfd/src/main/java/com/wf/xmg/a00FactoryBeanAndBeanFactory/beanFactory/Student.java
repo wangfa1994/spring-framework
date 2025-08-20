@@ -1,4 +1,4 @@
-package com.wf.xmg.a00FactoryBeanAndBeanFactory;
+package com.wf.xmg.a00FactoryBeanAndBeanFactory.beanFactory;
 
 import org.springframework.stereotype.Component;
 
@@ -25,5 +25,11 @@ public class Student {
 		this.grade = grade;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Student{" +
+				"name='" + name + '\'' +
+				", grade='" + grade + '\'' +
+				'}';
+	}
 }

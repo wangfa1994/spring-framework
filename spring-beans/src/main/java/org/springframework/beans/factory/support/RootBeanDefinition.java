@@ -120,13 +120,13 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 
-	@Nullable //存放@autowire依赖注入的数据元素
+	@Nullable /** 存放@autowire依赖注入的数据元素 在实例化之后，进行BeanDefinition合并的时候进行处理， {@link MergedBeanDefinitionPostProcessor}进行处理的AutowiredAnnotationBeanPostProcessor */
 	private Set<Member> externallyManagedConfigMembers;
 
-	@Nullable // 外部管理的实例化方法
+	@Nullable // 外部管理的实例化方法 @PostConstruct注解标注的方法
 	private Set<String> externallyManagedInitMethods;
 
-	@Nullable
+	@Nullable // 外部管理的实例化方法 @PreDestroy注解标注的方法
 	private Set<String> externallyManagedDestroyMethods;
 
 

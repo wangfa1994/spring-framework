@@ -57,7 +57,7 @@ import org.springframework.util.CollectionUtils;
  * <p>This class is used to hold snapshots of proxies.
  *
  * @author Rod Johnson
- * @author Juergen Hoeller   AOP代理配置管理器的基类。  AOP代理配置管理器的基类。
+ * @author Juergen Hoeller  AdvisedSupport 主要是 AOP代理配置管理器的基类。 主要是针对配置的，比如TargetSource，advisors 等
  * @see org.springframework.aop.framework.AopProxy
  */
 public class AdvisedSupport extends ProxyConfig implements Advised {

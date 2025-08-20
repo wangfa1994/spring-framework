@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
  *
  * @author Juergen Hoeller
  * @since 2.0.2
- * @see AnnotationAwareAspectJAutoProxyCreator
+ * @see AnnotationAwareAspectJAutoProxyCreator  这个与  BeanFactoryAspectJAdvisorsBuilder 的关系是什么， 为什么
  */
 public class BeanFactoryAspectJAdvisorsBuilder {
 
@@ -97,7 +97,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);// 获取容器中Object的所有bean的名称，然后开始确定是否我们的advice
 					for (String beanName : beanNames) { //循环所有的beanNames 这里会只有一次处理吧，在创建第一个我们的对象的时候，就直接全部遍历完进行了aspect的解析？
-						if (!isEligibleBean(beanName)) {
+						if (!isEligibleBean(beanName)) { // isEligibleBean 这个方法是属于被保护的本地类，进行了子类的实现
 							continue;
 						}
 						// We must be careful not to instantiate beans eagerly as in this case they

@@ -1,5 +1,11 @@
 package com.wf.xmg.a00FactoryBeanAndBeanFactory;
 
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean.Teacher;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean.TeacherFactoryBean;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectFactory.School;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectFactory.SchoolObjectFactory;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectProvider.Person;
+import com.wf.xmg.a00FactoryBeanAndBeanFactory.objectProvider.PersonObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +22,7 @@ public class ContainAutowireDto {
 	@Autowired
 	private SchoolObjectFactory schoolObjectFactory;
 	@Autowired // Teacher来自FactoryBean,spring针对FactoryBean有特殊逻辑处理，所以能依赖进来
-	private Teacher Teacher;
+	private com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean.Teacher Teacher;
 	@Autowired
 	private TeacherFactoryBean teacherFactoryBean;
 

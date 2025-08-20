@@ -31,7 +31,7 @@ import org.springframework.aop.aspectj.TypePatternClassFilter;
 import org.springframework.aop.framework.AopConfigException;
 import org.springframework.aop.support.ComposablePointcut;
 
-/**
+/** AspectJ方面类的元数据，带有per子句的附加Spring AOP切入点。
  * Metadata for an AspectJ aspect class, with an additional Spring AOP pointcut
  * for the per clause.
  *
@@ -40,7 +40,7 @@ import org.springframework.aop.support.ComposablePointcut;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 2.0
+ * @since 2.0  整合了AspectJ 和 spring  Aop
  * @see org.springframework.aop.aspectj.AspectJExpressionPointcut
  */
 @SuppressWarnings("serial")
@@ -59,13 +59,13 @@ public class AspectMetadata implements Serializable {
 	 */
 	private final Class<?> aspectClass;
 
-	/**
-	 * AspectJ reflection information.
+	/** 这个是来自AspectJ的jar包   org.aspectj.lang.reflect.AjType
+	 * AspectJ reflection information.  AspectJ反射信息。
 	 * <p>Re-resolved on deserialization since it isn't serializable itself.
 	 */
 	private transient AjType<?> ajType;
 
-	/**
+	/**  这个是属于spring aop的
 	 * Spring AOP pointcut corresponding to the per clause of the
 	 * aspect. Will be the {@code Pointcut.TRUE} canonical instance in the
 	 * case of a singleton, otherwise an AspectJExpressionPointcut.
@@ -73,7 +73,7 @@ public class AspectMetadata implements Serializable {
 	private final Pointcut perClausePointcut;
 
 
-	/**
+	/** 创建  AspectMetadata 的时候， 主要是会进行 perClausePointcut 的赋值
 	 * Create a new AspectMetadata instance for the given aspect class.
 	 * @param aspectClass the aspect class
 	 * @param aspectName the name of the aspect
@@ -84,7 +84,7 @@ public class AspectMetadata implements Serializable {
 		Class<?> currClass = aspectClass;
 		AjType<?> ajType = null;
 		while (currClass != Object.class) {
-			AjType<?> ajTypeToCheck = AjTypeSystem.getAjType(currClass);
+			AjType<?> ajTypeToCheck = AjTypeSystem.getAjType(currClass); // 转给AspectJ框架进行处理
 			if (ajTypeToCheck.isAspect()) {
 				ajType = ajTypeToCheck;
 				break;
@@ -97,8 +97,8 @@ public class AspectMetadata implements Serializable {
 		if (ajType.getDeclarePrecedence().length > 0) {
 			throw new IllegalArgumentException("DeclarePrecedence not presently supported in Spring AOP");
 		}
-		this.aspectClass = ajType.getJavaClass();
-		this.ajType = ajType;
+		this.aspectClass = ajType.getJavaClass();  // 设置 aspectClass
+		this.ajType = ajType; // 设置ajType
 
 		switch (this.ajType.getPerClause().getKind()) {
 			case SINGLETON:
@@ -106,7 +106,7 @@ public class AspectMetadata implements Serializable {
 				return;
 			case PERTARGET:
 			case PERTHIS:
-				AspectJExpressionPointcut ajexp = new AspectJExpressionPointcut();
+				AspectJExpressionPointcut ajexp = new AspectJExpressionPointcut(); // spring 支持两种形式 PERTARGET 和  PERTHIS ，转换成 AspectJExpressionPointcut模式
 				ajexp.setLocation(aspectClass.getName());
 				ajexp.setExpression(findPerClause(aspectClass));
 				ajexp.setPointcutDeclarationScope(aspectClass);

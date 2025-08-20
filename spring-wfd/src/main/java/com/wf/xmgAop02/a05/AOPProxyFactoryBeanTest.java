@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 
-public class AOPProxyFactoryBeanDemo {
+public class AOPProxyFactoryBeanTest {
 
 	public static void main(String[] args) {
 
@@ -36,7 +36,7 @@ public class AOPProxyFactoryBeanDemo {
 	 *  ProxyFactoryBean 也是继承了 ProxyCreatorSupport 类
 	 *
 	 *
-	 * ProxyCreatorSupport 代理工厂的基类，这个里面内置了一个代理工厂 AopProxyFactory ，然后会通过代理工厂进行产生我们的代理对象
+	 * ProxyCreatorSupport 代理工厂的基类，这个里面内置了一个代理工厂 AopProxyFactory ，然后会通过代理工厂进行产生我们的Aop代理对象，然后通过Aop代理对象产生业务代理对象
 	 *
 	 *
 	 * AopProxyFactory 接口之定义了创建代理对象的方法，简单工厂模式，

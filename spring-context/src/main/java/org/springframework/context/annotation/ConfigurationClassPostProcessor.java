@@ -328,7 +328,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size()); //防止我们解析的配置类，变成我们的ConfigurationClass对象
 		do {
 			StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
-			parser.parse(candidates); //开始解析我们的配置类，从顶层配置类中解析出来我们的所有符合条件的配置类，通过@comsacn,@import,@propertiesResource等配置的额外类
+			parser.parse(candidates); //委派给ConfigurationClassParser 开始解析我们的配置类，从顶层配置类中解析出来我们的所有符合条件的配置类，通过@comsacn,@import,@propertiesResource等配置的额外类
 			parser.validate();
 
 			Set<ConfigurationClass> configClasses = new LinkedHashSet<>(parser.getConfigurationClasses());//得到我们的所有配置类
@@ -456,7 +456,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		enhanceConfigClasses.tag("classCount", () -> String.valueOf(configBeanDefs.keySet().size())).end();
 	}
 
-
+	// 内部类实现InstantiationAwareBeanPostProcessor进行属性值的赋值
 	private static class ImportAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 
 		private final BeanFactory beanFactory;

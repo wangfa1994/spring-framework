@@ -1,4 +1,4 @@
-package com.wf.xmg.a00FactoryBeanAndBeanFactory;
+package com.wf.xmg.a00FactoryBeanAndBeanFactory.factoryBean;
 
 import org.springframework.beans.factory.BeanNameAware;
 

@@ -571,7 +571,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
-				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器BeanFactory的一些处理器的处理，因为我们实例化对象主要依赖beanDefinition，这里我们就要提前通过beanFactory进行处理配置，得到我们的beanDefinition
+				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器BeanFactory的一些处理器的处理，因为我们实例化对象主要依赖beanDefinition，这里我们就要提前通过beanFactory进行处理配置，得到我们的beanDefinition ，configurationClassPostProcessor
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理 先实例化处理Bean实例的beanPostprocess吧，毕竟下面开始实力化我们的对象了
 				beanPostProcess.end(); // 这里不管处理的是我们的BeanFactoryPostProcessors还是处理我们的BeanPostProcessors,都是利用了容器的getBean进行实例化，然后调用对应的方法
@@ -706,7 +706,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// BeanFactory interface not registered as resolvable type in a plain factory.
 		// MessageSource registered (and found for autowiring) as a bean. 注册我们的非bean对象，可以用于依赖注入,但是不能用于依赖查找，registerResolvableDependency方法的使用
-		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory); // 在依赖查找的时候，会首先判断这些
+		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory); // 在依赖查找的时候，会首先判断这些 ，在DefaultListableBeanFactory中进行保存resolvableDependencies
 		beanFactory.registerResolvableDependency(ResourceLoader.class, this); // 在进行准备容器的时候，会将我们的资源加载器进行注入，所以我们才可以在后面的依赖注入中获得
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
 		beanFactory.registerResolvableDependency(ApplicationContext.class, this); // 注意我们依赖的BeanFactory类和ApplicationContext是属于不同的对象

@@ -40,7 +40,7 @@ public class ProxyConfig implements Serializable {
 
 	boolean opaque = false;
 
-	boolean exposeProxy = false;
+	boolean exposeProxy = false;  // 让代理，设置为true的时候，会进行放置到AopContext中
 
 	private boolean frozen = false;
 

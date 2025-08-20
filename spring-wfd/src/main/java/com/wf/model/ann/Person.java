@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @Desc :
  * @Author : Mr.WangF
@@ -46,5 +48,10 @@ public class Person {
         this.name = name;
     }
 
+
+	@PostConstruct
+	public void init(){
+		System.out.println("进入了construct");
+	}
 
 }
