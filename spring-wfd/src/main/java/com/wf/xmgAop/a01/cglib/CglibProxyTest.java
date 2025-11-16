@@ -62,13 +62,6 @@ public class CglibProxyTest {
 	 *
 	 *
 	 */
-
-
-
-
-
-
-
 	public static void main(String[] args) {
 		Enhancer enhancer = new Enhancer();
 		// 指定super Class

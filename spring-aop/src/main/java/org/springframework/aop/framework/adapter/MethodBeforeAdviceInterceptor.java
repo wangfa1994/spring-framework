@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  *
  * @author Rod Johnson
  * @see AfterReturningAdviceInterceptor
- * @see ThrowsAdviceInterceptor 实现了两个语义 MethodInterceptor    BeforeAdvice
+ * @see ThrowsAdviceInterceptor 实现了两个语义 MethodInterceptor    BeforeAdvice  注意是内部使用的
  */
 @SuppressWarnings("serial")
 public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeAdvice, Serializable {

@@ -108,7 +108,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			throw new AopConfigException("No advisors and no TargetSource specified");
 		}
 		this.advised = config;
-		this.proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(this.advised, true); // 通过代理工具解析出代理的接口
+		this.proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(this.advised, true); // 通过代理工具解析出代理的接口,除了自身的业务外还会添加一些默认的标准接口
 		findDefinedEqualsAndHashCodeMethods(this.proxiedInterfaces);//标记是否进行了重写hashcode和equals的方法  // 这两行以前是写在getProxy方法中的逻辑，但是优化到构造器中，
 	}
 

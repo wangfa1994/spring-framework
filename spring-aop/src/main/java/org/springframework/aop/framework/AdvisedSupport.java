@@ -66,7 +66,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	private static final long serialVersionUID = 2651364800145442165L;
 
 
-	/**
+	/** TargetSource 当没有target的时候，使用我们自己默认的空的EmptyTargetSource
 	 * Canonical TargetSource when there's no target, and behavior is
 	 * supplied by the advisors.
 	 */

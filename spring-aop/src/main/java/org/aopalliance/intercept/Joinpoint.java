@@ -36,13 +36,13 @@ import javax.annotation.Nullable;
  * method, a constructor, a field), i.e. the static part of the
  * joinpoint. It is passed to the interceptors that are installed on
  * the static joinpoint.
- * 这个接口表示一个通用的运行时连接点（用AOP术语来说）。
- * @author Rod Johnson
+ * 这个接口表示一个通用的运行时连接点（用AOP术语来说）。 [是“在哪里可以插入切面”的位置描述,它更像是一个“标记”或“快照”，记录了某个方法调用发生时的上下文信息]
+ * @author Rod Johnson 【"执行上下文的抽象"，而不是具体的执行点，它定义的是"在某个执行点上，我能获取什么信息，能做什么操作"】
  * @see Interceptor
  */
 public interface Joinpoint {
 
-	/** 进入链中的下一个拦截器。 这个和 interceptor 有关
+	/** 进入链中的下一个拦截器。 这个和 interceptor 有关 [继续执行目标方法或下一个拦截器]
 	 * Proceed to the next interceptor in the chain.
 	 * <p>The implementation and the semantics of this method depends
 	 * on the actual joinpoint type (see the children interfaces).
@@ -52,7 +52,7 @@ public interface Joinpoint {
 	@Nullable
 	Object proceed() throws Throwable;
 
-	/** 返回保存当前连接点静态部分的对象
+	/** 返回保存当前连接点静态部分的对象  表示代理对象
 	 * Return the object that holds the current joinpoint's static part.
 	 * <p>For instance, the target object for an invocation.
 	 * @return the object (can be null if the accessible object is static)

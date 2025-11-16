@@ -151,7 +151,7 @@ public abstract class AopProxyUtils {
 			proxiedInterfaces.add(SpringProxy.class);
 		}
 		if (!advised.isOpaque() && !advised.isInterfaceProxied(Advised.class)) {
-			proxiedInterfaces.add(Advised.class);
+			proxiedInterfaces.add(Advised.class); // 添加advised接口
 		}
 		if (decoratingProxy && !advised.isInterfaceProxied(DecoratingProxy.class)) {
 			proxiedInterfaces.add(DecoratingProxy.class);

@@ -86,7 +86,7 @@ public class AnnotatedBeanDefinitionReader {
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry); // 注解模式下，注册所需要的后置处理器
-	}  // ConfigurationClassPostProcessor/AutowiredAnnotationBeanPostProcessor/CommonAnnotationBeanPostProcessor/EventListenerMethodProcessor/DefaultEventListenerFactory
+	}  //后置处理器：ConfigurationClassPostProcessor/AutowiredAnnotationBeanPostProcessor/CommonAnnotationBeanPostProcessor/EventListenerMethodProcessor/DefaultEventListenerFactory
 
 
 	/**
@@ -250,8 +250,8 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 		// 根据beanClass创建AnnotatedGenericBeanDefinition，设置相关的属性
-		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
-		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
+		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);//将我们的类封装成对应的注解BeanDefinition
+		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) { //计算我们是否存在Conditional注解，条件是否满足
 			return;
 		}
 
@@ -280,7 +280,7 @@ public class AnnotatedBeanDefinitionReader {
 			}
 		}
 
-		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName); //
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry); // TODO wf 作用域范围处理是什么
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry); // 把我们的class 变成BeanDefinition之后进行注册到BeanDefinition注册中心去
 	}

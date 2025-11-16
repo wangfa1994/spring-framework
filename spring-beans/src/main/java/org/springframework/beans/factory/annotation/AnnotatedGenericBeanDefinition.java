@@ -23,7 +23,7 @@ import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-/**
+/** 通用的注解类型的beanDefinition类
  * Extension of the {@link org.springframework.beans.factory.support.GenericBeanDefinition}
  * class, adding support for annotation metadata exposed through the
  * {@link AnnotatedBeanDefinition} interface.
@@ -55,7 +55,7 @@ public class AnnotatedGenericBeanDefinition extends GenericBeanDefinition implem
 	 */
 	public AnnotatedGenericBeanDefinition(Class<?> beanClass) {
 		setBeanClass(beanClass); // 设置beanClass
-		this.metadata = AnnotationMetadata.introspect(beanClass); // 内省出我们的注解元信息
+		this.metadata = AnnotationMetadata.introspect(beanClass); // 内省出我们的注解元信息,封装成StandardAnnotationMetadata
 	}
 
 	/**

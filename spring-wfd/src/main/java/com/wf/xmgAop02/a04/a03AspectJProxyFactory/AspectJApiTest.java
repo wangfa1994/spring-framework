@@ -31,12 +31,11 @@ public class AspectJApiTest {
 		// 通过创建一个 HashMap 缓存，作为被代理对象
 		Map<String, Object> targetSource = new HashMap<>();
 
-
 		// 创建 Proxy 工厂(AspectJ)  得到AOP代理对象  AspectJProxyFactory 是2.0引入的 AspectJProxyFactory的继承结构上存在一个代理配置类的属性，可以把自己丢进去
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(targetSource); // cache 目标对象，被代理的对象
 
 		// 增加 Aspect 配置类 这里也可以从这里解析出来对应的advice。 存在对应的注解，这样的话才能进行解析出来
-		//proxyFactory.addAspect(AspectJApiConfiguration.class);
+		proxyFactory.addAspect(AspectJApiConfiguration.class);
 		AspectJApiConfiguration con = new AspectJApiConfiguration();
 		proxyFactory.addAspect(con);
 
@@ -46,10 +45,18 @@ public class AspectJApiTest {
 		System.out.println(proxy.get("1"));
 
 		System.out.println(proxy.size());
-		// AopProxyFactory AOP代理工厂获取AOP的代理对象
-
-
-
+		/**
+		 * AspectJProxyFactory  基于aspectJ 的代理工厂
+		 * 	AspectJAdvisorFactory 用于处理aspect的advisor的工厂接口 ReflectiveAspectJAdvisorFactory
+		 * 	AspectMetadata 将aspect进行转换成元信息
+		 * 	MetadataAwareAspectInstanceFactory 接口 继承自 AspectInstanceFactory接口
+		 * 	AspectInstanceFactory 实例工厂接口
+		 *
+		 *  AspectJExpressionPointcut
+		 *
+		 *
+		 *
+		 */
 	}
 	/**
 	 * {@link AspectJProxyFactory} 代理工厂，用来产生代理对象，继承了ProxyCreatorSupport ,这个 类是代理类的基类，内置了一个DefaultAopProxyFactory类

@@ -119,10 +119,10 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 */
 	private void addAdvisorsFromAspectInstanceFactory(MetadataAwareAspectInstanceFactory instanceFactory) {
 		List<Advisor> advisors = this.aspectFactory.getAdvisors(instanceFactory); // 从我们的aspectJ实体对象中解析我们的advisor，这个MetadataAwareAspectInstanceFactory包含元信息，切面实体对象
-		Class<?> targetClass = getTargetClass();
+		Class<?> targetClass = getTargetClass(); //得到我们的目标类
 		Assert.state(targetClass != null, "Unresolvable target class");
-		advisors = AopUtils.findAdvisorsThatCanApply(advisors, targetClass);
-		AspectJProxyUtils.makeAdvisorChainAspectJCapableIfNecessary(advisors);
+		advisors = AopUtils.findAdvisorsThatCanApply(advisors, targetClass); // 确定我们的目标类是否可以运用解析出来的advisors列表
+		AspectJProxyUtils.makeAdvisorChainAspectJCapableIfNecessary(advisors); // 找出可以使用的advisor列表之后，判断是否需要链，进行在首位添加默认的advisor
 		AnnotationAwareOrderComparator.sort(advisors);
 		addAdvisors(advisors);
 	}
@@ -131,7 +131,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	 * Create an {@link AspectMetadata} instance for the supplied aspect type.
 	 */
 	private AspectMetadata createAspectMetadata(Class<?> aspectClass, String aspectName) {
-		AspectMetadata am = new AspectMetadata(aspectClass, aspectName);
+		AspectMetadata am = new AspectMetadata(aspectClass, aspectName);//交给aspectJ进行处理得到我们的元信息
 		if (!am.getAjType().isAspect()) {
 			throw new IllegalArgumentException("Class [" + aspectClass.getName() + "] is not a valid aspect type");
 		}
@@ -150,7 +150,7 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 		if (am.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 			// Create a shared aspect instance.
 			Object instance = getSingletonAspectInstance(aspectClass); // 通过反射得到我们的Aspect切面类的实体对象
-			instanceFactory = new SingletonMetadataAwareAspectInstanceFactory(instance, aspectName);
+			instanceFactory = new SingletonMetadataAwareAspectInstanceFactory(instance, aspectName); // 这里已经有aspectMetadata参数了，为什么实例化的时候，还要再进行创建呢
 		}
 		else {
 			// Create a factory for independent aspect instances.

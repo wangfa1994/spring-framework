@@ -253,7 +253,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create a new AbstractApplicationContext with no parent.
 	 */
 	public AbstractApplicationContext() {
-		this.resourcePatternResolver = getResourcePatternResolver();
+		this.resourcePatternResolver = getResourcePatternResolver(); // PathMatchingResourcePatternResolver
 	}
 
 	/**
@@ -551,7 +551,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	@Override
-	public void refresh() throws BeansException, IllegalStateException {
+	public void refresh() throws BeansException, IllegalStateException { //先想办法得到我们工厂，对我们的工厂进行默认能力扩展，然后在通过工厂后置处理对我们工厂进行原料准备BeanDefinition，原料准备完成之后，开始准备创建对象的一些特殊工具beanPostProcess后置处理器扩展，扩展好之后，开始利用工厂创建对象
 		synchronized (this.startupShutdownMonitor) {
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
@@ -561,7 +561,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// Tell the subclass to refresh the internal bean factory. 告诉子类刷新内部bean工厂。
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory(); // 从上下文中得到我们的底层容器，开始对我们的底层容器进行扩展 ,xml 和anno属于不同的分支，xml的BD加载在这里完成的
 
-			// 应用上下文中得到底层的容器，然后开始进行一些功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
+			// 应用上下文中得到底层的容器工厂，然后开始进行一些工厂功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
 			// Prepare the bean factory for use in this context. 准备在此上下文中使用的bean工厂。
 			prepareBeanFactory(beanFactory); //主要做了三件事情：添加通用的后置处理器对象，添加非bean，添加内建的bean对象
 			// 需要记住的是，beanFactory才是我们真正的容器
@@ -677,7 +677,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
-		refreshBeanFactory(); // 注解类GenericApplicationContext和资源类AbstractRefreshableApplicationContext的会走到不同的分支中去
+		refreshBeanFactory(); //两个实现 注解类GenericApplicationContext和资源类AbstractRefreshableApplicationContext的会走到不同的分支中去
 		return getBeanFactory();
 	}
 
@@ -754,7 +754,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors()); //开始实力化我们的BeanFactoryPostProcessors
+		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors()); //开始实例化我们的BeanFactoryPostProcessors
 		//为什么首先要实例化并调用 BeanFactory的后置处理器，主要是通过这个beanFactory的后置处理器来处理我们的一些配置相关信息，解析出来我们容器中的beanDefinition,不然我们的beanDefinition从哪里来呢？
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)

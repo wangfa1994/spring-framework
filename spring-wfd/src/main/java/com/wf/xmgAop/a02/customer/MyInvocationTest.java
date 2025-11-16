@@ -11,6 +11,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+// 使用责任链进行多层的代理
 public class MyInvocationTest {
 
 	public static void main(String[] args) {

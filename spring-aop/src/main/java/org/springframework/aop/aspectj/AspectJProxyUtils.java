@@ -56,7 +56,7 @@ public abstract class AspectJProxyUtils {
 					break;
 				}
 			}
-			if (foundAspectJAdvice && !advisors.contains(ExposeInvocationInterceptor.ADVISOR)) {
+			if (foundAspectJAdvice && !advisors.contains(ExposeInvocationInterceptor.ADVISOR)) { //如果需要的话，会在第一位进行添加一个默认的链DefaultPointcutAdvisor
 				advisors.add(0, ExposeInvocationInterceptor.ADVISOR);
 				return true;
 			}

@@ -256,7 +256,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Eagerly check singleton cache for manually registered singletons. 先从我们的单例池中获取对应的实例，看看是否是已经生成了
 		Object sharedInstance = getSingleton(beanName); // 从单例Bean的注册中心中看看是否可以获得bean， getSingleton 属于SingletonBeanRegistry体系中的方法，如果是循环依赖，这里会进行三级缓存进二级缓存
 		if (sharedInstance != null && args == null) { // 如果从依赖的缓存中拿出来对象了，在循环依赖的时候会进入到这里处理，在处理FactoryBean的时候也是到这里 // 这里就可以理解为ObjectFactory 和 FactoryBean的逻辑
-			if (logger.isTraceEnabled()) {
+			if (logger.isTraceEnabled()) { //sharedInstance得到的对象可能不是我们想要的对象，因为ObjectFactory与FactoryBean对象也会放在实例池中，但是我们可能得到的是原对象
 				if (isSingletonCurrentlyInCreation(beanName)) {
 					logger.trace("Returning eagerly cached instance of singleton bean '" + beanName +
 							"' that is not fully initialized yet - a consequence of a circular reference");
@@ -395,7 +395,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				beanCreation.end();
 			}
 		}
-
+		// 经过上面的处理判断是否是factoryBean对象，得到我们真正想要的的实例对象
 		return adaptBeanInstance(name, beanInstance, requiredType); //适配未完全实例化的对象
 	}
 

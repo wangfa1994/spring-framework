@@ -111,7 +111,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @see #registerBeanDefinition
 	 * @see #refresh
 	 */
-	public GenericApplicationContext() {
+	public GenericApplicationContext() { //SimpleAliasRegistry-->DefaultSingletonBeanRegistry-->FactoryBeanRegistrySupport-->AbstractBeanFactory-->AbstractAutowireCapableBeanFactory-->DefaultListableBeanFactory
 		this.beanFactory = new DefaultListableBeanFactory(); // DefaultListableBeanFactory是属于BeanFactory的体系结构
 	}
 

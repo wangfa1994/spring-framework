@@ -146,7 +146,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	private final Set<Class<?>> ignoredDependencyTypes = new HashSet<>();
 
-	/** 在依赖检查和自动装配时忽略的依赖接口，作为类对象的集合。默认情况下，只忽略BeanFactory接口
+	/** 在依赖检查和自动装配时忽略的依赖接口，作为类对象的集合。默认情况下，只忽略BeanFactory接口,设置了三个接口
 	 * Dependency interfaces to ignore on dependency check and autowire, as Set of
 	 * Class objects. By default, only the BeanFactory interface is ignored.
 	 */
@@ -1131,7 +1131,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			// Make sure bean class is actually resolved at this point.
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd); // 确定返回的目标类型的Class对象
-				if (targetType != null) {
+				if (targetType != null) { //
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName); // 开始执行我们的实例化前的相关周期方法，如果开启了aop，创建的是aspec切面类的话，会在这里解析我们的通知
 					if (bean != null) { // 如果我们自定义了我们的实例化对象，则会接着处理了我们的 初始化 之后的方法(注意此时是初始化 Initialization ,为什么直接调用这个，因为这里有代理类的逻辑)
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName); //
@@ -1427,8 +1427,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (pvs == null) {
 				pvs = mbd.getPropertyValues();
 			}
-			for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
-				PropertyValues pvsToUse = bp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName); //依赖属性处理 填充属性前进行计算属性，通过相关回调，我们可以重置修改相关属性值,autowire就是在这通过后置处理器完成的依赖
+			for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {// autowire就是在这通过后置处理器完成的依赖
+				PropertyValues pvsToUse = bp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName); //依赖属性处理 填充属性前进行计算属性，通过相关回调，我们可以重置修改相关属性值,
 				if (pvsToUse == null) {
 					if (filteredPds == null) {
 						filteredPds = filterPropertyDescriptorsForDependencyCheck(bw, mbd.allowCaching);

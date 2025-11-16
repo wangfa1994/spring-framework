@@ -81,7 +81,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
-	/**
+	/** DefaultResourceLoader -->AbstractApplicationContext -->GenericApplicationContext -->AnnotationConfigApplicationContext
 	 * Create a new AnnotationConfigApplicationContext, deriving bean definitions
 	 * from the given component classes and automatically refreshing the context.
 	 * @param componentClasses one or more component classes &mdash; for example,
@@ -165,7 +165,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		Assert.notEmpty(componentClasses, "At least one component class must be specified");
 		StartupStep registerComponentClass = getApplicationStartup().start("spring.context.component-classes.register")
 				.tag("classes", () -> Arrays.toString(componentClasses));
-		this.reader.register(componentClasses); // 利用AnnotatedBeanDefinitionReader进行注册我们的类，变成BeanDefinition,设置到容器中
+		this.reader.register(componentClasses); // 利用AnnotatedBeanDefinitionReader进行注册我们的类，变成BeanDefinition,设置到容器中，住进行了配置类的处理，没有处理配置类中的具体信息
 		registerComponentClass.end();
 	}
 

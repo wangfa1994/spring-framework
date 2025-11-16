@@ -175,7 +175,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** List of bean definition names, in registration order. 按注册顺序排列的bean定义名称列表。 */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
-	/** List of names of manually registered singletons, in registration order. */
+	/** List of names of manually registered singletons, in registration order. 手动注册的单例名称列表，按注册顺序排列 */
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<>(16);
 
 	/** Cached array of bean definition names in case of frozen configuration. */
@@ -932,7 +932,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
-				if (isFactoryBean(beanName)) { //FactoryBean的逻辑，然后 会进行&符号的添加
+				if (isFactoryBean(beanName)) { //FactoryBean的逻辑，然后 会进行&符号的添加，如果是factorBean的走FactoryBean
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
 						FactoryBean<?> factory = (FactoryBean<?>) bean;
@@ -951,7 +951,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						}
 					}
 				}
-				else {
+				else { // 不是FactoryBean,当作普通对象进行处理
 					getBean(beanName);
 				}
 			}
@@ -1557,7 +1557,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		String[] candidateNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors( // 如果是FactoryBean中的对象，会返回我们的FactoryBean的名称
 				this, requiredType, true, descriptor.isEager());// 查找所有符合的候选名称，如果是层次性的，也需要进行处理，这个会好到我们对应类型所匹配的所有name
 		Map<String, Object> result = CollectionUtils.newLinkedHashMap(candidateNames.length);
-		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) { //1首先先进行我们内置的非bean的匹配， resolvableDependencies中的值来自我们的上下文的扩展设置。AbstractApplicationContext.prepareBeanFactory方法设置
+		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) { //1首先先进行我们内置的非bean的匹配， resolvableDependencies中的值来自我们的上下文中针对工厂的扩展设置。AbstractApplicationContext.prepareBeanFactory方法设置
 			Class<?> autowiringType = classObjectEntry.getKey();
 			if (autowiringType.isAssignableFrom(requiredType)) {
 				Object autowiringValue = classObjectEntry.getValue();

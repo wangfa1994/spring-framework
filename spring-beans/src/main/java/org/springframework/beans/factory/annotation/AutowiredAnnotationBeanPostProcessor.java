@@ -147,7 +147,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	private int order = Ordered.LOWEST_PRECEDENCE - 2;
 
 	@Nullable
-	private ConfigurableListableBeanFactory beanFactory;
+	private ConfigurableListableBeanFactory beanFactory; // 这个是我们的 DefaultListableBeanFactory
 
 	@Nullable
 	private MetadataReaderFactory metadataReaderFactory;
@@ -459,7 +459,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 					if (metadata != null) {
 						metadata.clear(pvs);
 					}
-					metadata = buildAutowiringMetadata(clazz); // 开始构建我们的autowire的元信息
+					metadata = buildAutowiringMetadata(clazz); // 开始构建我们的autowire，value 的元信息，
 					this.injectionMetadataCache.put(cacheKey, metadata); // 将我们的bean名称和解析出来的注解元信息InjectionMetadata进行保存
 				}
 			}
