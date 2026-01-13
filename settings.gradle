@@ -57,4 +57,5 @@ settings.gradle.projectsLoaded {
 	}
 }
 include 'spring-wfd'
+include 'spring-wfd-web'
 

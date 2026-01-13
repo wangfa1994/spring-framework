@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+application {
+    mainClassName = 'com.wf.SpringMvcDebugApplication'
+}
+
+group = 'com.wf'
+version = '5.3.39-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    // 引入Spring源码中的模块
+    implementation project(':spring-webmvc')
+    implementation project(':spring-context')
+    implementation project(':spring-web')
+    implementation project(':spring-core')
+
+    // Servlet API
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    // 内嵌Tomcat
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.50'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.50'
+
+
+    // https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging
+    implementation "org.jboss.logging:jboss-logging:3.6.1.Final"
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation "org.slf4j:slf4j-api:1.7.29"
+}
+
+test {
+    useJUnitPlatform()
+}

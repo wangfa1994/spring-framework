@@ -6,7 +6,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableCaching
-@EnableWebMvc
+@EnableWebMvc // 需要引入web相关jar
 @EnableAspectJAutoProxy
 public class EnableMvcDemo {
 
