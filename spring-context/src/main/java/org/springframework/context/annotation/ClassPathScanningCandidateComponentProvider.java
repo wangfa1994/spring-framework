@@ -95,7 +95,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private String resourcePattern = DEFAULT_RESOURCE_PATTERN;
-	// 包含我们要处理的类型
+	// 包含我们要处理的类型,可以通过方法添加我们自定义的注解类型 addIncludeFilter方法
 	private final List<TypeFilter> includeFilters = new ArrayList<>();
 
 	private final List<TypeFilter> excludeFilters = new ArrayList<>();
@@ -419,16 +419,16 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
 		try {	// 开始处理我们的类路径
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
-					resolveBasePackage(basePackage) + '/' + this.resourcePattern;
-			Resource[] resources = getResourcePatternResolver().getResources(packageSearchPath); // 将我们类路径下的class变成资源
+					resolveBasePackage(basePackage) + '/' + this.resourcePattern; // 将字符串的包路径转化为ClassLoad类资源(.class)可以处理的搜索路径
+			Resource[] resources = getResourcePatternResolver().getResources(packageSearchPath); // 将我们类路径下的class变成资源 通过 PathMatchingResourcePatternResolver
 			boolean traceEnabled = logger.isTraceEnabled();
 			boolean debugEnabled = logger.isDebugEnabled();
 			for (Resource resource : resources) {
 				if (traceEnabled) {
 					logger.trace("Scanning " + resource);
 				}
-				try {
-					MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(resource);
+				try { // MetadataReader 可以获取类和注解的元信息的方法
+					MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(resource); // 通过MetadataReaderFactory得到MetadataReader，
 					if (isCandidateComponent(metadataReader)) {
 						ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(metadataReader);
 						sbd.setSource(resource);

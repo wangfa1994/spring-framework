@@ -1,4 +1,4 @@
-package com.wf.model.condition;
+package com.wf.model.condition.first;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,4 +20,14 @@ public class ConditionTest {
 		String bean = applicationContext.getBean("helloWorld",String.class);
 		System.out.println(bean);
 	}
+
+	/*
+	* spring 的条件装配
+	* 从 Spring Framework 3.1 开始，允许在 Bean 装配时增加前置条件判断
+	*
+	*
+	* Condition的过滤处理在BeanDefinition阶段进行处理的，如果不符合的话，直接就不产生对应的BeanDefinition了
+	*
+	*
+	* */
 }

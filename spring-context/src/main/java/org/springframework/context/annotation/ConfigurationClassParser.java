@@ -189,7 +189,7 @@ class ConfigurationClassParser {
 			}
 		}
 
-		this.deferredImportSelectorHandler.process();
+		this.deferredImportSelectorHandler.process(); // 进行处理DeferredImportSelectors的相关Import接口
 	}
 
 	protected final void parse(@Nullable String className, String beanName) throws IOException {

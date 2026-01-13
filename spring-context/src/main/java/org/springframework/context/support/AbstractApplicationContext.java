@@ -571,7 +571,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
-				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器BeanFactory的一些处理器的处理，因为我们实例化对象主要依赖beanDefinition，这里我们就要提前通过beanFactory进行处理配置，得到我们的beanDefinition ，configurationClassPostProcessor
+				invokeBeanFactoryPostProcessors(beanFactory); // 针对于我们容器BeanFactory的一些处理器的处理，会在这里处理我们所有的对象变成BD,因为我们实例化对象主要依赖beanDefinition，这里我们就要提前通过beanFactory进行处理配置，得到我们的beanDefinition ，configurationClassPostProcessor
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory); // 针对于我们容器中的bean的处理器的处理 先实例化处理Bean实例的beanPostprocess吧，毕竟下面开始实力化我们的对象了
 				beanPostProcess.end(); // 这里不管处理的是我们的BeanFactoryPostProcessors还是处理我们的BeanPostProcessors,都是利用了容器的getBean进行实例化，然后调用对应的方法

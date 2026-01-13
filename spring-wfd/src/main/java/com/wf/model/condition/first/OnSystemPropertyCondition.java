@@ -1,4 +1,4 @@
-package com.wf.model.condition;
+package com.wf.model.condition.first;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -25,7 +25,8 @@ public class OnSystemPropertyCondition implements Condition {
 
         String javaPropertyValue = System.getProperty(propertyName);
 		System.out.println(javaPropertyValue);
-
-        return propertyValue.equals(javaPropertyValue);
+		boolean equals = propertyValue.equals(javaPropertyValue);
+		//return equals;
+		return false;
     }
 }

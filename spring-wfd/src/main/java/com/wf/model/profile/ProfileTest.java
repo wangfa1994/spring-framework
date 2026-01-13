@@ -3,9 +3,16 @@ package com.wf.model.profile;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.AbstractEnvironment;
 
 @ComponentScan("com.wf.model.profile")
 public class ProfileTest {
+
+	static {
+
+		//System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME,"Java7");
+
+	}
 
 	/* Profile 条件装配 ，3.1引入， 后来4.0进行重写实现，变成了  @Conditional(ProfileCondition.class)  */
 	public static void main(String[] args) {
@@ -17,4 +24,9 @@ public class ProfileTest {
 		CalculateService bean = applicationContext.getBean(CalculateService.class);
 		System.out.println(bean.sum(1,2,3,4,5));
 	}
+
+	/*
+	*  ConfigurableEnvironment API 编码进行 环境配置
+	*
+	* */
 }
