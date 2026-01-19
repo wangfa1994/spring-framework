@@ -11,7 +11,7 @@ import java.util.Arrays;
 //02 我们怎么从资源中进行获取我们的BeanDefinition
 public class BeanDefinitionReaderTest {
 	/**
-	 *  BeanDefinitionReade体系 用于获取资源中对应的BeanDefinition信息
+	 *  BeanDefinitionReade 体系 用于获取资源中对应的BeanDefinition信息
 	 *  具体的bean定义读取器当然可以为bean定义添加额外的加载和注册方法，具体到它们的bean定义格式
 	 *  AbstractBeanDefinitionReader 抽象类，实现了 BeanDefinitionReader接口， 并内置了一个BeanNameGenerator，用于生产bean名称
 	 *  三个实现类,用于从不同的资源中读取beanDefinition

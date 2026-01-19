@@ -152,7 +152,7 @@ public abstract class AnnotationConfigUtils {
 		if (beanFactory != null) {
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
-			}
+			}  // 如果我们的autowireCandidateResolver 自动绑定候选对象处理器不是ContextAnnotationAutowireCandidateResolver的话，进行替换，一定会替换的
 			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
 				beanFactory.setAutowireCandidateResolver(new ContextAnnotationAutowireCandidateResolver());
 			}

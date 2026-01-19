@@ -154,7 +154,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private Comparator<Object> dependencyComparator;
 
-	/** Resolver to use for checking if a bean definition is an autowire candidate. 用于检查bean定义是否为自动候选的解析器?? 处理依赖的解析器 */
+	/** Resolver to use for checking if a bean definition is an autowire candidate. 用于检查bean定义是否为自动候选的解析器?? 处理依赖的解析器  自定绑定候选对象处理器 */
 	private AutowireCandidateResolver autowireCandidateResolver = SimpleAutowireCandidateResolver.INSTANCE;
 
 	/** Map from dependency type to corresponding autowired value. 从依赖类型映射到相应的自动连接值 spring的依赖注入来源之一,在解决依赖的时候进行使用 */
@@ -1304,7 +1304,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
 			return new Jsr330Factory().createDependencyProvider(descriptor, requestingBeanName);
 		}
-		else { // SimpleAutowireCandidateResolver 这个是干啥的
+		else { //   自定绑定候选对象处理器 ，如果标注了Lazy会返回一个代理对象
 			Object result = getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary(
 					descriptor, requestingBeanName); //处理标记了@Lazy注解的依赖，为什么要出去一个代理对象呢？
 			if (result == null) { //开始真正处理解决依赖

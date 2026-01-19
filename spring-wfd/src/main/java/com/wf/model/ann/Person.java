@@ -35,11 +35,11 @@ public class Person {
     }
 
 
-    public void setCat(Cat cat) {
+ /*   public void setCat(Cat cat) {
 		System.out.println("person 标记了autowired的set属性方法");
 		this.cat = cat;
     }
-
+*/
     public String getName() {
         return name;
     }

@@ -17,18 +17,21 @@
 		<property name="name" value="xmg"/>
 		<property name="age" value="17"/>
 	</bean>
-	<bean id="teacher" class="com.wf.xmg.a05whatIsAutowiring.Teacher">
+
+<!--	<bean id="teacher" class="com.wf.xmg.a05whatIsAutowiring.Teacher">
 		<property name="name" value="xmg"/>
 		<property name="student" ref="student"/>
-	</bean>
+	</bean>-->
 
-	<!-- 为什么没有依赖到name呢-->
+	<!-- 为什么没有依赖到name呢  BeanDefinition中的autowireModel = 2 -->
 	<bean id="teacher1" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byType" >
 	</bean>
-	<!-- 为什么没有依赖到name呢-->
+
+	<!-- 为什么没有依赖到name呢  BeanDefinition中的autowireModel = 1 -->
 	<bean id="teacher2" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byName" >
 	</bean>
-	<!-- 为什么依赖到name了呢-->
+
+	<!-- 为什么依赖到name了呢 BeanDefinition中的autowireModel = 1 -->
 	<bean id="teacher3" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="constructor" >
 	</bean>
 </beans>

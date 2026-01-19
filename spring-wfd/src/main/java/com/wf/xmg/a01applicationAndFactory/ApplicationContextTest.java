@@ -28,7 +28,7 @@ public class ApplicationContextTest {
 		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext();
 
 		/**
-		 * BeanFactory接口与ApplicationContext接口
+		 * BeanFactory 接口与ApplicationContext接口
 		 *
 		 * BeanFactory是Spring IoC容器的最基本实现。它主要负责管理bean的生命周期，依赖注入，bean的实例化和配置等相关功能。提供了一些基本功能
 		 * 相对比较简单。它使用懒加载的机制，只有在请求的时候getBean才会进行实例化我们的Bean。

@@ -1402,10 +1402,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				}
 			}
 		}
-		// 开始填充属性 从beanDefinition中获取到我们对应的属性值，填充属性的值都是来自于PropertyValues包装，我们是否可以直接向里面设置值呢？
+		// 开始填充属性 从beanDefinition中获取到我们对应的属性值，填充属性的值都是来自于PropertyValues包装，我们是否可以直接向里面设置值呢？这个是针对xml的配置处理
 		PropertyValues pvs = (mbd.hasPropertyValues() ? mbd.getPropertyValues() : null);
 		// 根据不同的自动依赖注入模式匹配到不同的模式中，但是在不同的模式中，会调用不同的方式，byName直接使用getBean,byType直接使用resolveDependence
-		int resolvedAutowireMode = mbd.getResolvedAutowireMode();
+		int resolvedAutowireMode = mbd.getResolvedAutowireMode(); //XML中配置autowire属性的逻辑
 		if (resolvedAutowireMode == AUTOWIRE_BY_NAME || resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
 			MutablePropertyValues newPvs = new MutablePropertyValues(pvs);
 			// Add property values based on autowire by name if applicable.
@@ -1552,7 +1552,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		PropertyDescriptor[] pds = bw.getPropertyDescriptors();
 		for (PropertyDescriptor pd : pds) { //存在写方法，不存在排除属性，不是自己本身，不是简单的基本类型，就要添加到result中，进行属性的处理
 			if (pd.getWriteMethod() != null && !isExcludedFromDependencyCheck(pd) && !pvs.contains(pd.getName()) &&
-					!BeanUtils.isSimpleProperty(pd.getPropertyType())) { // isSimpleProperty判断是否是基本类型
+					!BeanUtils.isSimpleProperty(pd.getPropertyType())) { // isSimpleProperty判断是否是基本类型，基本类型xml模式下无法自动依赖
 				result.add(pd.getName()); // 匹配住要进行依赖处理的属性值。
 			}
 		}
@@ -1661,7 +1661,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		MutablePropertyValues mpvs = null;
 		List<PropertyValue> original;
-
+		// XML配置中存在属性，开始进行处理XML配置的属性
 		if (pvs instanceof MutablePropertyValues) {
 			mpvs = (MutablePropertyValues) pvs;
 			if (mpvs.isConverted()) {
@@ -1695,8 +1695,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				deepCopy.add(pv);
 			}
 			else {
-				String propertyName = pv.getName();
-				Object originalValue = pv.getValue();
+				String propertyName = pv.getName();  //PropertyValue 中的名称
+				Object originalValue = pv.getValue();  //PropertyValue 中的Value值，我们配置的
 				if (originalValue == AutowiredPropertyMarker.INSTANCE) {
 					Method writeMethod = bw.getPropertyDescriptor(propertyName).getWriteMethod();
 					if (writeMethod == null) {

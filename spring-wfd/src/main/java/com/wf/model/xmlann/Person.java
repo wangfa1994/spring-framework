@@ -1,5 +1,6 @@
 package com.wf.model.xmlann;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ public class Person {
     private String name;
 
 
+	@Autowired
     private Cat cat;
 
 

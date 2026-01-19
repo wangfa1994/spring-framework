@@ -563,7 +563,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			// 应用上下文中得到底层的容器工厂，然后开始进行一些工厂功能扩展，添加一些后置处理器实例对象，添加一些内建的bean对象，添加一些非bean的内置对象
 			// Prepare the bean factory for use in this context. 准备在此上下文中使用的bean工厂。
-			prepareBeanFactory(beanFactory); //主要做了三件事情：添加通用的后置处理器对象，添加非bean，添加内建的bean对象
+			prepareBeanFactory(beanFactory); //主要做了三件事情：添加通用的工厂后置处理器对象，添加非bean，添加内建的bean对象
 			// 需要记住的是，beanFactory才是我们真正的容器
 			try {
 				// Allows post-processing of the bean factory in context subclasses. 允许在上下文子类中对bean工厂进行后处理。空实现
@@ -640,7 +640,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Initialize any placeholder property sources in the context environment. 初始化上下文环境中的任何占位符属性源。
-		initPropertySources();
+		initPropertySources(); //web容器中有一些动作
 
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
@@ -913,7 +913,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no BeanFactoryPostProcessor
 		// (such as a PropertySourcesPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
-		if (!beanFactory.hasEmbeddedValueResolver()) { // 如果没有BeanFactoryPostProcessor，注册一个默认的嵌入值解析器,在进行value的处理时会进行使用
+		if (!beanFactory.hasEmbeddedValueResolver()) { // 如果没有BeanFactoryPostProcessor，注册一个默认的嵌入值解析器,在进行@value注解的处理时会进行使用,xml模式下也会注入
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}
 
@@ -926,7 +926,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Stop using the temporary ClassLoader for type matching.
 		beanFactory.setTempClassLoader(null);
 
-		// Allow for caching all bean definition metadata, not expecting further changes.
+		// Allow for caching all bean definition metadata, not expecting further changes. 允许缓存所有bean定义元数据，不期望进一步更改。
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons. 实例化所有剩余的(非lazy-init)单例。

@@ -18,7 +18,7 @@ public class BeanFactoryCategoryTest {
 	/**
 	 *
 	 *
-	 * BeanFactory接口 是我们的工厂类，是容器的根接口，里面定义了获取bean的一些方法
+	 * BeanFactory 接口 是我们的工厂类，是容器的根接口，里面定义了获取bean的一些方法
 	 *
 	 * BeanFactory只是定义了一些获取bean的方法，可是这些bean的是在哪里呢？
 	 * 获取bean的方法是从哪里得到我们的bean呢？这些bean是怎么注册和存储的呢？这就是另外一个体系 SingletonBeanRegistry

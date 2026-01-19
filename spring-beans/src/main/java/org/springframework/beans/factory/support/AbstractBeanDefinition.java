@@ -148,7 +148,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	@Nullable
 	private Boolean lazyInit;
-
+	// XML模式下的自动注入类型，<bean id="teacher2" class="com.wf.xmg.a05whatIsAutowiring.Teacher" autowire="byName" />
 	private int autowireMode = AUTOWIRE_NO;
 
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;

@@ -24,7 +24,7 @@
 
 
 
-	<bean id="myBeanPostProcessor"
+	<!--<bean id="myBeanPostProcessor"
 		  class="com.wf.postprocess.bean.MyBeanPostProcessor"/>
 
 	<bean id="myInstantiationAwareBeanPostProcessor"
@@ -33,8 +33,8 @@
 	<bean id="myMergedBeanDefinitionPostProcessor"
 		  class="com.wf.postprocess.bean.MyMergedBeanDefinitionPostProcessor"/>
 
-	<!-- SmartInstantiationAwareBeanPostProcessor 内部专用接口 -->
+	&lt;!&ndash; SmartInstantiationAwareBeanPostProcessor 内部专用接口 &ndash;&gt;
 	<bean id="mySmartInstantiationAwareBeanPostProcessor"
-		  class="com.wf.postprocess.bean.MySmartInstantiationAwareBeanPostProcessor"/>
+		  class="com.wf.postprocess.bean.MySmartInstantiationAwareBeanPostProcessor"/>-->
 
 </beans>

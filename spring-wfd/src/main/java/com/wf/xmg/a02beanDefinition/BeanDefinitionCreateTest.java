@@ -15,7 +15,7 @@ public class BeanDefinitionCreateTest {
 	*  BeanDefinition: bean的定义信息，我们要实例化的对象，会被解析成对应的BeanDefinition进行存储，然后通过beanDefinition进行实例化
 	 *  BeanDefinition 继承了AttributeAccessor，属性访问器用来访问相关属性
 	 *
-	 * BeanDefinition主要包括三类: RootBeanDefinition,ChildBeanDefinition,GenericBeanDefinition .
+	 * BeanDefinition 主要包括三类: RootBeanDefinition,ChildBeanDefinition,GenericBeanDefinition .
 	 * ChildBeanDefinition和GenericBeanDefinition都可以根据需要转换成RootBeanDefinition，以便于统一处理和注册到BeanFactory中
 	 * 	1.RootBeanDefinition
 	 * 		 * 是最完整的Bean定义类型，它可以包含关于一个Bean的所有必要信息，包括构造器参数、属性值、依赖关系、初始化方法、销毁方法等。它是定义顶级Bean的主要方式

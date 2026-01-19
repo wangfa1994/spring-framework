@@ -260,7 +260,7 @@ public class AnnotatedBeanDefinitionReader {
 		abd.setScope(scopeMetadata.getScopeName());
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));//在注册bean的时候如果没有给定name,则利用Name生成器生成beanName
 
-		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd); //产生了对应的BeanDefinition之后，进行解析通用定义注释的处理
+		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd); //产生了对应的BeanDefinition之后，进行解析通用定义注释的处理设置到BD中 lazy,DependsOn,Primary,Role,Description
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {

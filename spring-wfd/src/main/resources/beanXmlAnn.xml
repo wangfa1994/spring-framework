@@ -10,7 +10,10 @@
 
     <!--<context:component-scan base-package="com.wf.model.xmlann.ann"/>-->
 
+	<context:annotation-config/>
+
 	<bean id="person" class="com.wf.model.xmlann.Person"/>
+
 	<bean id="cat" class="com.wf.model.xmlann.Cat">
 		<property name="category" value="jiafei"/>
 	</bean>

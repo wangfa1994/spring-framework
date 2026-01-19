@@ -25,9 +25,9 @@ public class TestController {
 		return "断点调试入口";
 	}
 
-	@GetMapping("/index")
-	public String index() {
-		return "index";
+	@GetMapping("/home")
+	public String home() {
+		return "home";
 	}
 
 

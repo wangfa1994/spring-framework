@@ -1,11 +1,13 @@
 package com.wf.model.ann;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.core.env.Environment;
 
 /**
  * @Desc : 简单的上下文ApplicationContext的使用
@@ -28,7 +30,10 @@ public class ApplicationContextAnnTest {
 		Cat cat1 = person.getCat();
 		System.out.println(cat1);
 
-    }
+		MessageSource bean = (MessageSource)annotationConfigApplicationContext.getBean("messageSource");
+		System.out.println("MessageSource====="+bean);
+
+	}
 
 	/**存在的体系
 	 * {@link BeanDefinition }体系:三种类型的BeanDefinition

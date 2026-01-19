@@ -28,10 +28,10 @@ public class LazySourceTest {
 
 	public static void main(String[] args) {
 
-		 //lazy();
+		 lazy();
 
 		//proxy();
-		customerProxyFactory();
+		//customerProxyFactory();
 
 	}
 
