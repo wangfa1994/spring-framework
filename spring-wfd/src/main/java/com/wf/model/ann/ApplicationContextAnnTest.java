@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.core.env.Environment;
  * @Date: 2022/7/20 10:41
  */
 @ComponentScan(basePackages = {"com.wf.model.ann"})
+@Configuration
 public class ApplicationContextAnnTest {
 
     public static void main(String[] args) throws UnsupportedEncodingException {

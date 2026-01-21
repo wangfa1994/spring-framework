@@ -99,7 +99,7 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered. 首先调用实现了PriorityOrdered的处理器 BeanDefinitionRegistryPostProcessors 这个继承了BeanFactoryPostProcessor
-			String[] postProcessorNames =
+			String[] postProcessorNames = //第一次的话永远只有一个 ConfigurationClassPostProcessor 进行实例化，然后回调，这个只要是解析我们的配置类，产生所有的BD
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false); // ConfigurationClassPostProcessor
 			for (String ppName : postProcessorNames) {
 				if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {//如果匹配的话，通过getBean进行依赖查找获取(实例化)
@@ -112,9 +112,9 @@ final class PostProcessorRegistrationDelegate {
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());// 开始执行我们刚刚创建的对象的回调方法，大概率只有一个ConfigurationClassPostProcessor
 			currentRegistryProcessors.clear();
 
-			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered. 接下来，调用实现Ordered的BeanDefinitionRegistryPostProcessors。
+			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered. 经过ConfigurationClassPostProcessor处理，容器中的BD已经处理好，接下来，调用实现Ordered的BeanDefinitionRegistryPostProcessors。
 			postProcessorNames = beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
-			for (String ppName : postProcessorNames) {
+			for (String ppName : postProcessorNames) { // 再次处理的是，解析出来的 BeanFactoryPostProcessor
 				if (!processedBeans.contains(ppName) && beanFactory.isTypeMatch(ppName, Ordered.class)) {
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
 					processedBeans.add(ppName);

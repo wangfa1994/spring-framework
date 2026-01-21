@@ -42,10 +42,10 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 public class PropertyValue extends BeanMetadataAttributeAccessor implements Serializable {
 
-	private final String name;
+	private final String name; // 属性的名称
 
 	@Nullable
-	private final Object value;
+	private final Object value; // 属性的值，常量会被处理成 TypedStringValue，引用ref的值会被处理成 RuntimeBeanReference
 
 	private boolean optional = false;
 

@@ -1,6 +1,7 @@
 package com.wf.model.imports.commonBean;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.Import;
 * @Author : Mr.WangF
 **/
 
-@Import(CommonBean.class)
+@ComponentScan("com.wf.model.imports.commonBean")
 public class ApplicationContextCommonBeanTest {
 
 	public static void main(String[] args) {
@@ -20,6 +21,10 @@ public class ApplicationContextCommonBeanTest {
 
 		AnotherBean bean1 = annotationConfigApplicationContext.getBean(AnotherBean.class);
 		System.out.println(bean1);
+
+		ImportDelegateBean bean2 = annotationConfigApplicationContext.getBean(ImportDelegateBean.class);
+		System.out.println(bean2);
+
 	}
 	/**
 	 *  ApplicationContext上下文，会帮我们注入我们的ConfigurationClassPostProcessor的后置处理器，实现了BeanDefinitionRegistryPostProcessor和 BeanFactoryPostProcessor接口，

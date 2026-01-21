@@ -931,7 +931,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// Trigger initialization of all non-lazy singleton beans... 触发所有非惰性单例bean的初始化…
 		for (String beanName : beanNames) {
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
-			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) { // 类上面标注了lazy 直接不进行创建
 				if (isFactoryBean(beanName)) { //FactoryBean的逻辑，然后 会进行&符号的添加，如果是factorBean的走FactoryBean
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
@@ -1325,9 +1325,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				return shortcut;
 			}
 
-			Class<?> type = descriptor.getDependencyType();// 获取到依赖的类型,这里使用了Java的基本类
-			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);// 确定是否有给出建议值 @Value这里会解析出表达式
-			if (value != null) {
+			Class<?> type = descriptor.getDependencyType();// 获取到依赖的类型,这里使用了Java的基本类, getAutowireCandidateResolver方法进行解析器的得到，会存在不同的实现
+			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);//getSuggestedValue是父类的实现  确定是否有给出建议值 @Value这里会解析出表达式
+			if (value != null) { // 如果得到了@Value的解析表达式，就通过解析表达式从环境中获取值
 				if (value instanceof String) {
 					String strVal = resolveEmbeddedValue((String) value); // 将表达式配置进行处理，从environment环境中获得到真正的值
 					BeanDefinition bd = (beanName != null && containsBean(beanName) ?
@@ -1345,7 +1345,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							converter.convertIfNecessary(value, type, descriptor.getMethodParameter()));
 				}
 			}
-			// 解析处理多bean 判断是不是集合类型的，进行集合类型的依赖处理
+			// 解析处理多bean 判断是不是集合类型的，进行集合类型的依赖处理 集合类型的处理
 			Object multipleBeans = resolveMultipleBeans(descriptor, beanName, autowiredBeanNames, typeConverter);
 			if (multipleBeans != null) {
 				return multipleBeans;
@@ -1467,7 +1467,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (autowiredBeanNames != null) {
 				autowiredBeanNames.addAll(matchingBeans.keySet());
 			}
-			TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter());
+			TypeConverter converter = (typeConverter != null ? typeConverter : getTypeConverter()); // 得到对应的注入对象之后，判断是否需要类型转换器进行转换下类型
 			Object result = converter.convertIfNecessary(matchingBeans.values(), type);
 			if (result instanceof List) {
 				if (((List<?>) result).size() > 1) {
@@ -1568,9 +1568,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 		}
-		for (String candidate : candidateNames) { // 2其次进行我们匹配出来的类型名称进行匹配
+		for (String candidate : candidateNames) { // 2其次进行我们匹配出来的类型名称进行匹配 qualifier也是在此处进行判断过滤  isAutowireCandidate进行了qualifier的判断
 			if (!isSelfReference(beanName, candidate) && isAutowireCandidate(candidate, descriptor)) { // 判断是否是自引用 和 beanName是否允许autowire
-				addCandidateEntry(result, candidate, descriptor, requiredType); // 解析处理我们的beanName，得到beanClass,放入到了result中
+				addCandidateEntry(result, candidate, descriptor, requiredType); // 如果匹配的话，进行获得对应的实例对象，放入到result中
 			}
 		}
 		if (result.isEmpty()) {

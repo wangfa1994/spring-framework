@@ -27,7 +27,7 @@ public class ExtensibleXmlAuthoringDemo {
 
 	/*
 	*
-	*
+	* https://docs.spring.io/spring/reference/core/appendix/xml-custom.html
 	* 1. spring.handlers 文件描述 指定我的命名空间使用那个类进行引导解析
 	*
 	* 2.spring.schemas 是一个映射表，告诉Spring："当XML中引用某个XSD文件时，实际应该去哪里找这个文件"

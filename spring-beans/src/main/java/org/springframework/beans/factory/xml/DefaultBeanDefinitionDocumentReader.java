@@ -80,7 +80,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	@Nullable
 	private XmlReaderContext readerContext;
 
-	@Nullable
+	@Nullable // 将document的解析委派给 BeanDefinitionParserDelegate 进行解析
 	private BeanDefinitionParserDelegate delegate;
 
 

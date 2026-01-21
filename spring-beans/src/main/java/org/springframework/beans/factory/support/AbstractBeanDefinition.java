@@ -159,7 +159,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	private boolean autowireCandidate = true;
 
 	private boolean primary = false;
-
+	// Bean 的 qualifier 子标签的 存储，会被封装成 AutowireCandidateQualifier
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable // 创建对象过程中的判断
@@ -178,7 +178,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
 
-	@Nullable // 依赖之间的属性值
+	@Nullable // xml 解析的Bean的property属性值被封装的对象
 	private MutablePropertyValues propertyValues;
 	//
 	private MethodOverrides methodOverrides = new MethodOverrides();

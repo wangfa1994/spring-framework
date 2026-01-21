@@ -513,17 +513,17 @@ public class BeanDefinitionParserDelegate {
 
 		try {
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
-
+			// 解析Bean 标签的属性
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
-
+			// 子标签中找到meta子标签进行解析
 			parseMetaElements(ele, bd);
-			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
-			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
+			parseLookupOverrideSubElements(ele, bd.getMethodOverrides()); //解析look-up子标签
+			parseReplacedMethodSubElements(ele, bd.getMethodOverrides()); // 解析 replaced-method子标签
 
-			parseConstructorArgElements(ele, bd);
-			parsePropertyElements(ele, bd);
-			parseQualifierElements(ele, bd);
+			parseConstructorArgElements(ele, bd); // 解析 constructor-arg 子标签
+			parsePropertyElements(ele, bd);  // 解析 property 子标签
+			parseQualifierElements(ele, bd); // 解析qualifier 子标签
 
 			bd.setResource(this.readerContext.getResource());
 			bd.setSource(extractSource(ele));
@@ -1379,7 +1379,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	@Nullable
 	public BeanDefinition parseCustomElement(Element ele, @Nullable BeanDefinition containingBd) {
-		String namespaceUri = getNamespaceURI(ele);
+		String namespaceUri = getNamespaceURI(ele); // 通过配置的元素找到我们对应的nameSpaceUri
 		if (namespaceUri == null) {
 			return null;
 		}

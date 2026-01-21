@@ -16,8 +16,8 @@ public class ApplicationContextXmlTest {
 		 // AbstractApplicationContext容器的实现类，根据不同的业务场景选择不同的容器实现，策略模式 和装饰者模式
 		//AnnotationConfigApplicationContext FileSystemXmlApplicationContext XmlWebApplicationContext等
 
-        BeanFactory classPathXmlApplicationContext = new ClassPathXmlApplicationContext("beanXml.xml");
-
+		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("beanXml.xml");
+		classPathXmlApplicationContext.setAllowBeanDefinitionOverriding(false);
 
 
         Cat cat = (Cat) classPathXmlApplicationContext.getBean("cat");
