@@ -34,6 +34,8 @@ dependencies {
     implementation "org.jboss.logging:jboss-logging:3.6.1.Final"
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation "org.slf4j:slf4j-api:1.7.29"
+    implementation "org.hibernate:hibernate-validator:6.2.5.Final"
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7") //启动json支持
 }
 
 test {

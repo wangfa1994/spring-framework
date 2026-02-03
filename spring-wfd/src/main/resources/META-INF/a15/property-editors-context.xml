@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+">
+
+	<bean id="user" class="com.wf.xmg.a15typeconvert.springregistrar.User">
+		<property name="id" value="1"/>
+		<property name="name" value="name"/>
+		<property name="context">
+			<value>id=666
+			name=777
+			</value>
+		</property>
+
+	</bean>
+
+	<bean class="com.wf.xmg.a15typeconvert.springregistrar.CustomizedPropertyEditorRegistrar" id="customPropertyEditorRegistrar"/>
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="propertyEditorRegistrars">
+			<list>
+				<ref bean="customPropertyEditorRegistrar"/>
+			</list>
+		</property>
+	</bean>
+</beans>

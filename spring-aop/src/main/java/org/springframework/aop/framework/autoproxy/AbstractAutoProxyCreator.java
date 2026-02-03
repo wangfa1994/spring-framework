@@ -140,7 +140,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	private final Map<Object, Object> earlyProxyReferences = new ConcurrentHashMap<>(16);
 
 	private final Map<Object, Class<?>> proxyTypes = new ConcurrentHashMap<>(16);
-
+	// 容器中所有的Bean是否被代理的标识，beanName作为key ，是否代理作为Value
 	private final Map<Object, Boolean> advisedBeans = new ConcurrentHashMap<>(256);
 
 
@@ -261,7 +261,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		// Create proxy here if we have a custom TargetSource. 如果我们有一个自定义的TargetSource，在这里创建代理。
 		// Suppresses unnecessary default instantiation of the target bean:
 		// The TargetSource will handle target instances in a custom fashion.
-		TargetSource targetSource = getCustomTargetSource(beanClass, beanName);
+		TargetSource targetSource = getCustomTargetSource(beanClass, beanName); //
 		if (targetSource != null) {
 			if (StringUtils.hasLength(beanName)) {
 				this.targetSourcedBeans.add(beanName);
@@ -289,7 +289,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
 		if (bean != null) { // 通过后置处理器进行处理我们的bean,然后判断是否需要代理
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
-			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
+			if (this.earlyProxyReferences.remove(cacheKey) != bean) { // 判断代理缓存中是否存在当前对象，如果不存在的话，进行判断是否需要代理
 				return wrapIfNecessary(bean, beanName, cacheKey);//判断当前类是否需要进行包装成代理,如果需要的话，进行
 			}
 		}
@@ -329,7 +329,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
-		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
+		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) { //利用缓存判断当前对象是否需要代理，不需要的话，直接返回
 			return bean;
 		} // isInfrastructureClass 是否是基础类设施，切面相关的类的判断， shouldSkip 判断当前类是否应该跳过代理
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {

@@ -21,6 +21,8 @@ public class ApplicationContextImportTest {
  * 导入ImportBeanDefinitionRegistrar的表示进行自定义导入beanDefinition，引入的元信息是导入类的元信息
  *
  * 导入的bean的beanName在容器中是全类路径的名称
+ *
+ *
 
  *
  */

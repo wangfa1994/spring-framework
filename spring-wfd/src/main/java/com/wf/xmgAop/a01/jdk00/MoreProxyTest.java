@@ -29,11 +29,8 @@ public class MoreProxyTest {
 		MethodInterceptor interceptor3 = null;
 
 		DefaultEchoService realTarget = new DefaultEchoService();
-
-
 		// 使用时，只需要创建一层代理
-		EchoService proxy = (EchoService) Proxy.newProxyInstance(
-				MoreProxyTest.class.getClassLoader(),
+		EchoService proxy = (EchoService) Proxy.newProxyInstance(MoreProxyTest.class.getClassLoader(),
 				new Class[]{EchoService.class},
 				new ChainedInvocationHandler(realTarget, Arrays.asList(interceptor1, interceptor2, interceptor3))
 		);
@@ -47,7 +44,6 @@ public class MoreProxyTest {
 			this.realTarget = target;
 			this.interceptors = interceptors;
 		}
-
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			// 创建一个调用链的上下文
@@ -55,11 +51,10 @@ public class MoreProxyTest {
 
 			// 将拦截器组合成责任链，并执行
 			for (MethodInterceptor interceptor : interceptors) {
-				// 每个拦截器都可以决定是否继续调用链
 				//interceptor.before(invocation);
 			}
 
-			Object result = invocation.proceed(); // 最终调用真实方法
+			Object result = method.invoke(realTarget, args);// 最终调用真实方法
 
 			for (MethodInterceptor interceptor : interceptors) {
 				//result = interceptor.after(result, invocation);

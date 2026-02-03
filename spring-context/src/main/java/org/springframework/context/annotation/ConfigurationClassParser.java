@@ -585,14 +585,14 @@ class ConfigurationClassParser {
 							processImports(configClass, currentSourceClass, importSourceClasses, exclusionFilter, false); //循环处理我们的imports
 						}
 					}
-					else if (candidate.isAssignable(ImportBeanDefinitionRegistrar.class)) { // 2.如果我们导入的类是属于ImportBeanDefinitionRegistrar
+					else if (candidate.isAssignable(ImportBeanDefinitionRegistrar.class)) { // 2.如果我们导入的类是属于 ImportBeanDefinitionRegistrar
 						// Candidate class is an ImportBeanDefinitionRegistrar ->
 						// delegate to it to register additional bean definitions
 						Class<?> candidateClass = candidate.loadClass();
-						ImportBeanDefinitionRegistrar registrar =
+						ImportBeanDefinitionRegistrar registrar = // 得到我们对应的ImportBeanDefinitionRegistrar实例对象
 								ParserStrategyUtils.instantiateClass(candidateClass, ImportBeanDefinitionRegistrar.class,
 										this.environment, this.resourceLoader, this.registry); // 通过工具类进行创建我们的导入类，然后进行方法的回调
-						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata());
+						configClass.addImportBeanDefinitionRegistrar(registrar, currentSourceClass.getMetadata()); // 得到registrar对象后直接放入到ConfigurationClass对象的importBeanDefinitionRegistrars
 					}
 					else { // 3.  候选类不是ImportSelector或ImportBeanDefinitionRegistrar ,将其作为@Configuration类处理
 						// Candidate class not an ImportSelector or ImportBeanDefinitionRegistrar ->

@@ -83,7 +83,6 @@ public class JdkProxyTest {
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			System.out.println("come into proxy "+method.getName());
 			return method.invoke(service,args);
-
 		}
 	}
 

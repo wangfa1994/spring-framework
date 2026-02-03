@@ -103,8 +103,8 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 				new CompositeComponentDefinition(element.getTagName(), parserContext.extractSource(element));
 		parserContext.pushContainingComponent(compositeDef);
 
-		configureAutoProxyCreator(parserContext, element);
-
+		configureAutoProxyCreator(parserContext, element); // 首先会进行创建AspectJAwareAdvisorAutoProxyCreator
+		// 开始解析我们的子标签 <aop:config>标签中的子标签
 		List<Element> childElts = DomUtils.getChildElements(element);
 		for (Element elt: childElts) {
 			String localName = parserContext.getDelegate().getLocalName(elt);
@@ -115,7 +115,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 				parseAdvisor(elt, parserContext);
 			}
 			else if (ASPECT.equals(localName)) {
-				parseAspect(elt, parserContext);
+				parseAspect(elt, parserContext); // 解析aspect标签
 			}
 		}
 
@@ -195,9 +195,9 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 		return advisorDefinition;
 	}
 
-	private void parseAspect(Element aspectElement, ParserContext parserContext) {
-		String aspectId = aspectElement.getAttribute(ID);
-		String aspectName = aspectElement.getAttribute(REF);
+	private void parseAspect(Element aspectElement, ParserContext parserContext) { // <aop:aspect id="aspectConfig" ref="logAspect">
+		String aspectId = aspectElement.getAttribute(ID); //id="aspectConfig"
+		String aspectName = aspectElement.getAttribute(REF); // ref="logAspect"
 
 		try {
 			this.parseState.push(new AspectEntry(aspectId, aspectName));
@@ -211,13 +211,13 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 			}
 
 			// We have to parse "advice" and all the advice kinds in one loop, to get the
-			// ordering semantics right.
-			NodeList nodeList = aspectElement.getChildNodes();
+			// ordering semantics right. 我们必须在一个循环中解析“通知”和所有通知类型，以获得正确的排序语义
+			NodeList nodeList = aspectElement.getChildNodes(); // 得到<aop:aspect>标签中的所有子标签，包括 pointcut 和 advisor
 			boolean adviceFoundAlready = false;
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node node = nodeList.item(i);
-				if (isAdviceNode(node, parserContext)) {
-					if (!adviceFoundAlready) {
+				if (isAdviceNode(node, parserContext)) { // 判断是否是Advice 节点 ,before/after/returning/after-returning/after-throwing/around
+					if (!adviceFoundAlready) { // <aop:before method="logStart" pointcut-ref="pointcutConfig"/>
 						adviceFoundAlready = true;
 						if (!StringUtils.hasText(aspectName)) {
 							parserContext.getReaderContext().error(
@@ -225,9 +225,9 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 									aspectElement, this.parseState.snapshot());
 							return;
 						}
-						beanReferences.add(new RuntimeBeanReference(aspectName));
+						beanReferences.add(new RuntimeBeanReference(aspectName)); // 存在通知的话，需要确定来自那个aspect
 					}
-					AbstractBeanDefinition advisorDefinition = parseAdvice(
+					AbstractBeanDefinition advisorDefinition = parseAdvice( // 解析Advice
 							aspectName, i, aspectElement, (Element) node, parserContext, beanDefinitions, beanReferences);
 					beanDefinitions.add(advisorDefinition);
 				}
@@ -331,12 +331,12 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 			aspectFactoryDef.getPropertyValues().add("aspectBeanName", aspectName);
 			aspectFactoryDef.setSynthetic(true);
 
-			// register the pointcut
+			// register the pointcut 创建 Advice的BeanDefinition并且注册pointcut的 BeanDefinition
 			AbstractBeanDefinition adviceDef = createAdviceDefinition(
 					adviceElement, parserContext, aspectName, order, methodDefinition, aspectFactoryDef,
 					beanDefinitions, beanReferences);
 
-			// configure the advisor
+			// configure the advisor 创建Advisor的BeanDefinition
 			RootBeanDefinition advisorDefinition = new RootBeanDefinition(AspectJPointcutAdvisor.class);
 			advisorDefinition.setSource(parserContext.extractSource(adviceElement));
 			advisorDefinition.getConstructorArgumentValues().addGenericArgumentValue(adviceDef);
@@ -345,7 +345,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 						ORDER_PROPERTY, aspectElement.getAttribute(ORDER_PROPERTY));
 			}
 
-			// register the final advisor
+			// register the final advisor  // 注册我们的Advisor的BeanDefinition，产生了很多的BeanDefinition，但是只注册了一个
 			parserContext.getReaderContext().registerWithGeneratedName(advisorDefinition);
 
 			return advisorDefinition;
@@ -361,7 +361,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 	 * This same pointcut is also configured as the pointcut for the enclosing
 	 * Advisor definition using the supplied MutablePropertyValues.
 	 */
-	private AbstractBeanDefinition createAdviceDefinition(
+	private AbstractBeanDefinition createAdviceDefinition( // adviceElement 是 <aop:before method="logStart" pointcut-ref="aspect"/>之类的元素
 			Element adviceElement, ParserContext parserContext, String aspectName, int order,
 			RootBeanDefinition methodDef, RootBeanDefinition aspectFactoryDef,
 			List<BeanDefinition> beanDefinitions, List<BeanReference> beanReferences) {
@@ -369,7 +369,7 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 		RootBeanDefinition adviceDefinition = new RootBeanDefinition(getAdviceClass(adviceElement, parserContext));
 		adviceDefinition.setSource(parserContext.extractSource(adviceElement));
 
-		adviceDefinition.getPropertyValues().add(ASPECT_NAME_PROPERTY, aspectName);
+		adviceDefinition.getPropertyValues().add(ASPECT_NAME_PROPERTY, aspectName); //设置在那个aspect中
 		adviceDefinition.getPropertyValues().add(DECLARATION_ORDER_PROPERTY, order);
 
 		if (adviceElement.hasAttribute(RETURNING)) {
@@ -388,12 +388,12 @@ class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 		ConstructorArgumentValues cav = adviceDefinition.getConstructorArgumentValues();
 		cav.addIndexedArgumentValue(METHOD_INDEX, methodDef);
 
-		Object pointcut = parsePointcutProperty(adviceElement, parserContext);
+		Object pointcut = parsePointcutProperty(adviceElement, parserContext); //解析pointcut标签的属性
 		if (pointcut instanceof BeanDefinition) {
 			cav.addIndexedArgumentValue(POINTCUT_INDEX, pointcut);
 			beanDefinitions.add((BeanDefinition) pointcut);
 		}
-		else if (pointcut instanceof String) {
+		else if (pointcut instanceof String) { // 如果是String 类型的话，在运行时才能获得对应的依赖
 			RuntimeBeanReference pointcutRef = new RuntimeBeanReference((String) pointcut);
 			cav.addIndexedArgumentValue(POINTCUT_INDEX, pointcutRef);
 			beanReferences.add(pointcutRef);

@@ -39,11 +39,11 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanClassLoaderAware, AopInfrastructureBean {
 
-	/**
+	/** 他应该在所有其他处理器之后运行，这样它就可以向现有代理添加一个顾问，而不是双重代理
 	 * This should run after all other processors, so that it can just add
 	 * an advisor to existing proxies rather than double-proxy.
 	 */
-	private int order = Ordered.LOWEST_PRECEDENCE;
+	private int order = Ordered.LOWEST_PRECEDENCE;  // 由于
 
 	@Nullable
 	private ClassLoader proxyClassLoader = ClassUtils.getDefaultClassLoader();

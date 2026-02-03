@@ -2,6 +2,7 @@ package com.wf.xmgAop.a01.cglib;
 
 import com.wf.xmgAop.a01.jdk00.DefaultEchoService;
 import com.wf.xmgAop.a01.jdk00.EchoService;
+import org.springframework.cglib.core.DebuggingClassWriter;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -62,7 +63,9 @@ public class CglibProxyTest {
 	 *
 	 *
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) {
+		System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, System.getProperty("user.dir") + "\\cglib");
 		Enhancer enhancer = new Enhancer();
 		// 指定super Class
 		enhancer.setSuperclass(DefaultEchoService.class);

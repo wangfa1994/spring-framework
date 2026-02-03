@@ -691,7 +691,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.setBeanClassLoader(getClassLoader());
 		if (!shouldIgnoreSpel) { // 表达式解析策略
 			beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
-		}	// 属性编辑器 这个是做什么用的
+		}	// 属性转换器 这个是做什么用的 ，用作类型转换。用来进行将我们配置的属性绑定到对应的类属性上去
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.

@@ -63,7 +63,7 @@ abstract class ParserStrategyUtils {
 		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory ?
 				((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
 		T instance = (T) createInstance(clazz, environment, resourceLoader, registry, classLoader); // 创建我们的导入类对象
-		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader); // 确定我们
+		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader); // 执行我们自定义的实现
 		return instance;
 	}
 

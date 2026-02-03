@@ -528,8 +528,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 这个try操作可以理解为是针对上下文应用的操作了，或者说是自己定义了一些postprocessors的操作，在没有和上下文整合的bean工厂中是不存在任何处理器的
 		try { // 进行bean实例创建之前，先看看用户是不是进行了自定义BeanPostProcessors，然后bean实例创建，如果创建了就直接返回了，不存在对应的bean的生命周期了，而且我们会在这里进行aop的advice的解析，在对应的后置处理器存在之后，再进行创建bean的时候，就会触发advice的处理
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用InstantiationAwareBeanPostProcessor的postProcessorBeforeInstantiation， aop的advice解析就是在这处理的
-			if (bean != null) {
+			Object bean = resolveBeforeInstantiation(beanName, mbdToUse); // 实例化bean之前的操作 ，会调用InstantiationAwareBeanPostProcessor的postProcessorBeforeInstantiation，
+			if (bean != null) { //  AnnotationAwareAspectJAutoProxyCreator 属于 InstantiationAwareBeanPostProcessor  aop的advice解析就是在这处理的
 				return bean;
 			}
 		}

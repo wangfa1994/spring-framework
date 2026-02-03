@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 @FunctionalInterface
 public interface MethodInterceptor extends Interceptor {
 
-	/**
+	/** MethodInvocation 公开了被调用的方法、目标连接点、AOP 代理以及该方法的参数
 	 * Implement this method to perform extra treatments before and
 	 * after the invocation. Polite implementations would certainly
 	 * like to invoke {@link Joinpoint#proceed()}.

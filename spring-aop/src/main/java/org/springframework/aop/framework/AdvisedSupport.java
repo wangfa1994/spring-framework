@@ -85,7 +85,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/** Cache with Method as key and advisor chain List as value.  以方法作为键和顾问链列表作为值的缓存 */
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
-	/** 目标对象所在的类，所有的实现的接口集合
+	/** 目标对象所在的类，所有的实现的接口集合 ，如果未提供此参数，则使用目标类的 CGLIB 代理
 	 * Interfaces to be implemented by the proxy. Held in List to keep the order
 	 * of registration, to create JDK proxy with specified order of interfaces.
 	 */

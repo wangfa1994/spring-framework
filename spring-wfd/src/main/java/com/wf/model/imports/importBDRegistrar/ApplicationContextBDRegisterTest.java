@@ -14,6 +14,10 @@ public class ApplicationContextBDRegisterTest {
 
 		System.out.println("hello word");
 
+		/*
+		* 通过Import导入的类不会被spring容器管理，在解析的过程中只会创建起实例，然后回调对应的方法
+		* */
+
 	}
 
 }

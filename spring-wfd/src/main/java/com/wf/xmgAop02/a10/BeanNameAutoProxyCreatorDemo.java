@@ -28,9 +28,9 @@ public class BeanNameAutoProxyCreatorDemo {
 	}
 
 	private static void ann() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.register(BeanNameAutoProxyCreatorDemo.class);
-		context.refresh();
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BeanNameAutoProxyCreatorDemo.class);
+		//context.register(BeanNameAutoProxyCreatorDemo.class);
+		//context.refresh();
 		EchoService echoService = context.getBean(EchoService.class);
 		System.out.println(echoService.echo("Hello,World"));
 

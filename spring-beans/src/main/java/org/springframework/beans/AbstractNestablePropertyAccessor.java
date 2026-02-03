@@ -76,7 +76,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	 */
 	private static final Log logger = LogFactory.getLog(AbstractNestablePropertyAccessor.class);
 
-	private int autoGrowCollectionLimit = Integer.MAX_VALUE;
+	private int autoGrowCollectionLimit = Integer.MAX_VALUE; // 嵌套的增长是无限制的
 
 	@Nullable
 	Object wrappedObject;

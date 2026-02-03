@@ -228,20 +228,20 @@ final class PostProcessorRegistrationDelegate {
 
 		// Separate between BeanPostProcessors that implement PriorityOrdered,
 		// Ordered, and the rest.
-		List<BeanPostProcessor> priorityOrderedPostProcessors = new ArrayList<>();
-		List<BeanPostProcessor> internalPostProcessors = new ArrayList<>();
-		List<String> orderedPostProcessorNames = new ArrayList<>();
-		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
-		for (String ppName : postProcessorNames) {
-			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
-				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);// 通过beanFactory 创建我们的beanpostprocessor了，
+		List<BeanPostProcessor> priorityOrderedPostProcessors = new ArrayList<>(); // 实现了PriorityOrdered的beanPostProcessor
+		List<BeanPostProcessor> internalPostProcessors = new ArrayList<>(); //实现了 MergedBeanDefinitionPostProcessor 的内部BeanPostProcessor,这个会用于对象创建过程中合并BeanDefinition
+		List<String> orderedPostProcessorNames = new ArrayList<>(); // 实现了 Ordered接口的BeanPostProcessor
+		List<String> nonOrderedPostProcessorNames = new ArrayList<>(); // 最普通的BeanPostProcessor
+		for (String ppName : postProcessorNames) { // postProcessorNames为系统中所有的BeanPostProcessor ,在实现优先顺序的BeanPostProcessors之间进行分离
+			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) { // 判断我们的BeanPostProcessor是否实现了PriorityOrdered接口，优先级最高的，直接进行创建
+				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);// 通过beanFactory 创建我们的beanPostProcessor了，
 				priorityOrderedPostProcessors.add(pp);
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
 					internalPostProcessors.add(pp);
 				}
 			}
-			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
-				orderedPostProcessorNames.add(ppName);
+			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) { // 然后进行是否实现了Ordered接口
+				orderedPostProcessorNames.add(ppName); // AOP代理的BeanPostProcessor是属于Ordered，并且设置了属性为最低，即最后执行，这样的话，才不会产生的代理对象，可能被别的postProcessor给覆盖掉,org.springframework.aop.config.internalAutoProxyCreator
 			}
 			else {
 				nonOrderedPostProcessorNames.add(ppName);
@@ -252,7 +252,7 @@ final class PostProcessorRegistrationDelegate {
 		sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
 		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors); // 实例化之后就直接放进去了，所以，一定会有先后顺序，并且先放入的，在后面的beanpostprocessor创建中也会进行调用的
 
-		// Next, register the BeanPostProcessors that implement Ordered.
+		// Next, register the BeanPostProcessors that implement Ordered.  接下来，注册实现Ordered的BeanPostProcessors
 		List<BeanPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
 		for (String ppName : orderedPostProcessorNames) {
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);

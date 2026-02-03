@@ -45,7 +45,7 @@ import org.springframework.util.Assert;
  * @see ConverterFactory
  * @see ConditionalConverter
  */
-public interface GenericConverter {
+public interface  GenericConverter {
 
 	/**
 	 * Return the source and target types that this converter can convert between.

@@ -35,7 +35,7 @@ package org.springframework.aop;
 @FunctionalInterface
 public interface ClassFilter {
 
-	/**
+	/** ClassFilter 接口用于将切入点限制为给定的目标类集 传递进来的class，是否满足我这个 Pointcut
 	 * Should the pointcut apply to the given interface or target class?
 	 * @param clazz the candidate target class
 	 * @return whether the advice should apply to the given target class

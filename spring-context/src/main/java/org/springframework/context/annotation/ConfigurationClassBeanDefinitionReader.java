@@ -125,7 +125,7 @@ class ConfigurationClassBeanDefinitionReader {
 	 */
 	public void loadBeanDefinitions(Set<ConfigurationClass> configurationModel) {
 		TrackedConditionEvaluator trackedConditionEvaluator = new TrackedConditionEvaluator();
-		for (ConfigurationClass configClass : configurationModel) {
+		for (ConfigurationClass configClass : configurationModel) { //解析出来的搜有配置类，进行一个一个的处理，使其变成BeanDefinition
 			loadBeanDefinitionsForConfigurationClass(configClass, trackedConditionEvaluator);
 		}
 	}
@@ -153,7 +153,7 @@ class ConfigurationClassBeanDefinitionReader {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
-		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());// 解析我们导入的资源获取对应的BeanDefinition
+		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());// 处理我们配置类中的Import中的值导入的资源获取对应的BeanDefinition
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars()); // 解析我们ImportBeanDefinitionRegistrar实现类的逻辑,解析出beanDefinition
 	}
 
@@ -392,7 +392,7 @@ class ConfigurationClassBeanDefinitionReader {
 	}
 
 	private void loadBeanDefinitionsFromRegistrars(Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> registrars) {
-		registrars.forEach((registrar, metadata) ->
+		registrars.forEach((registrar, metadata) -> // 回调对应的 ImportBeanDefinitionRegistrar实例的方法，进行开始自定义的BeanDefinition的创建
 				registrar.registerBeanDefinitions(metadata, this.registry, this.importBeanNameGenerator));
 	}
 

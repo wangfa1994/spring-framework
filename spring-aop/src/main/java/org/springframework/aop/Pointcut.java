@@ -29,10 +29,10 @@ package org.springframework.aop;
  * @see org.springframework.aop.support.Pointcuts
  * @see org.springframework.aop.support.ClassFilters
  * @see org.springframework.aop.support.MethodMatchers
- */
+ */ // Pointcut的作用仅仅是过滤出我们感兴趣的连接点。将切入点接口拆分为两部分，可以重用类和方法匹配部分，并实现细粒度的组合操作
 public interface Pointcut {
 
-	/** 关联类 返回此切入点的ClassFilter。  类级别的过滤
+	/** 关联类 返回此切入点的ClassFilter。  类级别的过滤 ClassFilter 接口用于将切入点限制为给定的目标类集
 	 * Return the ClassFilter for this pointcut. 这个类是否属于这个过滤器
 	 * @return the ClassFilter (never {@code null}) 判断类是不是匹配的
 	 */
@@ -41,7 +41,7 @@ public interface Pointcut {
 	/** 关联二  返回这个切入点的MethodMatcher。   方法级别的匹配 判断方法是不是匹配的
 	 * Return the MethodMatcher for this pointcut.
 	 * @return the MethodMatcher (never {@code null}) 这个方法是否匹配目标的方法
-	 */
+	 */ // MethodMatcher 更重要
 	MethodMatcher getMethodMatcher();
 
 

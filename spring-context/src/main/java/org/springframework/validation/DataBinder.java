@@ -129,35 +129,35 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 
 	private final String objectName;
 
-	@Nullable
+	@Nullable // 属性绑定结果  BeanPropertyBindingResult 就是一个实现
 	private AbstractPropertyBindingResult bindingResult;
 
 	private boolean directFieldAccess = false;
 
-	@Nullable
+	@Nullable // 类型转换器
 	private SimpleTypeConverter typeConverter;
-
+	// 绑定控制参数 是否忽略未知字段，默认值：true
 	private boolean ignoreUnknownFields = true;
-
+	// 绑定控制参数 是否忽略非法字段，默认值：false
 	private boolean ignoreInvalidFields = false;
-
+	// 是否自动增加嵌套路径，默认值：true
 	private boolean autoGrowNestedPaths = true;
 
 	private int autoGrowCollectionLimit = DEFAULT_AUTO_GROW_COLLECTION_LIMIT;
-
+	// 绑定字段白名单
 	@Nullable
 	private String[] allowedFields;
-
+	// 绑定字段黑名单
 	@Nullable
 	private String[] disallowedFields;
-
+	// 必须绑定字段
 	@Nullable
 	private String[] requiredFields;
 
-	@Nullable
+	@Nullable  // 类型转服务， 3.0提供的新服务，不再使用 PropertyEditor 进行转换
 	private ConversionService conversionService;
 
-	@Nullable
+	@Nullable // 校验错误文案code处理器  DefaultMessageCodesResolver
 	private MessageCodesResolver messageCodesResolver;
 
 	private BindingErrorProcessor bindingErrorProcessor = new DefaultBindingErrorProcessor();
@@ -323,7 +323,7 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	 * Return the underlying PropertyAccessor of this binder's BindingResult.
 	 */
 	protected ConfigurablePropertyAccessor getPropertyAccessor() {
-		return getInternalBindingResult().getPropertyAccessor();
+		return getInternalBindingResult().getPropertyAccessor(); // BeanWrapper继承了 ConfigurablePropertyAccessor
 	}
 
 	/**
@@ -777,7 +777,7 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	protected void doBind(MutablePropertyValues mpvs) {
 		checkAllowedFields(mpvs);
 		checkRequiredFields(mpvs);
-		applyPropertyValues(mpvs);
+		applyPropertyValues(mpvs); // 设置属性
 	}
 
 	/**
@@ -884,8 +884,8 @@ public class DataBinder implements PropertyEditorRegistry, TypeConverter {
 	 * @see BindingErrorProcessor#processPropertyAccessException
 	 */
 	protected void applyPropertyValues(MutablePropertyValues mpvs) {
-		try {
-			// Bind request parameters onto target object.
+		try { // 将请求参数绑定到目标对象,getPropertyAccessor得到属性访问器，也就是BeanWrapperImpl，转接给BeanWrapperImpl进行属性赋值
+			// Bind request parameters onto target object. BeanWrapper就是其中的一个实现，完成DataBinder和BeanWrapper关联
 			getPropertyAccessor().setPropertyValues(mpvs, isIgnoreUnknownFields(), isIgnoreInvalidFields());
 		}
 		catch (PropertyBatchUpdateException ex) {
