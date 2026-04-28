@@ -7,7 +7,7 @@ public class TransactionalTest {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TranConfiguration.class);
 		OrderService orderService = context.getBean(OrderService.class);
-		// orderService.submitOrder();
-		orderService.submitOrder3();
+		 orderService.submitOrder2();
+		//orderService.submitOrder3();
 	}
 }

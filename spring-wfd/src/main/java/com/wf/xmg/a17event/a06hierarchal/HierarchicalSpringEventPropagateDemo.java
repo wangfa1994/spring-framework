@@ -1,8 +1,9 @@
-package com.wf.xmg.a17event;
+package com.wf.xmg.a17event.a06hierarchal;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.event.ApplicationContextEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -20,11 +21,12 @@ public class HierarchicalSpringEventPropagateDemo {
 		currentContext.setId("current-context");
 		// 3. current -> parent
 		currentContext.setParent(parentContext);
-		// 注册 MyListener 到 current Spring 应用上下文
+		// 注册 MyListener 到 current Spring 应用上下文 ，这里存在两个上下文，然后父类会继续处理
 		currentContext.register(MyListener.class);
 
 		// 4.启动 parent Spring 应用上下文
 		parentContext.refresh();
+		parentContext.start();
 
 		// 5.启动 current Spring 应用上下文
 		currentContext.refresh();
@@ -37,12 +39,12 @@ public class HierarchicalSpringEventPropagateDemo {
 
 
 
-	static class MyListener implements ApplicationListener<ApplicationContextEvent> {
+	static class MyListener implements ApplicationListener<ContextRefreshedEvent> {
 
-		private static Set<ApplicationContextEvent> processedEvents = new LinkedHashSet<>();
+		private static Set<ContextRefreshedEvent> processedEvents = new LinkedHashSet<>();
 
 		@Override
-		public void onApplicationEvent(ApplicationContextEvent event) {
+		public void onApplicationEvent(ContextRefreshedEvent event) {
 
 			System.out.printf("监听到 Spring 应用上下文[ ID : %s ] 事件 :%s\n", event.getApplicationContext().getId(),
 					event.getClass().getSimpleName());

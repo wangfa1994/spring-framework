@@ -288,7 +288,7 @@ class ConfigurationClassParser {
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
 		if (!componentScans.isEmpty() &&
-				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) {
+				!this.conditionEvaluator.shouldSkip(sourceClass.getMetadata(), ConfigurationPhase.REGISTER_BEAN)) { // 首先会通过类的评估器进行评估是否忽略
 			for (AnnotationAttributes componentScan : componentScans) { //开始遍历我们的componentScans注解
 				// The config class is annotated with @ComponentScan -> perform the scan immediately
 				Set<BeanDefinitionHolder> scannedBeanDefinitions = // 很好奇我们的componentScan只是一个简单的包名，他怎么进行加载classpath中的类文件呢？

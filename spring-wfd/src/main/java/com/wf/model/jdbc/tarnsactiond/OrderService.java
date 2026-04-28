@@ -61,7 +61,12 @@ public class OrderService {
 		order.setOrderNo("order_" + number);
 		orderDao.saveOrder(order);
 		//减库存
-		productService.updateProductStockCountById(1, 1L);
+
+		try {
+			productService.updateProductStockCountById(1, 1L);
+		} catch (Exception e) {
+			System.out.println("yichangchulil");
+		}
 	}
 
 

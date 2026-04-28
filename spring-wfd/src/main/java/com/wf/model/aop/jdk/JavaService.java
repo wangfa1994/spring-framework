@@ -7,5 +7,5 @@ package com.wf.model.aop.jdk;
  */
 public interface JavaService {
 
-    String helloJava(String hello);
+	String helloJava(String hello);
 }

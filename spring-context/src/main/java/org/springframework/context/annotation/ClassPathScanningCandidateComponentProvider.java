@@ -146,7 +146,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	public ClassPathScanningCandidateComponentProvider(boolean useDefaultFilters, Environment environment) {
 		if (useDefaultFilters) {
-			registerDefaultFilters();
+			registerDefaultFilters(); // 处理我们的@Component元注解的注解
 		}
 		setEnvironment(environment);
 		setResourceLoader(null);
@@ -206,7 +206,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	@SuppressWarnings("unchecked")
 	protected void registerDefaultFilters() {
-		this.includeFilters.add(new AnnotationTypeFilter(Component.class));
+		this.includeFilters.add(new AnnotationTypeFilter(Component.class)); // 添加 Component 注解为一定包含的注解
 		ClassLoader cl = ClassPathScanningCandidateComponentProvider.class.getClassLoader();
 		try {
 			this.includeFilters.add(new AnnotationTypeFilter(
@@ -428,8 +428,8 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 					logger.trace("Scanning " + resource);
 				}
 				try { // MetadataReader 可以获取类和注解的元信息的方法
-					MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(resource); // 通过MetadataReaderFactory得到MetadataReader，
-					if (isCandidateComponent(metadataReader)) {
+					MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(resource); // 通过MetadataReaderFactory得到MetadataReader，两种方式asm字节码获取和Java反射获取，Java反射获取需要进行加载class
+					if (isCandidateComponent(metadataReader)) { // 判断是否是我们认同的注解，通过ClassPathScanningCandidateComponentProvider构造器进行默认了基础注解
 						ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(metadataReader);
 						sbd.setSource(resource);
 						if (isCandidateComponent(sbd)) {
@@ -492,8 +492,8 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 			}
 		}
 		for (TypeFilter tf : this.includeFilters) {
-			if (tf.match(metadataReader, getMetadataReaderFactory())) {
-				return isConditionMatch(metadataReader);
+			if (tf.match(metadataReader, getMetadataReaderFactory())) { // 是我们要扫描的组件，然后进行判断是否是条件注入
+				return isConditionMatch(metadataReader); //  如果是复合注解的情况下，再进行判断是否存在条件判断
 			}
 		}
 		return false;

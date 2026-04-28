@@ -21,6 +21,7 @@ public class ProductService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void updateProductStockCountById2(Integer stockCount, Long id){
 		productDao.updateProductStockCountById(stockCount, id);
+		int i = 1 / 0;
 
 	}
 

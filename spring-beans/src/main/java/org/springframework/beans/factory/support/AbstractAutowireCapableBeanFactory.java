@@ -979,13 +979,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return the object to expose as bean reference
 	 */
 	protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
-		Object exposedObject = bean;
-		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+		Object exposedObject = bean; //保存起来刚创建的Bean
+		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) { // 通过 SmartInstantiationAwareBeanPostProcessor 得到早期要代理的对象
 			for (SmartInstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().smartInstantiationAware) {
-				exposedObject = bp.getEarlyBeanReference(exposedObject, beanName);
+				exposedObject = bp.getEarlyBeanReference(exposedObject, beanName); // 如果要返回代理对象，这里会进行对象的替换
 			}
 		}
-		return exposedObject;
+		return exposedObject; // 返回对象，如果没有代理的话，就是返回刚创建的对象
 	}
 
 
@@ -1195,7 +1195,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			return instantiateUsingFactoryMethod(beanName, mbd, args); // @Bean的方式处理
 		}
 
-		// Shortcut when re-creating the same bean...
+		// Shortcut when re-creating the same bean... 用于原型类型的对象，缓存的构造器进行创建对象，不再查找对象的构造器了
 		boolean resolved = false;
 		boolean autowireNecessary = false;
 		if (args == null) {

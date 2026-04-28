@@ -13,7 +13,9 @@ import org.springframework.context.annotation.FilterType;
 		excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX,
 				pattern = "com.wf.model.cycle.three.*"),
 				@ComponentScan.Filter(type = FilterType.REGEX,
-						pattern = "com.wf.model.cycle.lazyResolve.*")})
+						pattern = "com.wf.model.cycle.lazyResolve.*"),
+				@ComponentScan.Filter(type = FilterType.REGEX,
+						pattern = "com.wf.model.cycle.proxy.*")})
 public class CycleConfigurations {
 
 }

@@ -1,4 +1,4 @@
-package com.wf.xmg.a17event;
+package com.wf.xmg.a17event.a01;
 
 import java.util.Observable;
 import java.util.Observer;

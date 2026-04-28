@@ -20,7 +20,7 @@ public class TranConfiguration {
 	public DataSource dataSource(){
 		DruidDataSource dataSource = new DruidDataSource();
 		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setPassword("");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/springtran");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		return dataSource;

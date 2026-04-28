@@ -1,4 +1,4 @@
-package com.wf.xmg.a17event;
+package com.wf.xmg.a17event.a03annSpringListener;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class SpringEventAsyncDemo {
 	@Async
 	@Order(2)
 	public void onStartedEvent0(ContextStartedEvent event){
-		System.out.printf("[@EventListener 线程：%s] : %s\n", Thread.currentThread().getName(), event);
+		System.out.printf("[@EventListener onStartedEvent0 线程：%s] : %s\n", Thread.currentThread().getName(), event);
 	}
 
 
@@ -50,7 +50,7 @@ public class SpringEventAsyncDemo {
 	@Async
 	@Order(1)
 	public void onStartedEvent1(ContextStartedEvent event){
-		System.out.printf("[@EventListener 线程：%s] : %s\n", Thread.currentThread().getName(), event);
+		System.out.printf("[@EventListener onStartedEvent1 线程：%s] : %s\n", Thread.currentThread().getName(), event);
 	}
 
 	@Bean

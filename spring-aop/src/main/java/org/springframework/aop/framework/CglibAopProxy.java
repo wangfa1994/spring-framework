@@ -668,7 +668,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	 */
 	private static class DynamicAdvisedInterceptor implements MethodInterceptor, Serializable {
 
-		private final AdvisedSupport advised; // 我们advise的配置文件，也是支持者 ， 这个是属于aop alliance联盟的 配置
+		private final AdvisedSupport advised; //存在四个实现 我们advise的配置文件，也是支持者 ， 这个是属于aop alliance联盟的 配置
 
 		public DynamicAdvisedInterceptor(AdvisedSupport advised) {
 			this.advised = advised;

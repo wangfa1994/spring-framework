@@ -106,7 +106,7 @@ class ComponentScanAnnotationParser {
 		}
 
 		Set<String> basePackages = new LinkedHashSet<>();
-		String[] basePackagesArray = componentScan.getStringArray("basePackages");
+		String[] basePackagesArray = componentScan.getStringArray("basePackages"); //得到指定的基础包
 		for (String pkg : basePackagesArray) {
 			String[] tokenized = StringUtils.tokenizeToStringArray(this.environment.resolvePlaceholders(pkg),
 					ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);

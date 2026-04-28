@@ -339,7 +339,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		// If the transaction attribute is null, the method is non-transactional.
 		TransactionAttributeSource tas = getTransactionAttributeSource();
 		final TransactionAttribute txAttr = (tas != null ? tas.getTransactionAttribute(method, targetClass) : null);
-		final TransactionManager tm = determineTransactionManager(txAttr);
+		final TransactionManager tm = determineTransactionManager(txAttr); // 得到我们的TransactionManager，@Bean 配置的
 
 		if (this.reactiveAdapterRegistry != null && tm instanceof ReactiveTransactionManager) {
 			boolean isSuspendingFunction = KotlinDetector.isSuspendingFunction(method);
@@ -374,26 +374,26 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 			return result;
 		}
 
-		PlatformTransactionManager ptm = asPlatformTransactionManager(tm);
+		PlatformTransactionManager ptm = asPlatformTransactionManager(tm); // 转换成我们的 PlatformTransactionManager
 		final String joinpointIdentification = methodIdentification(method, targetClass, txAttr);
 
 		if (txAttr == null || !(ptm instanceof CallbackPreferringPlatformTransactionManager)) {
 			// Standard transaction demarcation with getTransaction and commit/rollback calls.
-			TransactionInfo txInfo = createTransactionIfNecessary(ptm, txAttr, joinpointIdentification);
+			TransactionInfo txInfo = createTransactionIfNecessary(ptm, txAttr, joinpointIdentification); //创建事务，并开启
 
 			Object retVal;
 			try {
 				// This is an around advice: Invoke the next interceptor in the chain.
 				// This will normally result in a target object being invoked.
-				retVal = invocation.proceedWithInvocation();
+				retVal = invocation.proceedWithInvocation(); // 执行我们的业务逻辑
 			}
 			catch (Throwable ex) {
 				// target invocation exception
-				completeTransactionAfterThrowing(txInfo, ex);
+				completeTransactionAfterThrowing(txInfo, ex); // 如果出现异常的话，进行
 				throw ex;
 			}
 			finally {
-				cleanupTransactionInfo(txInfo);
+				cleanupTransactionInfo(txInfo); // 重置事务信息
 			}
 
 			if (retVal != null && vavrPresent && VavrDelegate.isVavrTry(retVal)) {
@@ -590,9 +590,9 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		}
 
 		TransactionStatus status = null;
-		if (txAttr != null) {
+		if (txAttr != null) { // 事务传播行为txAttr
 			if (tm != null) {
-				status = tm.getTransaction(txAttr);
+				status = tm.getTransaction(txAttr); // 获取事务，这里进行开启事务
 			}
 			else {
 				if (logger.isDebugEnabled()) {
@@ -637,7 +637,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		// We always bind the TransactionInfo to the thread, even if we didn't create
 		// a new transaction here. This guarantees that the TransactionInfo stack
 		// will be managed correctly even if no transaction was created by this aspect.
-		txInfo.bindToThread();
+		txInfo.bindToThread(); // 绑定到线程上下文上
 		return txInfo;
 	}
 
@@ -669,7 +669,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 			}
 			if (txInfo.transactionAttribute != null && txInfo.transactionAttribute.rollbackOn(ex)) {
 				try {
-					txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus());
+					txInfo.getTransactionManager().rollback(txInfo.getTransactionStatus()); //进行回滚
 				}
 				catch (TransactionSystemException ex2) {
 					logger.error("Application exception overridden by rollback exception", ex);

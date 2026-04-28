@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JavaServiceImpl implements JavaService{
     @Override
-    public String helloJava(String hello) {
+    public final String helloJava(String hello) {
         System.out.println("hello:"+hello);
         return hello+"====="+hello.length();
     }

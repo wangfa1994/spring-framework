@@ -1,5 +1,6 @@
-package com.wf.xmg.a17event;
+package com.wf.xmg.a17event.a04registerSpringListener;
 
+import com.wf.xmg.a17event.SpringEventListener;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

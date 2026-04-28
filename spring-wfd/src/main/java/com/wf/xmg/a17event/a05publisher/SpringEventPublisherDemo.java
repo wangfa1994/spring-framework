@@ -1,4 +1,4 @@
-package com.wf.xmg.a17event;
+package com.wf.xmg.a17event.a05publisher;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;

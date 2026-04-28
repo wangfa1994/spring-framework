@@ -180,7 +180,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
 		Object singletonObject = this.singletonObjects.get(beanName); // 用来解决循环依赖的逻辑 singletonObjects 一级缓存：存放的是已经实例化完成的bean
-		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {//当没有获取到bean，并且是正在创建中的bean(如何判断是正在创建中呢，最基本的是要产生bean实例吧,可以不填充内容)
+		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) { //当没有获取到bean，并且是正在创建中的bean(如何判断是正在创建中呢，最基本的是要产生bean实例吧,可以不填充内容)
 			singletonObject = this.earlySingletonObjects.get(beanName); // 二级缓存：创建中的对象如果被依赖了，会将正在创建中的bean进行提升，放到二级缓存中，当其他的有使用时可以直接使用
 			if (singletonObject == null && allowEarlyReference) {
 				synchronized (this.singletonObjects) {
@@ -223,7 +223,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				}
 				if (logger.isDebugEnabled()) {
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
-				}
+				} // 此时放入到了singletonsCurrentlyInCreation中，在getSingleton方法三级循环中，二级循环获取的时候使用了
 				beforeSingletonCreation(beanName); // 在此时将我们的正在创建中的bean放入到我们的singletonsCurrentlyInCreation中，用于在依赖的时候进行查找
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (this.suppressedExceptions == null);

@@ -120,7 +120,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
-
+	// 这个是做什么的，为什么 springboot 使用了这个值
 	private MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory();
 
 	private boolean setMetadataReaderFactoryCalled = false;

@@ -19,6 +19,14 @@ public class ValidController {
 		return "hello";
 	}
 
+	@PostMapping(value = "/postUser")
+	public ValidUser postUser(@Valid @RequestBody ValidUser user){
+
+		System.out.println("user: "+user);
+
+		return user;
+	}
+
 
 	@GetMapping(value = "/validUserGet")
 	public String validUserGet(@Min(value = 5, message = "每页数量必须大于0") @RequestParam Integer pageSize){
